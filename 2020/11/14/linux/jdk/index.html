@@ -1,0 +1,217 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Linux安装jdk的三种方法 | 雪人</title><meta name="keywords" content="jdk"><meta name="author" content="雪人"><meta name="copyright" content="雪人"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="环境： Linux版本：CentOS 6.5 JDK版本：JDK 1.7 方法：方法一：手动解压JDK的压缩包，然后设置环境变量方法二：用yum安装JDK方法三：用rpm安装JDK 方法一：手动解压JDK的压缩包，然后设置环境变量 &#96;1.在&#x2F;usr&#x2F;目录下创建java目录  [root@localhost ~]# mkdir&#x2F;usr&#x2F;java[root@localhost ~]# cd &#x2F;usr&#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux安装jdk的三种方法">
+<meta property="og:url" content="https://www.webq.top/2020/11/14/linux/jdk/index.html">
+<meta property="og:site_name" content="雪人">
+<meta property="og:description" content="环境： Linux版本：CentOS 6.5 JDK版本：JDK 1.7 方法：方法一：手动解压JDK的压缩包，然后设置环境变量方法二：用yum安装JDK方法三：用rpm安装JDK 方法一：手动解压JDK的压缩包，然后设置环境变量 &#96;1.在&#x2F;usr&#x2F;目录下创建java目录  [root@localhost ~]# mkdir&#x2F;usr&#x2F;java[root@localhost ~]# cd &#x2F;usr&#x2F;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.webq.top/img/default.jpg">
+<meta property="article:published_time" content="2020-11-14T08:10:34.252Z">
+<meta property="article:modified_time" content="2020-11-14T08:10:34.252Z">
+<meta property="article:author" content="雪人">
+<meta property="article:tag" content="jdk">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.webq.top/img/default.jpg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://www.webq.top/2020/11/14/linux/jdk/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="manifest" href="/pwa/manifest.json"/><link rel="apple-touch-icon" sizes="180x180" href="/pwa/favicon.png"/><link rel="icon" type="image/png" sizes="32x32" href="/pwa/favicon.png"/><link rel="icon" type="image/png" sizes="16x16" href="/pwa/favicon.png"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.4.0',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  ClickShowText: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: false,
+  postUpdate: '2020-11-14 16:10:34'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {
+  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }
+})()</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/face.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">153</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">40</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">12</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 工具集</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/follow/"><i class="fa-fw fas fa-star"></i><span> 收藏夹</span></a></li><li><a class="site-page" href="/audio/"><i class="fa-fw fas fa-music"></i><span> audio_context</span></a></li><li><a class="site-page" href="/piano/"><i class="fa-fw fas fa-music"></i><span> 在线Piano</span></a></li><li><a class="site-page" href="/hy/"><i class="fa-fw fas fa-video"></i><span> Canvas绘图</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 文档库</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/2020/11/15/doc/ci/"><i class="fa-fw far fa-circle"></i><span> CI</span></a></li><li><a class="site-page" href="/2020/11/15/doc/h264/"><i class="fa-fw far fa-video"></i><span> h264</span></a></li><li><a class="site-page" href="/2020/11/15/doc/f4v/"><i class="fa-fw far fa-video"></i><span> f4v</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mask/"><i class="fa-fw far fa-mask"></i><span> mask</span></a></li><li><a class="site-page" href="/2020/11/15/doc/dj/"><i class="fa-fw far fa-python"></i><span> Django</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mse/"><i class="fa-fw far fa-buffer"></i><span> MSE</span></a></li></ul></div></div></div></div><div id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/linux.jpg)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">雪人</a></span><span id="menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 工具集</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/follow/"><i class="fa-fw fas fa-star"></i><span> 收藏夹</span></a></li><li><a class="site-page" href="/audio/"><i class="fa-fw fas fa-music"></i><span> audio_context</span></a></li><li><a class="site-page" href="/piano/"><i class="fa-fw fas fa-music"></i><span> 在线Piano</span></a></li><li><a class="site-page" href="/hy/"><i class="fa-fw fas fa-video"></i><span> Canvas绘图</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 文档库</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/2020/11/15/doc/ci/"><i class="fa-fw far fa-circle"></i><span> CI</span></a></li><li><a class="site-page" href="/2020/11/15/doc/h264/"><i class="fa-fw far fa-video"></i><span> h264</span></a></li><li><a class="site-page" href="/2020/11/15/doc/f4v/"><i class="fa-fw far fa-video"></i><span> f4v</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mask/"><i class="fa-fw far fa-mask"></i><span> mask</span></a></li><li><a class="site-page" href="/2020/11/15/doc/dj/"><i class="fa-fw far fa-python"></i><span> Django</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mse/"><i class="fa-fw far fa-buffer"></i><span> MSE</span></a></li></ul></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">Linux安装jdk的三种方法</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-11-14T08:10:34.252Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-11-14T08:10:34.252Z" title="更新于 2020-11-14 16:10:34">2020-11-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Linux/">Linux</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>5分钟</span></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><p>环境：</p>
+<p>Linux版本：CentOS 6.5</p>
+<p>JDK版本：JDK 1.7</p>
+<p>方法：<br>方法一：手动解压JDK的压缩包，然后设置环境变量<br>方法二：用yum安装JDK<br>方法三：用rpm安装JDK</p>
+<p>方法一：手动解压JDK的压缩包，然后设置环境变量</p>
+<p>`1.在/usr/目录下创建java目录 </p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@localhost ~]<span class="comment"># mkdir/usr/java</span></span><br><span class="line">[root@localhost ~]<span class="comment"># cd /usr/java</span></span><br></pre></td></tr></table></figure>
+<p><code>2.下载，然后解压 ``` bash</code><br>[root@localhost java]# curl -O <a target="_blank" rel="noopener" href="http://download.oracle.com/otn-pub/java/jdk/7u79-b15/jdk-7u79-linux-x64.tar.gz">http://download.oracle.com/otn-pub/java/jdk/7u79-b15/jdk-7u79-linux-x64.tar.gz</a><br>[root@localhost java]# tar -zxvf jdk-7u79-linux-x64.tar.gz</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#96;3.设置环境变量</span><br><span class="line">&#96;&#96;&#96; bash</span><br><span class="line">[root@localhost java]# vi &#x2F;etc&#x2F;profile</span><br></pre></td></tr></table></figure>
+<p>添加如下内容：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#set java environment</span></span><br><span class="line">JAVA_HOME=/usr/java/jdk1.7.0_79</span><br><span class="line">JRE_HOME=/usr/java/jdk1.7.0_79/jre</span><br><span class="line">CLASS_PATH=.:<span class="variable">$JAVA_HOME</span>/lib/dt.jar:<span class="variable">$JAVA_HOME</span>/lib/tools.jar:<span class="variable">$JRE_HOME</span>/lib</span><br><span class="line">PATH=<span class="variable">$PATH</span>:<span class="variable">$JAVA_HOME</span>/bin:<span class="variable">$JRE_HOME</span>/bin</span><br><span class="line"><span class="built_in">export</span> JAVA_HOME JRE_HOME CLASS_PATH PATH</span><br></pre></td></tr></table></figure>
+<p>让修改生效：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@localhost java]<span class="comment"># source /etc/profile</span></span><br></pre></td></tr></table></figure>
+<p>4.验证</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@localhost java]<span class="comment"># java -version</span></span><br><span class="line">java version <span class="string">&quot;1.7.0_79&quot;</span></span><br><span class="line">Java(TM) SE Runtime Environment (build 1.7.0_79-b15)</span><br><span class="line">Java HotSpot(TM) 64-Bit Server VM (build 24.79-b02, mixed mode)</span><br></pre></td></tr></table></figure>
+
+
+<p>方法二：用yum安装JDK(CentOS)</p>
+<p>1.查看yum库中都有哪些jdk版本</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@localhost ~]<span class="comment"># yum search java|grep jdk</span></span><br><span class="line">ldapjdk-javadoc.x86_64 : Javadoc <span class="keyword">for</span> ldapjdk</span><br><span class="line">java-1.6.0-openjdk.x86_64 : OpenJDK Runtime Environment</span><br><span class="line">java-1.6.0-openjdk-demo.x86_64 : OpenJDK Demos</span><br><span class="line">java-1.6.0-openjdk-devel.x86_64 : OpenJDK Development Environment</span><br><span class="line">java-1.6.0-openjdk-javadoc.x86_64 : OpenJDK API Documentation</span><br><span class="line">java-1.6.0-openjdk-src.x86_64 : OpenJDK Source Bundle</span><br><span class="line">java-1.7.0-openjdk.x86_64 : OpenJDK Runtime Environment</span><br><span class="line">java-1.7.0-openjdk-demo.x86_64 : OpenJDK Demos</span><br><span class="line">java-1.7.0-openjdk-devel.x86_64 : OpenJDK Development Environment</span><br></pre></td></tr></table></figure>
+
+<p>2.选择版本，进行安装</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">[root@localhost ~]# yum install java-1.7.0-openjdk</span><br></pre></td></tr></table></figure>
+<p>安装完之后，默认的安装目录是在: /usr/lib/jvm/java-1.7.0-openjdk-1.7.0.75.x86_64<br>3.设置环境变量</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@localhost ~]<span class="comment"># vi /etc/profile</span></span><br></pre></td></tr></table></figure>
+
+<p>添加如下内容：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#set java environment</span></span><br><span class="line">JAVA_HOME=/usr/lib/jvm/java-1.7.0-openjdk-1.7.0.75.x86_64</span><br><span class="line">JRE_HOME=<span class="variable">$JAVA_HOME</span>/jre</span><br><span class="line">CLASS_PATH=.:<span class="variable">$JAVA_HOME</span>/lib/dt.jar:<span class="variable">$JAVA_HOME</span>/lib/tools.jar:<span class="variable">$JRE_HOME</span>/lib</span><br><span class="line">PATH=<span class="variable">$PATH</span>:<span class="variable">$JAVA_HOME</span>/bin:<span class="variable">$JRE_HOME</span>/bin</span><br><span class="line"><span class="built_in">export</span> JAVA_HOME JRE_HOME CLASS_PATH PATH</span><br></pre></td></tr></table></figure>
+
+<p>让修改生效：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@localhost java]<span class="comment"># source /etc/profile</span></span><br></pre></td></tr></table></figure>
+
+<p>3.验证</p>
+<p>同上。<br>注：因为采用yum安装jdk，系统考虑到多版本的问题，会用alternatives进行版本控制。开始，相应版本的jdk安装在/usr/lib/jvm/之后，会在alternatives中注册，在/etc/alternatives目录下会产生一些链接到/usr/lib/jvm/中刚安装好的jdk版本。</p>
+<p>在/usr/bin下面会有链接到/etc/alternatives的相应的文件。比如，/usr/bin下面会有一个链接文件java的映射关系</p>
+<p>如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">/usr/bin/java-&gt;/etc/alternatives/java</span><br><span class="line">/etc/alternatives/java-&gt; /usr/lib/jvm/jre-1.7.0-openjdk.x86_64/bin/java</span><br></pre></td></tr></table></figure>
+
+<p>这样，java命令不用设置环境变量，就可以正常运行了。但如果对于tomcat或其他软件来说还是要设置环境变量。<br>同样，如果安装新的版本jdk，就会重新链接到最新安装的jdk版本。当然，也可以使用alternatives修改所要使用的版本。</p>
+<p>具体方法可参照：<a href="http://www.linuxidc.com/Linux/2011-02/31856.htm" target="_blank">《使用Linux的alternatives管理多版本的软件》</a></p>
+<p>1.下载<br>方法三：用rpm安装JDK</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[hadoop@localhost ~]$ curl -O http://download.oracle.com/otn-pub/java/jdk/7u79-b15/jdk-7u79-linux-x64.rpm</span><br></pre></td></tr></table></figure>
+
+<p>2.使用rpm命令安装</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@localhost  ~]<span class="comment"># rpm -ivh jdk-7u79-linux-x64.rpm</span></span><br><span class="line">Preparing...               <span class="comment">########################################### [100%]</span></span><br><span class="line">  1:jdk                    <span class="comment">###########################################[100%]</span></span><br><span class="line">Unpacking JAR files...</span><br><span class="line">       rt.jar...</span><br><span class="line">       jsse.jar...</span><br><span class="line">       charsets.jar...</span><br><span class="line">       tools.jar...</span><br><span class="line">       localedata.jar...</span><br><span class="line">       jfxrt.jar...</span><br></pre></td></tr></table></figure>
+<p>3.设置环境变量</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@localhost java]<span class="comment"># vi /etc/profile</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#set java environment</span><br><span class="line">JAVA_HOME&#x3D;&#x2F;usr&#x2F;java&#x2F;jdk1.7.0_79</span><br><span class="line">JRE_HOME&#x3D;&#x2F;usr&#x2F;java&#x2F;jdk1.7.0_79&#x2F;jre</span><br><span class="line">CLASS_PATH&#x3D;.:$JAVA_HOME&#x2F;lib&#x2F;dt.jar:$JAVA_HOME&#x2F;lib&#x2F;tools.jar:$JRE_HOME&#x2F;lib</span><br><span class="line">PATH&#x3D;$PATH:$JAVA_HOME&#x2F;bin:$JRE_HOME&#x2F;bin</span><br><span class="line">export JAVA_HOME JRE_HOME CLASS_PATH PATH</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@localhost java]# source &#x2F;etc&#x2F;profile</span><br></pre></td></tr></table></figure>
+<p>4.验证</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@localhost java]<span class="comment"># java -version</span></span><br><span class="line">java version <span class="string">&quot;1.7.0_79&quot;</span></span><br><span class="line">Java(TM) SE Runtime Environment (build 1.7.0_79-b15)</span><br><span class="line">Java HotSpot(TM) 64-Bit Server VM (build 24.79-b02, mixed mode)</span><br></pre></td></tr></table></figure>
+<p>和yum安装类似，不用设置环境变量就可以，运行java命令。rpm安装方式默认会把jdk安装到/usr/java/jdk1.7.0_79，然后通过三层链接，链接到/usr/bin,具体链接如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@localhost ~]<span class="comment"># cd /bin</span></span><br><span class="line">[root@localhost bin]<span class="comment"># ll|grep java</span></span><br><span class="line">lrwxrwxrwx. 1 root root     25 Mar 28 11:24 jar -&gt;/usr/java/default/bin/jar</span><br><span class="line">lrwxrwxrwx. 1 root root     26 Mar 28 11:24 java -&gt; /usr/java/default/bin/java</span><br><span class="line">lrwxrwxrwx. 1 root root     27 Mar 28 11:24 javac -&gt;/usr/java/default/bin/javac</span><br><span class="line">lrwxrwxrwx. 1 root root     29 Mar 28 11:24 javadoc -&gt;/usr/java/default/bin/javadoc</span><br><span class="line">lrwxrwxrwx. 1 root root     28 Mar 28 11:24 javaws -&gt;/usr/java/default/bin/javaws</span><br><span class="line">lrwxrwxrwx. 1 root root     30 Mar 28 11:24 jcontrol -&gt;/usr/java/default/bin/jcontrol</span><br><span class="line">[root@localhost bin]<span class="comment"># cd /usr/java/</span></span><br><span class="line">[root@localhost java]<span class="comment"># ll</span></span><br><span class="line">total 4</span><br><span class="line">lrwxrwxrwx. 1 root root   16 Mar 28 11:24 default-&gt; /usr/java/latest</span><br><span class="line">drwxr-xr-x. 8 root root 4096 Mar 28 11:24 jdk1.7.0_79</span><br><span class="line">lrwxrwxrwx. 1 root root   21 Mar 28 11:24 latest -&gt; /usr/java/jdk1.7.0_79</span><br></pre></td></tr></table></figure>
+
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">雪人</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://www.webq.top/2020/11/14/linux/jdk/">https://www.webq.top/2020/11/14/linux/jdk/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.webq.top" target="_blank">雪人</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/jdk/">jdk</a></div><div class="post_share"><div class="social-share" data-image="/img/default.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/11/14/linux/java/"><img class="prev-cover" src="/img/default2.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">CentOS7下yum安装Java</div></div></a></div><div class="next-post pull-right"><a href="/2020/11/14/linux/jenkins/"><img class="next-cover" src="/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">CentOS7下yum安装Jenkins</div></div></a></div></nav></article></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By 雪人</div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.spacingElementById('content-inner')
+  else {
+    $.getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js', () => {
+      pangu.spacingElementById('content-inner')
+    })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguFn)</script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div></div></body></html>

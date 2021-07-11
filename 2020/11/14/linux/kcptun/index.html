@@ -1,0 +1,201 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>使用kcptun加速shadowsocks | 雪人</title><meta name="keywords" content="centos"><meta name="author" content="雪人"><meta name="copyright" content="雪人"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="Kcptun 是一个非常简单和快速的，基于 KCP 协议的 UDP 隧道，它可以将 TCP 流转换为 KCP+UDP 流。而 KCP 是一个快速可靠协议，能以比 TCP 浪费100%-200%的带宽的代价（理想状态下），换取平均延迟降低 30%-40%，且最大延迟降低三倍的传输效果。  网络诊断地址 工作原理： 服务端安装 KCPTunwget --no-check-certificate ht">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用kcptun加速shadowsocks">
+<meta property="og:url" content="https://www.webq.top/2020/11/14/linux/kcptun/index.html">
+<meta property="og:site_name" content="雪人">
+<meta property="og:description" content="Kcptun 是一个非常简单和快速的，基于 KCP 协议的 UDP 隧道，它可以将 TCP 流转换为 KCP+UDP 流。而 KCP 是一个快速可靠协议，能以比 TCP 浪费100%-200%的带宽的代价（理想状态下），换取平均延迟降低 30%-40%，且最大延迟降低三倍的传输效果。  网络诊断地址 工作原理： 服务端安装 KCPTunwget --no-check-certificate ht">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.webq.top/img/default.jpg">
+<meta property="article:published_time" content="2020-11-14T08:10:34.252Z">
+<meta property="article:modified_time" content="2020-11-14T08:10:34.252Z">
+<meta property="article:author" content="雪人">
+<meta property="article:tag" content="centos">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.webq.top/img/default.jpg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://www.webq.top/2020/11/14/linux/kcptun/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="manifest" href="/pwa/manifest.json"/><link rel="apple-touch-icon" sizes="180x180" href="/pwa/favicon.png"/><link rel="icon" type="image/png" sizes="32x32" href="/pwa/favicon.png"/><link rel="icon" type="image/png" sizes="16x16" href="/pwa/favicon.png"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.4.0',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  ClickShowText: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true,
+  postUpdate: '2020-11-14 16:10:34'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {
+  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }
+})()</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/face.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">153</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">40</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">12</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 工具集</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/follow/"><i class="fa-fw fas fa-star"></i><span> 收藏夹</span></a></li><li><a class="site-page" href="/audio/"><i class="fa-fw fas fa-music"></i><span> audio_context</span></a></li><li><a class="site-page" href="/piano/"><i class="fa-fw fas fa-music"></i><span> 在线Piano</span></a></li><li><a class="site-page" href="/hy/"><i class="fa-fw fas fa-video"></i><span> Canvas绘图</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 文档库</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/2020/11/15/doc/ci/"><i class="fa-fw far fa-circle"></i><span> CI</span></a></li><li><a class="site-page" href="/2020/11/15/doc/h264/"><i class="fa-fw far fa-video"></i><span> h264</span></a></li><li><a class="site-page" href="/2020/11/15/doc/f4v/"><i class="fa-fw far fa-video"></i><span> f4v</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mask/"><i class="fa-fw far fa-mask"></i><span> mask</span></a></li><li><a class="site-page" href="/2020/11/15/doc/dj/"><i class="fa-fw far fa-python"></i><span> Django</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mse/"><i class="fa-fw far fa-buffer"></i><span> MSE</span></a></li></ul></div></div></div></div><div id="body-wrap"><div id="sidebar"><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%AE%89%E8%A3%85-KCPTun"><span class="toc-number">1.</span> <span class="toc-text">服务端安装 KCPTun</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8B%E9%9D%A2%E7%9A%84%E5%8F%82%E6%95%B0%E9%85%8D%E7%BD%AE%E5%B0%86%E6%98%AF%E4%B9%8B%E5%90%8E%E5%9C%A8%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%B8%AD%E5%A1%AB%E5%86%99%E7%9A%84%E9%87%8D%E8%A6%81%E5%8F%82%E6%95%B0"><span class="toc-number">2.</span> <span class="toc-text">下面的参数配置将是之后在客户端中填写的重要参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E9%85%8D%E7%BD%AE%EF%BC%88%E8%BF%99%E9%87%8C%E5%8F%AA%E4%BB%8B%E7%BB%8Dmac"><span class="toc-number">3.</span> <span class="toc-text">客户端配置（这里只介绍mac</span></a></li></ol></div></div></div><header class="post-bg" id="page-header" style="background-image: url(/img/linux.jpg)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">雪人</a></span><span id="menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 工具集</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/follow/"><i class="fa-fw fas fa-star"></i><span> 收藏夹</span></a></li><li><a class="site-page" href="/audio/"><i class="fa-fw fas fa-music"></i><span> audio_context</span></a></li><li><a class="site-page" href="/piano/"><i class="fa-fw fas fa-music"></i><span> 在线Piano</span></a></li><li><a class="site-page" href="/hy/"><i class="fa-fw fas fa-video"></i><span> Canvas绘图</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 文档库</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/2020/11/15/doc/ci/"><i class="fa-fw far fa-circle"></i><span> CI</span></a></li><li><a class="site-page" href="/2020/11/15/doc/h264/"><i class="fa-fw far fa-video"></i><span> h264</span></a></li><li><a class="site-page" href="/2020/11/15/doc/f4v/"><i class="fa-fw far fa-video"></i><span> f4v</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mask/"><i class="fa-fw far fa-mask"></i><span> mask</span></a></li><li><a class="site-page" href="/2020/11/15/doc/dj/"><i class="fa-fw far fa-python"></i><span> Django</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mse/"><i class="fa-fw far fa-buffer"></i><span> MSE</span></a></li></ul></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">使用kcptun加速shadowsocks</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-11-14T08:10:34.252Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-11-14T08:10:34.252Z" title="更新于 2020-11-14 16:10:34">2020-11-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Linux/">Linux</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">757</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>2分钟</span></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><blockquote>
+<p>Kcptun 是一个非常简单和快速的，基于 KCP 协议的 UDP 隧道，它可以将 TCP 流转换为 KCP+UDP 流。而 KCP 是一个快速可靠协议，能以比 TCP 浪费100%-200%的带宽的代价（理想状态下），换取平均延迟降低 30%-40%，且最大延迟降低三倍的传输效果。</p>
+</blockquote>
+<p><a href="https://www.bilibili.com/blackboard/diagnostics.html" target="_blank">网络诊断地址</a></p>
+<p>工作原理：<br><img src="/img/kcp.png"></p>
+<h2 id="服务端安装-KCPTun"><a href="#服务端安装-KCPTun" class="headerlink" title="服务端安装 KCPTun"></a>服务端安装 KCPTun</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">wget --no-check-certificate https://github.com/kuoruan/shell-scripts/raw/master/kcptun/kcptun.sh &amp;&amp; chmod +x ./kcptun.sh &amp;&amp; ./kcptun.sh</span><br></pre></td></tr></table></figure>
+
+<p>接下来会依次提醒设置以下参数（这里是最终的结果</p>
+<ul>
+<li>1、端口：默认29900，即为KCPTUN与其客户端连接使用的端口，默认即可。</li>
+<li>2、要加速的地址：默认127.0.0.1。</li>
+<li>3、要加速的端口：设置为你的SS/SSR使用的端口。</li>
+<li>4、密码：自己设置，用于KCPTUN客户端连接使用，不要使用默认密码。</li>
+<li>5、加密方式选择：较强的加密方式会影响网速，建议默认aes或不加密。</li>
+<li>6、加速模式：推荐fast2即可。随后可以手动修改为其它模式，测试加速效果。</li>
+<li>7、MTU：默认1350即可。</li>
+<li>8、sndwnd：发送窗口大小，与服务器的上传带宽大小有关，这项与rcvwnd的比例会影响加速效果，可以暂时设置为默认的512。</li>
+<li>9、rcvwnd：接收窗口大小，与服务器的下载带宽大小有关，也可以暂设置为默认的512，或者1024也可以。</li>
+<li>10、以下几项中，除了数据压缩外，其它保持默认参数即可。建议关闭数据压缩，可以在一定程度上提升传输效率。</li>
+<li>11、其余各项设置，保持默认即可，设置完成后，按任意键开始安装过程</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;localaddr&quot;</span>: <span class="string">&quot;:17926&quot;</span>, // 服务器ssr的端口</span><br><span class="line">  <span class="string">&quot;remoteaddr&quot;</span>: <span class="string">&quot;106.54.102.141:29900&quot;</span>, // 加速地址以及 kcptun 使用的端口</span><br><span class="line">  <span class="string">&quot;key&quot;</span>: <span class="string">&quot;hongye123&quot;</span>, //  kcptun 的密码</span><br><span class="line">  <span class="string">&quot;crypt&quot;</span>: <span class="string">&quot;none&quot;</span>, // 加密方式</span><br><span class="line">  <span class="string">&quot;mode&quot;</span>: <span class="string">&quot;fast2&quot;</span>, // </span><br><span class="line">  <span class="string">&quot;mtu&quot;</span>: 1350, // </span><br><span class="line">  <span class="string">&quot;sndwnd&quot;</span>: 512, // </span><br><span class="line">  <span class="string">&quot;rcvwnd&quot;</span>: 512, // </span><br><span class="line">  <span class="string">&quot;datashard&quot;</span>: 10, // </span><br><span class="line">  <span class="string">&quot;parityshard&quot;</span>: 3, // </span><br><span class="line">  <span class="string">&quot;dscp&quot;</span>: 0, // </span><br><span class="line">  <span class="string">&quot;nocomp&quot;</span>: <span class="literal">true</span>, // </span><br><span class="line">  <span class="string">&quot;quiet&quot;</span>: <span class="literal">false</span>, // </span><br><span class="line">  <span class="string">&quot;tcp&quot;</span>: <span class="literal">false</span> // </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="下面的参数配置将是之后在客户端中填写的重要参数"><a href="#下面的参数配置将是之后在客户端中填写的重要参数" class="headerlink" title="下面的参数配置将是之后在客户端中填写的重要参数"></a>下面的参数配置将是之后在客户端中填写的重要参数</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">key=hongye123;crypt=none;mode=fast2;mtu=1350;sndwnd=512;rcvwnd=512;datashard=10;parityshard=3;dscp=0;nocomp</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>KCPTUN安装目录：/usr/local/kcptun</li>
+<li>KCPTUN的参数配置文件：/usr/local/kcptun/server-config.json</li>
+<li>启动：supervisorctl start kcptun</li>
+<li>停止：supervisorctl stop kcptun</li>
+<li>重启：supervisorctl restart kcptun</li>
+<li>状态：supervisorctl status kcptun</li>
+<li>卸载：./kcptun.sh uninstall</li>
+</ul>
+<h2 id="客户端配置（这里只介绍mac"><a href="#客户端配置（这里只介绍mac" class="headerlink" title="客户端配置（这里只介绍mac"></a>客户端配置（这里只介绍mac</h2><p><a href="https://github.com/shadowsocks/ShadowsocksX-NG/releases" target="_blank">点击下载最新的ShadowsocksX-NG</a>（我这里下载的是1.9.2版本<br>具体配置如下：<br><img src="/img/ssr.png"></p>
+<p>注： 端口号要填写kcptun的端口号，参数选项即为上述，服务端安装好之后返回的一串数据</p>
+<p>Windows：<a href="https://github.com/xtaci/kcptun/releases" target="_blank" rel="noopener">https://github.com/xtaci/kcptun/releases</a></p>
+<p>iOS：没有对应的客户端，可以在路由器上安装，间接使用kcptun加速<br>Android：<a href="https://github.com/shadowsocks/kcptun-android/releases" target="_blank" rel="noopener">https://github.com/shadowsocks/kcptun-android/releases</a></p>
+<p><a href="https://ssr.tools/588" target="_blank">详细讲解看这</a></p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">雪人</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://www.webq.top/2020/11/14/linux/kcptun/">https://www.webq.top/2020/11/14/linux/kcptun/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.webq.top" target="_blank">雪人</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/centos/">centos</a></div><div class="post_share"><div class="social-share" data-image="/img/default.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/11/14/linux/jenkins/"><img class="prev-cover" src="/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">CentOS7下yum安装Jenkins</div></div></a></div><div class="next-post pull-right"><a href="/2020/11/14/linux/crontab-mongo/"><img class="next-cover" src="/img/default2.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Linux定时任务 + mongodb自动备份</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2020/11/14/linux/centos-cmd/" title="centos7 常用命令【systemctl替换service】"><img class="cover" src="/img/default2.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-14</div><div class="title">centos7 常用命令【systemctl替换service】</div></div></a></div><div><a href="/2020/11/14/linux/centos-node/" title="Centos7 安装nvm、node"><img class="cover" src="/img/default3.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-14</div><div class="title">Centos7 安装nvm、node</div></div></a></div><div><a href="/2020/11/14/linux/google-bbr/" title="SSR开启Google的BBR内核脚本加速TCP"><img class="cover" src="/img/default2.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-14</div><div class="title">SSR开启Google的BBR内核脚本加速TCP</div></div></a></div><div><a href="/2020/11/14/linux/jenkins/" title="CentOS7下yum安装Jenkins"><img class="cover" src="/img/default.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-14</div><div class="title">CentOS7下yum安装Jenkins</div></div></a></div></div></div></article></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By 雪人</div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.spacingElementById('content-inner')
+  else {
+    $.getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js', () => {
+      pangu.spacingElementById('content-inner')
+    })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguFn)</script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div></div></body></html>

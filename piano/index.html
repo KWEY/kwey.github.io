@@ -1,0 +1,30 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+        <title>audiocontext</title>
+        <style>
+            #content {
+                position: fixed;
+                line-height: 2;
+                top: 50%;
+                width: 100%;
+                height: 600px;
+                margin: -300px 0 0 0;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="content"></div>
+        <script src="piano.js"></script>
+        <script>
+            const kwePiano = new KwePiano({
+                id: 'content',
+                baseUrl: document.URL.slice(0,-1)
+            })
+        </script>
+    </body>
+</html>

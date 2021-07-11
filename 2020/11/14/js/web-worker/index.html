@@ -1,0 +1,247 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Web Worker | 雪人</title><meta name="keywords" content="javascript"><meta name="author" content="雪人"><meta name="copyright" content="雪人"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="为 JavaScript 创造多线程环境，允许主线程创建 Worker 线程，将一些任务分配给Worker 线程  Web Worker 有以下几个使用注意点。  同源限制   分配给 Worker 线程运行的脚本文件，必须与主线程的脚本文件同源。  DOM 限制   Worker 线程所在的全局对象，与主线程不一样，无法读取主线程所在网页的 DOM 对象，也无法使用document、windo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Web Worker">
+<meta property="og:url" content="https://www.webq.top/2020/11/14/js/web-worker/index.html">
+<meta property="og:site_name" content="雪人">
+<meta property="og:description" content="为 JavaScript 创造多线程环境，允许主线程创建 Worker 线程，将一些任务分配给Worker 线程  Web Worker 有以下几个使用注意点。  同源限制   分配给 Worker 线程运行的脚本文件，必须与主线程的脚本文件同源。  DOM 限制   Worker 线程所在的全局对象，与主线程不一样，无法读取主线程所在网页的 DOM 对象，也无法使用document、windo">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.webq.top/img/default.jpg">
+<meta property="article:published_time" content="2020-11-14T08:10:34.249Z">
+<meta property="article:modified_time" content="2020-11-14T08:10:34.250Z">
+<meta property="article:author" content="雪人">
+<meta property="article:tag" content="javascript">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.webq.top/img/default.jpg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://www.webq.top/2020/11/14/js/web-worker/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="manifest" href="/pwa/manifest.json"/><link rel="apple-touch-icon" sizes="180x180" href="/pwa/favicon.png"/><link rel="icon" type="image/png" sizes="32x32" href="/pwa/favicon.png"/><link rel="icon" type="image/png" sizes="16x16" href="/pwa/favicon.png"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.4.0',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  ClickShowText: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true,
+  postUpdate: '2020-11-14 16:10:34'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {
+  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }
+})()</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/face.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">153</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">40</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">12</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 工具集</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/follow/"><i class="fa-fw fas fa-star"></i><span> 收藏夹</span></a></li><li><a class="site-page" href="/audio/"><i class="fa-fw fas fa-music"></i><span> audio_context</span></a></li><li><a class="site-page" href="/piano/"><i class="fa-fw fas fa-music"></i><span> 在线Piano</span></a></li><li><a class="site-page" href="/hy/"><i class="fa-fw fas fa-video"></i><span> Canvas绘图</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 文档库</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/2020/11/15/doc/ci/"><i class="fa-fw far fa-circle"></i><span> CI</span></a></li><li><a class="site-page" href="/2020/11/15/doc/h264/"><i class="fa-fw far fa-video"></i><span> h264</span></a></li><li><a class="site-page" href="/2020/11/15/doc/f4v/"><i class="fa-fw far fa-video"></i><span> f4v</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mask/"><i class="fa-fw far fa-mask"></i><span> mask</span></a></li><li><a class="site-page" href="/2020/11/15/doc/dj/"><i class="fa-fw far fa-python"></i><span> Django</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mse/"><i class="fa-fw far fa-buffer"></i><span> MSE</span></a></li></ul></div></div></div></div><div id="body-wrap"><div id="sidebar"><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E7%BA%BF%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">主线程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Worker-%E7%BA%BF%E7%A8%8B"><span class="toc-number">2.</span> <span class="toc-text">Worker 线程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Worker-%E5%8A%A0%E8%BD%BD%E8%84%9A%E6%9C%AC"><span class="toc-number">3.</span> <span class="toc-text">Worker 加载脚本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86"><span class="toc-number">4.</span> <span class="toc-text">错误处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1"><span class="toc-number">5.</span> <span class="toc-text">数据通信</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Web-Worker%E8%A1%8C%E5%86%85%E5%86%99%E6%B3%95"><span class="toc-number">6.</span> <span class="toc-text">Web Worker行内写法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8Ewebpack%E7%9A%84worker-loader"><span class="toc-number">7.</span> <span class="toc-text">基于webpack的worker-loader</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9B%86%E6%88%90-TypeScript"><span class="toc-number">8.</span> <span class="toc-text">集成 TypeScript</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">9.</span> <span class="toc-text"></span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Webpack%E6%96%87%E6%A1%A3%E5%9C%B0%E5%9D%80"><span class="toc-number">10.</span> <span class="toc-text">Webpack文档地址</span></a></li></ol></div></div></div><header class="post-bg" id="page-header" style="background-image: url(/../../img/js.jpg)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">雪人</a></span><span id="menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 工具集</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/follow/"><i class="fa-fw fas fa-star"></i><span> 收藏夹</span></a></li><li><a class="site-page" href="/audio/"><i class="fa-fw fas fa-music"></i><span> audio_context</span></a></li><li><a class="site-page" href="/piano/"><i class="fa-fw fas fa-music"></i><span> 在线Piano</span></a></li><li><a class="site-page" href="/hy/"><i class="fa-fw fas fa-video"></i><span> Canvas绘图</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 文档库</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/2020/11/15/doc/ci/"><i class="fa-fw far fa-circle"></i><span> CI</span></a></li><li><a class="site-page" href="/2020/11/15/doc/h264/"><i class="fa-fw far fa-video"></i><span> h264</span></a></li><li><a class="site-page" href="/2020/11/15/doc/f4v/"><i class="fa-fw far fa-video"></i><span> f4v</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mask/"><i class="fa-fw far fa-mask"></i><span> mask</span></a></li><li><a class="site-page" href="/2020/11/15/doc/dj/"><i class="fa-fw far fa-python"></i><span> Django</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mse/"><i class="fa-fw far fa-buffer"></i><span> MSE</span></a></li></ul></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">Web Worker</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-11-14T08:10:34.249Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-11-14T08:10:34.250Z" title="更新于 2020-11-14 16:10:34">2020-11-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Javascript/">Javascript</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>7分钟</span></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><blockquote>
+<p>为 JavaScript 创造多线程环境，允许主线程创建 Worker 线程，将一些任务分配给Worker 线程</p>
+</blockquote>
+<p>Web Worker 有以下几个使用注意点。</p>
+<ul>
+<li><p>同源限制</p>
+<p>  分配给 Worker 线程运行的脚本文件，必须与主线程的脚本文件同源。</p>
+</li>
+<li><p>DOM 限制</p>
+<p>  Worker 线程所在的全局对象，与主线程不一样，无法读取主线程所在网页的 DOM 对象，也无法使用document、window、parent这些对象。但是，Worker 线程可以navigator对象和location对象。</p>
+</li>
+<li><p>通信联系</p>
+<p>  Worker 线程和主线程不在同一个上下文环境，它们不能直接通信，必须通过消息完成。</p>
+</li>
+<li><p>脚本限制</p>
+<p>  Worker 线程不能执行alert()方法和confirm()方法，但可以使用 XMLHttpRequest 对象发出 AJAX 请求。</p>
+</li>
+<li><p>文件限制</p>
+<p>  Worker 线程无法读取本地文件，即不能打开本机的文件系统（file://），它所加载的脚本，必须来自网络。</p>
+</li>
+</ul>
+<h2 id="主线程"><a href="#主线程" class="headerlink" title="主线程"></a>主线程</h2><p>主线程采用new命令，调用Worker()构造函数，新建一个 Worker 线程。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> worker = <span class="keyword">new</span> Worker(<span class="string">&#x27;work.js&#x27;</span>);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Worker()构造函数的参数是一个脚本文件，（之后会介绍行内的写法以及基于webpack的配置）该文件就是 Worker 线程所要执行的任务。由于 Worker 不能读取本地文件，所以这个脚本必须来自网络。如果下载没有成功（比如404错误），Worker 就会默默地失败。</p>
+<p>然后，主线程调用worker.postMessage()方法，向 Worker 发消息。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">worker.postMessage(<span class="string">&#x27;Hello World&#x27;</span>);</span><br><span class="line">worker.postMessage(&#123;<span class="attr">method</span>: <span class="string">&#x27;echo&#x27;</span>, <span class="attr">args</span>: [<span class="string">&#x27;Work&#x27;</span>]&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>worker.postMessage()方法的参数，就是主线程传给 Worker 的数据。它可以是各种数据类型，包括二进制数据。<br>接着，主线程通过worker.onmessage指定监听函数，接收子线程发回来的消息。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">worker.onmessage = <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;Received message &#x27;</span> + event.data);</span><br><span class="line">    doSomething();</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>上面代码中，事件对象的data属性可以获取 Worker 发来的数据。<br>Worker 完成任务以后，主线程就可以把它关掉。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">worker.terminate();</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Worker-线程"><a href="#Worker-线程" class="headerlink" title="Worker 线程"></a>Worker 线程</h2><p>Worker 线程内部需要有一个监听函数，监听message事件。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">self.addEventListener(<span class="string">&#x27;message&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">    self.postMessage(<span class="string">&#x27;You said: &#x27;</span> + e.data);</span><br><span class="line">&#125;, <span class="literal">false</span>);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>上面代码中，self代表子线程自身，即子线程的全局对象。因此，等同于下面两种写法。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 写法一</span></span><br><span class="line"><span class="built_in">this</span>.addEventListener(<span class="string">&#x27;message&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.postMessage(<span class="string">&#x27;You said: &#x27;</span> + e.data);</span><br><span class="line">&#125;, <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 写法二</span></span><br><span class="line">addEventListener(<span class="string">&#x27;message&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">    postMessage(<span class="string">&#x27;You said: &#x27;</span> + e.data);</span><br><span class="line">&#125;, <span class="literal">false</span>);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>除了使用self.addEventListener()指定监听函数，也可以使用self.onmessage指定。监听函数的参数是一个事件对象，它的data属性包含主线程发来的数据。self.postMessage()方法用来向主线程发送消息。</p>
+<p>根据主线程发来的数据，Worker 线程可以调用不同的方法，下面是一个例子。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">self.addEventListener(<span class="string">&#x27;message&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> data = e.data;</span><br><span class="line">    <span class="keyword">switch</span> (data.cmd) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;start&#x27;</span>:</span><br><span class="line">            self.postMessage(<span class="string">&#x27;WORKER STARTED: &#x27;</span> + data.msg);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;stop&#x27;</span>:</span><br><span class="line">            self.postMessage(<span class="string">&#x27;WORKER STOPPED: &#x27;</span> + data.msg);</span><br><span class="line">            self.close(); <span class="comment">// Terminates the worker.</span></span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            self.postMessage(<span class="string">&#x27;Unknown command: &#x27;</span> + data.msg);</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;, <span class="literal">false</span>);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>上面代码中，self.close()用于在 Worker 内部关闭自身。</p>
+<h2 id="Worker-加载脚本"><a href="#Worker-加载脚本" class="headerlink" title="Worker 加载脚本"></a>Worker 加载脚本</h2><p>Worker 内部如果要加载其他脚本，有一个专门的方法importScripts()。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">importScripts(<span class="string">&#x27;script1.js&#x27;</span>);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>该方法可以同时加载多个脚本。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">importScripts(<span class="string">&#x27;script1.js&#x27;</span>, <span class="string">&#x27;script2.js&#x27;</span>);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h2><p>主线程可以监听 Worker 是否发生错误。如果发生错误，Worker 会触发主线程的error事件。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">worker.onerror(<span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log([</span><br><span class="line">    <span class="string">&#x27;ERROR: Line &#x27;</span>, e.lineno, <span class="string">&#x27; in &#x27;</span>, e.filename, <span class="string">&#x27;: &#x27;</span>, e.message</span><br><span class="line">    ].join(<span class="string">&#x27;&#x27;</span>));</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 或者</span></span><br><span class="line">worker.addEventListener(<span class="string">&#x27;error&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Worker 内部也可以监听error事件。</p>
+<h2 id="数据通信"><a href="#数据通信" class="headerlink" title="数据通信"></a>数据通信</h2><p>主线程与 Worker 之间的通信内容，可以是文本，也可以是对象。需要注意的是，这种通信是拷贝关系，即是传值而不是传址，Worker 对通信内容的修改，不会影响到主线程。事实上，浏览器内部的运行机制是，先将通信内容串行化，然后把串行化后的字符串发给 Worker，后者再将它还原。</p>
+<p>主线程与 Worker 之间也可以交换二进制数据，比如 File、Blob、ArrayBuffer 等类型，也可以在线程之间发送。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 主线程</span></span><br><span class="line"><span class="keyword">var</span> uInt8Array = <span class="keyword">new</span> <span class="built_in">Uint8Array</span>(<span class="keyword">new</span> <span class="built_in">ArrayBuffer</span>(<span class="number">10</span>));</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; uInt8Array.length; ++i) &#123;</span><br><span class="line">    uInt8Array[i] = i * <span class="number">2</span>; <span class="comment">// [0, 2, 4, 6, 8,...]</span></span><br><span class="line">&#125;</span><br><span class="line">worker.postMessage(uInt8Array);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Worker 线程</span></span><br><span class="line">self.onmessage = <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> uInt8Array = e.data;</span><br><span class="line">    postMessage(<span class="string">&#x27;Inside worker.js: uInt8Array.toString() = &#x27;</span> + uInt8Array.toString());</span><br><span class="line">    postMessage(<span class="string">&#x27;Inside worker.js: uInt8Array.byteLength = &#x27;</span> + uInt8Array.byteLength);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>拷贝方式发送二进制数据，会造成性能问题。比如，主线程向 Worker 发送一个 500MB 文件，默认情况下浏览器会生成一个原文件的拷贝。为了解决这个问题，JavaScript 允许主线程把二进制数据直接转移给子线程，但是一旦转移，主线程就无法再使用这些二进制数据了，这是为了防止出现多个线程同时修改数据的麻烦局面。这种转移数据的方法，叫做<a href="http://www.w3.org/html/wg/drafts/html/master/infrastructure.html#transferable-objects" target="_blank">Transferable Objects</a>。这使得主线程可以快速把数据交给 Worker，对于影像处理、声音处理、3D 运算等就非常方便了，不会产生性能负担。</p>
+<p>如果要直接转移数据的控制权，就要使用下面的写法。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Transferable Objects 格式</span></span><br><span class="line">worker.postMessage(arrayBuffer, [arrayBuffer]);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 例子</span></span><br><span class="line"><span class="keyword">var</span> ab = <span class="keyword">new</span> <span class="built_in">ArrayBuffer</span>(<span class="number">1</span>);</span><br><span class="line">worker.postMessage(ab, [ab]);</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="Web-Worker行内写法"><a href="#Web-Worker行内写法" class="headerlink" title="Web Worker行内写法"></a>Web Worker行内写法</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createWorker</span>(<span class="params">f</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> blob = <span class="keyword">new</span> Blob([<span class="string">&#x27;(&#x27;</span> + f.toString() +<span class="string">&#x27;)()&#x27;</span>]);</span><br><span class="line">    <span class="keyword">var</span> url = <span class="built_in">window</span>.URL.createObjectURL(blob);</span><br><span class="line">    <span class="keyword">var</span> worker = <span class="keyword">new</span> Worker(url);</span><br><span class="line">    <span class="keyword">return</span> worker;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> pollingWorker = createWorker(<span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> cache;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">compare</span>(<span class="params"><span class="keyword">new</span>, old</span>) </span>&#123; ... &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">setInterval</span>(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        fetch(<span class="string">&#x27;/my-api-endpoint&#x27;</span>).then(<span class="function"><span class="keyword">function</span> (<span class="params">res</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">var</span> data = res.json();</span><br><span class="line">    </span><br><span class="line">            <span class="keyword">if</span> (!compare(data, cache)) &#123;</span><br><span class="line">            cache = data;</span><br><span class="line">            self.postMessage(data);</span><br><span class="line">            &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    &#125;, <span class="number">1000</span>)</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">pollingWorker.onmessage = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">// render data</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">pollingWorker.postMessage(<span class="string">&#x27;init&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="基于webpack的worker-loader"><a href="#基于webpack的worker-loader" class="headerlink" title="基于webpack的worker-loader"></a>基于webpack的worker-loader</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm i -D worker-loader</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// App.js：</span></span><br><span class="line">    <span class="keyword">import</span> Worker <span class="keyword">from</span> <span class="string">&#x27;./worker.js&#x27;</span>;</span><br><span class="line">    <span class="keyword">const</span> worker = <span class="keyword">new</span> Worker();</span><br><span class="line"></span><br><span class="line">    worker.postMessage(&#123; <span class="attr">a</span>: <span class="number">1</span> &#125;);</span><br><span class="line">    worker.onmessage = <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;&#125;;</span><br><span class="line">    worker.addEventListener(<span class="string">&quot;message&quot;</span>, <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;&#125;);</span><br></pre></td></tr></table></figure>
+<p>// worker.js</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">self.addEventListener(<span class="string">&#x27;message&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">    self.postMessage(<span class="string">&#x27;You said: &#x27;</span> + e.data);</span><br><span class="line">&#125;, <span class="literal">false</span>);</span><br></pre></td></tr></table></figure>
+
+
+<p>// webpack.config.js</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="built_in">module</span>: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">        &#123;</span><br><span class="line">            test: <span class="regexp">/\\.worker\\.js$/</span>,</span><br><span class="line">            use: &#123; </span><br><span class="line">                loader: <span class="string">&#x27;worker-loader&#x27;</span> </span><br><span class="line">                options: &#123;</span><br><span class="line">                    name: string,<span class="comment">//默认‘[hash].worker.js 输出js文件名</span></span><br><span class="line">                    inline: boolean, <span class="comment">// 默认false，是否将 worker 内联为一个 BLOB</span></span><br><span class="line">                    fallback: boolean, <span class="comment">// 默认false，是否需要支持非 worker 环境的回退</span></span><br><span class="line">                    publicPath: string, <span class="comment">// 默认值：null,重写 worker 脚本的下载路径</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">    </span><br></pre></td></tr></table></figure>
+
+<h2 id="集成-TypeScript"><a href="#集成-TypeScript" class="headerlink" title="集成 TypeScript"></a>集成 TypeScript</h2><h2 id=""><a href="#" class="headerlink" title=""></a><a aria-label="集成 TypeScript" target="_blank" rel="noopener" href="https://webpack.docschina.org/loaders/worker-loader/#%E9%9B%86%E6%88%90-typescript"></a></h2><p>集成 TypeScript，在导出 worker 时，需要声明一个自定义模块</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// typings/custom.d.ts</span></span><br><span class="line">declare <span class="built_in">module</span> <span class="string">&quot;worker-loader!*&quot;</span> &#123;</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">WebpackWorker</span> <span class="keyword">extends</span> <span class="title">Worker</span> </span>&#123;</span><br><span class="line">        <span class="title">constructor</span>(<span class="params"></span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">export</span> <span class="keyword">default</span> WebpackWorker;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Worker.ts</span></span><br><span class="line"><span class="keyword">const</span> ctx: Worker = self <span class="keyword">as</span> any;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 发送数据到父线程</span></span><br><span class="line">ctx.postMessage(&#123; <span class="attr">foo</span>: <span class="string">&quot;foo&quot;</span> &#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 响应父线程的消息</span></span><br><span class="line">ctx.addEventListener(<span class="string">&quot;message&quot;</span>, <span class="function">(<span class="params">event</span>) =&gt;</span> <span class="built_in">console</span>.log(event));</span><br><span class="line"><span class="comment">// App.ts</span></span><br><span class="line"><span class="keyword">import</span> Worker <span class="keyword">from</span> <span class="string">&quot;worker-loader!./Worker&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> worker = <span class="keyword">new</span> Worker();</span><br><span class="line"></span><br><span class="line">worker.postMessage(&#123; <span class="attr">a</span>: <span class="number">1</span> &#125;);</span><br><span class="line">worker.onmessage = <span class="function">(<span class="params">event</span>) =&gt;</span> &#123;&#125;;</span><br><span class="line"></span><br><span class="line">worker.addEventListener(<span class="string">&quot;message&quot;</span>, <span class="function">(<span class="params">event</span>) =&gt;</span> &#123;&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="Webpack文档地址"><a href="#Webpack文档地址" class="headerlink" title="Webpack文档地址"></a><a href="https://webpack.docschina.org/loaders/worker-loader/" target="_blank">Webpack文档地址</a></h2><p>这么用： </p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> Workers <span class="keyword">from</span> <span class="string">&#x27;worker-loader?inline=true&amp;fallback=false!./danmaku-worker.rev&#x27;</span>;</span><br></pre></td></tr></table></figure></div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">雪人</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://www.webq.top/2020/11/14/js/web-worker/">https://www.webq.top/2020/11/14/js/web-worker/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.webq.top" target="_blank">雪人</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/javascript/">javascript</a></div><div class="post_share"><div class="social-share" data-image="/img/default.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/11/14/js/video-demuxing-muxing/"><img class="prev-cover" src="/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">new 命令</div></div></a></div><div class="next-post pull-right"><a href="/2020/11/14/js/web-err/"><img class="next-cover" src="/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">前端异常监控解决方案</div></div></a></div></nav></article></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By 雪人</div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.spacingElementById('content-inner')
+  else {
+    $.getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js', () => {
+      pangu.spacingElementById('content-inner')
+    })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguFn)</script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div></div></body></html>

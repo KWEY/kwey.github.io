@@ -1,0 +1,456 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>雪人 - 笔记</title><meta name="keywords" content="sql  python node  video web html css javascript"><meta name="author" content="雪人"><meta name="copyright" content="雪人"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="雪人的笔记">
+<meta property="og:type" content="website">
+<meta property="og:title" content="雪人">
+<meta property="og:url" content="https://www.webq.top/index.html">
+<meta property="og:site_name" content="雪人">
+<meta property="og:description" content="雪人的笔记">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.webq.top/img/face.jpg">
+<meta property="article:author" content="雪人">
+<meta property="article:tag" content="sql  python node  video web html css javascript">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.webq.top/img/face.jpg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://www.webq.top/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="manifest" href="/pwa/manifest.json"/><link rel="apple-touch-icon" sizes="180x180" href="/pwa/favicon.png"/><link rel="icon" type="image/png" sizes="32x32" href="/pwa/favicon.png"/><link rel="icon" type="image/png" sizes="16x16" href="/pwa/favicon.png"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.4.0',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  ClickShowText: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isSidebar: false,
+  postUpdate: '2021-07-11 09:26:42'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {
+  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }
+})()</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/face.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">153</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">40</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">12</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 工具集</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/follow/"><i class="fa-fw fas fa-star"></i><span> 收藏夹</span></a></li><li><a class="site-page" href="/audio/"><i class="fa-fw fas fa-music"></i><span> audio_context</span></a></li><li><a class="site-page" href="/piano/"><i class="fa-fw fas fa-music"></i><span> 在线Piano</span></a></li><li><a class="site-page" href="/hy/"><i class="fa-fw fas fa-video"></i><span> Canvas绘图</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 文档库</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/2020/11/15/doc/ci/"><i class="fa-fw far fa-circle"></i><span> CI</span></a></li><li><a class="site-page" href="/2020/11/15/doc/h264/"><i class="fa-fw far fa-video"></i><span> h264</span></a></li><li><a class="site-page" href="/2020/11/15/doc/f4v/"><i class="fa-fw far fa-video"></i><span> f4v</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mask/"><i class="fa-fw far fa-mask"></i><span> mask</span></a></li><li><a class="site-page" href="/2020/11/15/doc/dj/"><i class="fa-fw far fa-python"></i><span> Django</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mse/"><i class="fa-fw far fa-buffer"></i><span> MSE</span></a></li></ul></div></div></div></div><div id="body-wrap"><header class="full_page" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">雪人</a></span><span id="menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 工具集</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/follow/"><i class="fa-fw fas fa-star"></i><span> 收藏夹</span></a></li><li><a class="site-page" href="/audio/"><i class="fa-fw fas fa-music"></i><span> audio_context</span></a></li><li><a class="site-page" href="/piano/"><i class="fa-fw fas fa-music"></i><span> 在线Piano</span></a></li><li><a class="site-page" href="/hy/"><i class="fa-fw fas fa-video"></i><span> Canvas绘图</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 文档库</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/2020/11/15/doc/ci/"><i class="fa-fw far fa-circle"></i><span> CI</span></a></li><li><a class="site-page" href="/2020/11/15/doc/h264/"><i class="fa-fw far fa-video"></i><span> h264</span></a></li><li><a class="site-page" href="/2020/11/15/doc/f4v/"><i class="fa-fw far fa-video"></i><span> f4v</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mask/"><i class="fa-fw far fa-mask"></i><span> mask</span></a></li><li><a class="site-page" href="/2020/11/15/doc/dj/"><i class="fa-fw far fa-python"></i><span> Django</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mse/"><i class="fa-fw far fa-buffer"></i><span> MSE</span></a></li></ul></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav></header><main class="layout_page" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2021/05/08/brower/fps/" title="WebRender如何摆脱jank">     <img class="post_bg" src="/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="WebRender如何摆脱jank"></a></div><div class="recent-post-info"><a class="article-title" href="/2021/05/08/brower/fps/" title="WebRender如何摆脱jank">WebRender如何摆脱jank</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-05-08T02:58:41.114Z" title="发表于 2021-05-08 10:58:41">2021-05-08</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/brower/">brower</a></span></div><div class="content">
+丢弃的帧是指系统没有在帧预算内完成其工作。在浏览器完成填充之前，显示器会尝试从帧缓冲区中获取新帧。在这种情况下，显示屏将再次显示旧版本的帧。
+一个掉下来的相框就像你从翻页书上撕下一页。这会使动画看起来结巴或跳跃，因为你错过了上一页和下一页之间的过渡。
+因此，我们要确保在显示器再次检查之前，将所有这些像素放入帧缓冲区。让我们看看浏览器历史上是如何做到这一点的，以及这一点是如何随着时间的推移而改变的。然后我们就可以看看怎样才能更快。
+</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2021/05/07/brower/gpu-acc/" title="GPU硬件加速">     <img class="post_bg" src="/img/default3.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="GPU硬件加速"></a></div><div class="recent-post-info"><a class="article-title" href="/2021/05/07/brower/gpu-acc/" title="GPU硬件加速">GPU硬件加速</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-05-07T07:06:14.068Z" title="发表于 2021-05-07 15:06:14">2021-05-07</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/gpu/">gpu</a></span></div><div class="content">
+GPU Accelerated Compositing in Chrome
+
+
+注： 某些类名可能已更改（例如，RenderObject到LayoutObject，RenderLayer到PaintLayer）。
+
+摘要本文提供了在Chrome中实现硬件加速合成的背景和细节。
+简介：为什么要进行硬件合成？
+传统上，web浏览器完全依赖CPU来呈现网页内容。现在，即使是最小的设备，也有能力的gpu成为不可或缺的一部分，人们的注意力已经转向寻找更有效地使用这种底层硬件的方法，以实现更好的性能和节能。使用GPU合成网页的内容可以大大提高速度。
+硬件合成的好处有三种：
+
+
+在涉及大量像素的绘图和合成操作中，在GPU上合成页面层可以获得比CPU更好的效率（无论是在速度还是功耗方面）。硬件是专门为这些类型的工作负载设计的。
+
+
+
+
+GPU上已有的内容（如加速视频、Canvas2D或WebGL）不需要昂贵的回读。
+
+
+
+
+CPU与GPU之间的并行性，可以同时运行，创建高效的图形流水线。
+
+
+最后，在我们开始之前，有一个很大的免责声明：Chrome图形堆栈在过去几年中已经有了实质性的发展。本文档将重 ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2021/04/30/dm-render/render/" title="浏览器渲染原理">     <img class="post_bg" src="/img/default2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="浏览器渲染原理"></a></div><div class="recent-post-info"><a class="article-title" href="/2021/04/30/dm-render/render/" title="浏览器渲染原理">浏览器渲染原理</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-04-30T01:58:27.810Z" title="发表于 2021-04-30 09:58:27">2021-04-30</time></span></div><div class="content">一：
+
+
+
+计算机的核心 - CPU和GPU
+
+绿色的是计算单元，橙红色的是存储单元，橙黄色的是控制单元。
+
+
+CPU是通用计算，而GPU是专用计算
+
+显卡
+由GPU、显存、电路板，还有BIOS固件组成1: 独立显卡主要由GPU、显存和接口电路构成2: 集成显卡没有独立显存而是使用主板上的内存
+
+
+DRAM 存储器（cpu/gpu 与存储器是两个不同的芯片）1：主存储器————内存2：辅助存储器
+
+
+速度来讲，就是：Register &gt; Cache &gt; 内存 &gt; 硬盘。越上层，速度就越快、价格越高、容量越低。
+
+CPU
+中央处理器（Central Processing Unit）是一块超大规模的集成电路，是一台计算机的运算核心和控制核心。它的功能主要是解释计算机指令以及处理计算机软件中的数据
+
+串行地一件接着一件处理交给它的任务在CPU上快速在多个任务间切换，对于使用者来说，就像并发（Concurrent）地执行了多个任务一样
+
+GPUNVIDIA公司在1999年发布 Geforce256图形处理芯片时首先提出GPU的概念。从此 NVIDIA显卡的芯就用GPU来称呼。 ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2021/02/01/brower/lifecycle/" title="浏览器周期">     <img class="post_bg" src="/img/default3.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="浏览器周期"></a></div><div class="recent-post-info"><a class="article-title" href="/2021/02/01/brower/lifecycle/" title="浏览器周期">浏览器周期</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-02-01T06:04:52.359Z" title="发表于 2021-02-01 14:04:52">2021-02-01</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/brower/">brower</a></span></div><div class="content">背景应用程序生命周期是现代操作系统管理资源的关键方式。在Android、iOS和最新的Windows版本上，操作系统可以随时启动和停止应用程序。这使得这些平台能够将资源优化并重新分配到最有利于用户的地方。
+在web端，历史上没有这样的生命周期，应用程序可以一直保持激活。随着大量网页的运行，内存、CPU、电池和网络等关键系统资源可能会被过度订阅，从而导致终端用户体验差。
+虽然web平台早就有了与生命周期状态相关的事件，比如 load, unload, and visibilitychange，但这些事件只允许开发人员响应用户行为的生命周期状态更改。为了让web在低功耗设备上可靠地工作（并且在所有平台上都能展示更多资源），浏览器需要一种主动回收和重新分配系统资源的方法。
+事实上，如今的浏览器已经采取了积极的措施来节省后台选项卡中页面的资源，许多浏览器（尤其是Chrome浏览器）都想做更多的工作，以减少它们的总体资源占用。
+问题是，目前开发者还没法干预这些系统启动，即使知道它们正在启动，这就意味着，浏览器需要采用保守的策略或者冒着页面出错的风险。
+页面生命周期API试图通过以下方式解决此问题 ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/11/19/doc/mask/" title="CSS Masking Module Level 1">     <img class="post_bg" src="/img/hy.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CSS Masking Module Level 1"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/19/doc/mask/" title="CSS Masking Module Level 1">CSS Masking Module Level 1</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-19T06:06:47.980Z" title="发表于 2020-11-19 14:06:47">2020-11-19</time></span></div><div class="content">CSS Masking Module Level 1—-W3C候选人推荐，2014年8月26日
+此版本：
+http://www.w3.org/TR/2014/CR-css-masking-1-20140826/
+最新版本：
+http://www.w3.org/TR/css-masking-1
+编辑草案：
+http://dev.w3.org/fxtf/css-masking-1/
+先前版本：
+http://www.w3.org/TR/2014/WD-css-masking-1 -20140522
+反馈：
+&#x70;&#x75;&#98;&#x6c;&#x69;&#99;&#x2d;&#102;&#x78;&#64;&#x77;&#x33;&#46;&#x6f;&#x72;&#x67; with subject line “[css-masking] … message topic …”(archives)
+测试套件：
+http://test.csswg.org/suites/css-masking/nightly-unstable/
+编辑：
+Dirk Schulze（Adobe Sys ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/11/19/doc/mse/" title="Media Source Extensions">     <img class="post_bg" src="/img/hy.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Media Source Extensions"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/19/doc/mse/" title="Media Source Extensions">Media Source Extensions</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-19T06:06:47.980Z" title="发表于 2020-11-19 14:06:47">2020-11-19</time></span></div><div class="content">Media Source Extensions™—-W3C编辑的草案2016年11月8日
+http://w3c.github.io/media-source/
+最新发布的版本：
+https://www.w3.org/TR/media-source/
+最新编辑的草稿：
+http://w3c.github.io/media-source/
+ 实施报告：
+http://tidoust.github.io/media-source-testcoverage/
+编辑：
+Matthew Wolenetz，Google Inc.; Jerry Smith，微软公司; Mark Watson，Netflix Inc.; Aaron Colwell（2015年4月），Google Inc.; Adrian Bateman（2015年4月），Microsoft Corporation 
+Repository: 
+We are on GitHub
+File a bug
+Commit history
+Mailing list:
+public-html-media@w3.org
+Implementation:
+ ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/11/19/doc/h264/" title="H.264视频的RTP有效负载格式">     <img class="post_bg" src="/img/hy.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="H.264视频的RTP有效负载格式"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/19/doc/h264/" title="H.264视频的RTP有效负载格式">H.264视频的RTP有效负载格式</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-19T06:06:47.978Z" title="发表于 2020-11-19 14:06:47">2020-11-19</time></span></div><div class="content">H.264视频的RTP有效负载格式Version 10.1
+备忘
+该文件为因特网社区规定了因特网标准跟踪协议，并提出了改进建议和讨论。Please refer to the current edition of the“Internet official Protocol standards”（STD 1）for the standardization state and status of this Protocol.这个MEMO的分布是无限的。
+Copyright Notice
+Copyright (C) The Internet Society (2005).
+摘要
+本备忘录描述了ITU-T建议H.264视频编解码器的RTP有效载荷格式和技术上相同的ISO/IEC国际标准14496-10视频编解码器。RTP有效负载格式允许对每个RTP有效负载中由H.264视频编码器生成的一个或多个网络抽象层单元（NALU）进行打包。有效载荷格式具有广泛的适用性，因为它支持从简单的低比特率会话使用，到Internet视频流与交错传输，到高比特率视频点播的应用。
+1. 介绍
+1.1. H.264编解 ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/11/19/doc/f4v/" title="f4v文件格式">     <img class="post_bg" src="/img/hy.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="f4v文件格式"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/19/doc/f4v/" title="f4v文件格式">f4v文件格式</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-19T06:06:47.977Z" title="发表于 2020-11-19 14:06:47">2020-11-19</time></span></div><div class="content">Adobe Flash Video File Format Specification  Version 10.1
+Introduction
+Flash®是Web上动态媒体的事实标准，支持多种媒体格式，包括两种用于提供同步音频和视频流的核心容器格式：
+
+   F4V, for H.264/AAC–based content, and
+
+   FLV, for other supported codecs such as Sorensen Spark and On2 VP6.
+
+
+本文档提供Adobe®产品支持的F4V和FLV视频文件格式的技术格式信息。Adobe认真考虑所有对视频文件格式规范的反馈。 通过&#102;&#108;&#97;&#x73;&#x68;&#102;&#x6f;&#x72;&#x6d;&#97;&#116;&#x40;&#97;&#x64;&#111;&#x62;&#101;&#x2e;&#99;&#111;&#109;将规范中任何不清楚或可能错误的信息通过电子邮件发送给Adobe。 所有此类电子邮件提交均应遵守使用条款中的提交材料指南，网址为www.adobe ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/11/19/doc/dp/" title="设计模式">     <img class="post_bg" src="/img/hy.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="设计模式"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/19/doc/dp/" title="设计模式">设计模式</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-19T06:06:47.976Z" title="发表于 2020-11-19 14:06:47">2020-11-19</time></span></div><div class="content">设计模式设计模式（Design pattern）代表了最佳的实践，是一套被反复使用的、多数人知晓的、经过分类编目的、代码设计经验的总结。使用设计模式是为了重用代码、让代码更容易被他人理解、保证代码可靠性。 
+单例模式
+
+单例就是保证一个类只有一个实例，实现的方法一般是先判断实例存在与否，如果存在直接返回，如果不存在就创建了再返回，这就确保了一个类只有一个实例对象。在JavaScript里，单例作为一个命名空间提供者，从全局命名空间里提供一个唯一的访问点来访问该对象。
+应用场景：
+创建唯一的浮窗(闭包)
+const getSingle = function( fn )&#123;   const result;   return function()&#123;       return result || ( result = fn .apply(this, arguments ) );   &#125; &#125;;const createLoginLayer = function()&#123;    const div = document.createElement( &#x ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/11/19/doc/dj/" title="Web框架本质-Django">     <img class="post_bg" src="/img/hy.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Web框架本质-Django"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/19/doc/dj/" title="Web框架本质-Django">Web框架本质-Django</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-19T06:06:47.975Z" title="发表于 2020-11-19 14:06:47">2020-11-19</time></span></div><div class="content">Web框架本质web系统概念
+1. Http，无状态，短连接 2. 浏览器（socket客户端）、网站（socket服务端）
+
+
+web框架本质
+import socket def handle_request(client): buf = client.recv(1024) client.send(&quot;HTTP/1.1 200 OK\r\n\r\n&quot;) client.send(&quot;Hello, Seven&quot;) def main(): sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) sock.bind((&#x27;localhost&#x27;,8000)) sock.listen(5) while True: connection, address = sock.accept() handle_request(connection) connection.close() if __name__ == &#x27;__main__&#x27;: main()
+
+
+自定义Web框架
+a ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/11/19/doc/ci/" title="Gitlab CI/CD管道配置参考">     <img class="post_bg" src="/img/hy.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Gitlab CI/CD管道配置参考"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/19/doc/ci/" title="Gitlab CI/CD管道配置参考">Gitlab CI/CD管道配置参考</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-19T06:06:47.974Z" title="发表于 2020-11-19 14:06:47">2020-11-19</time></span></div><div class="content">Gitlab CI/CD管道配置参考在每个项目中，使用名为.gitlab-ci.yml的yaml文件配置Gitlab CI/CD管道。
+.gitlab-ci.yml文件定义了管道的结构和顺序，并确定：
+使用Gitlab Runner执行什么。
+遇到特殊情况时要做什么决定？例如，当一个进程成功或失败时。
+本主题介绍CI/CD管道配置。有关其他CI/CD配置信息，请参阅：
+Gitlab CI/CD变量，用于配置管道运行的环境。
+Gitlab Runner高级配置，用于配置Gitlab Runner。
+我们有配置管道的完整示例：
+要快速介绍Gitlab CI，请遵循我们的快速入门指南。
+有关示例的集合，请参见Gitlab CI/CD示例。
+要查看企业中使用的大型.gitlab-ci.yml文件，请参见gitlab ce的.gitlab-ci.yml文件。
+
+如果你有一个镜像存储库，其中有gitlab，你可能需要在项目的Settings &gt; Repository &gt; Pull from a remote repository &gt; Trigger镜像更新管道。
+
+1. 介绍
+
+ ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/11/14/python/middleware/" title="django2.2版本中pymysql报错">     <img class="post_bg" src="/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="django2.2版本中pymysql报错"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/python/middleware/" title="django2.2版本中pymysql报错">django2.2版本中pymysql报错</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.264Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/python/">python</a></span></div><div class="content">我们从浏览器发出一个请求 Request，得到一个响应后的内容 HttpResponse ，这个请求传递到 Django的过程如下：
+
+也就是说，每一个请求都是先通过中间件中的 process_request 函数，这个函数返回 None 或者 HttpResponse 对象，如果返回前者，继续处理其它中间件，如果返回一个 HttpResponse，就处理中止，返回到网页上。
+中间件不用继承自任何类（可以继承 object ），下面一个中间件大概的样子：
+class CommonMiddleware(object):    def process_request(self, request):        return None     def process_response(self, request, response):        return response
+还有 process_view, process_exception 和 process_template_response 函数。
+一，比如我们要做一个  拦截器，发现有恶意访问网站的人，就拦截他！假如我们通过 ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/11/14/python/django-cors/" title="Django配置Ajax跨域调用/设置Cookie">     <img class="post_bg" src="/img/default2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Django配置Ajax跨域调用/设置Cookie"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/python/django-cors/" title="Django配置Ajax跨域调用/设置Cookie">Django配置Ajax跨域调用/设置Cookie</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.263Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/python/">python</a></span></div><div class="content">django-cors-headers一、跨域调用首先下载这个插件
+pip install django-cors-headers
+然后在你的Django项目中的settings.py中做如下配置(install app和middleware)：
+INSTALLED_APPS = (    ...    &#x27;corsheaders&#x27;,    ...)MIDDLEWARE = [ # Or MIDDLEWARE_CLASSES on Django &amp;lt; 1.10    ...    &#x27;corsheaders.middleware.CorsMiddleware&#x27;,    &#x27;django.middleware.common.CommonMiddleware&#x27;,    ...]
+
+要注意的是，CorsMiddleware最好放的尽可能的往上，比如要 在CommonMiddleware和WhiteNoiseMiddleware的上边，要不然设置的跨域响应头可能起不了什么作用。
+最后配置一下你允许的跨域请求主机
+允许所有主机请求 ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/11/14/python/decorators/" title="python中的装饰器">     <img class="post_bg" src="/img/default2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="python中的装饰器"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/python/decorators/" title="python中的装饰器">python中的装饰器</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.263Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/python/">python</a></span></div><div class="content">
+函数外可以访问函数内的变量写个简单的装饰器def get_result(func):    def warp(*args, **kwargs):        print(&#x27;haha warp&#x27;)        result = func(*args, **kwargs)        print(&#x27;result:&#x27;, result)        return result    return warp@get_resultdef add(a, b):    print(&#x27;func add:&#x27;, a + b)    return a + bif __name__ == &#x27;__main__&#x27;:    add(1, 2)
+
+
+
+执行结果：
+haha warpfunc add: 3result: 3
+解释：
+
+add会作为参数func传给get_result函数,然后get_result返回warp函数。
+执行add.__name__会输出wrap
+其实这是python解释器在背后吧warp赋值给了add，然 ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/11/14/python/django-sql-error/" title="django2.2版本中pymysql报错">     <img class="post_bg" src="/img/default3.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="django2.2版本中pymysql报错"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/python/django-sql-error/" title="django2.2版本中pymysql报错">django2.2版本中pymysql报错</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.263Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/python/">python</a></span></div><div class="content">ImproperlyConfigured: mysqlclient 1.3.13 or newer is required
+1、问题背景：已经安装好了 pymysql，但是在命令行执行 python3 manage.py migrate 进行数据迁移时报如下错误：（当然，你也可能是在执行其它操作时遇到类似错误）
+......  File &quot;&#x2F;Library&#x2F;Frameworks&#x2F;Python.framework&#x2F;Versions&#x2F;3.7&#x2F;lib&#x2F;python3.7&#x2F;importlib&#x2F;__init__.py&quot;, line 127, in import_module    return _bootstrap._gcd_import(name[level:], package, level)  File &quot;&#x2F;Library&#x2F;Frameworks&#x2F;Python.framework&#x2F;Versions&#x2F;3.7&#x2F;lib& ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/11/14/project/webpack-plugin/" title="webpack 编写一个plugin">     <img class="post_bg" src="/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="webpack 编写一个plugin"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/project/webpack-plugin/" title="webpack 编写一个plugin">webpack 编写一个plugin</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.263Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/project/">project</a></span></div><div class="content">
+创建插件比创建 loader 更加高级，因为你将需要理解一些 webpack 底层的内部特性来实现相应的钩子，所以做好阅读一些源码的准备！
+
+编写一个插件
+一个插件由以下构成
+
+一个具名 JavaScript 函数。
+在它的原型上定义 apply 方法。
+指定一个触及到 webpack 本身的 事件钩子。
+操作 webpack 内部的实例特定数据。
+在实现功能后调用 webpack 提供的 callback。
+
+// 一个 JavaScript classclass MyExampleWebpackPlugin &#123;      // 将 `apply` 定义为其原型方法，此方法以 compiler 作为参数  apply(compiler) &#123;        // 指定要附加到的事件钩子函数    compiler.hooks.emit.tapAsync(          &#x27;MyExampleWebpackPlugin&#x27;,      (compilation, callback) =&gt; &#123;            console. ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/11/14/project/webpack-splitchunks/" title="webpack 4 Code Splitting 的 splitChunks">     <img class="post_bg" src="/img/default2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="webpack 4 Code Splitting 的 splitChunks"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/project/webpack-splitchunks/" title="webpack 4 Code Splitting 的 splitChunks">webpack 4 Code Splitting 的 splitChunks</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.263Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/project/">project</a></span></div><div class="content">
+webpack 4 废弃了之前的不怎么好用的 CommonsChunk，取而代之的是 SplitChunks
+
+Code Splitting首先 webpack 总共提供了三种办法来实现 Code Splitting，如下：入口配置：entry 入口使用多个入口文件；抽取公有代码：使用 SplitChunks 抽取公有代码；动态加载 ：动态加载一些代码。
+SplitChunks首先我们所说的 SplitChunks 是由 webpack 4 内置的 SplitChunksPlugin 插件提供的能力，可直接在 optimization 选项中配置，其默认配置如下：
+module.exports = &#123;    //...    optimization: &#123;        splitChunks: &#123;            chunks: &#x27;async&#x27;,             minSize: 30000,            maxSize: 0,            minChunks: 1,            maxA ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/11/14/project/commitlint/" title="git的commit规范及强制校验">     <img class="post_bg" src="/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="git的commit规范及强制校验"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/project/commitlint/" title="git的commit规范及强制校验">git的commit规范及强制校验</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.262Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/project/">project</a></span></div><div class="content">
+commitlint 配合husky 在git push 代码之前检测commit messages
+
+https://github.com/typicode/husky
+https://commitlint.js.org/#/
+Commit message 和 Change log 编写指南
+一：安装commitlintnpm install -D @commitlint/cli @commitlint/config-conventional
+生成配置文件：&gt; commitlint.config.js
+module.exports = &#123;  extends: [&#x27;@commitlint/config-conventional&#x27;], rules: &#123;   &#x27;type-enum&#x27;:     [2, &#x27;always&#x27;,       [ &quot;feat&quot;, &quot;fix&quot;, &quot;docs&quot;, &quot;style&quot;, &quot;refacto ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/11/14/project/github-webhook/" title="Github + Webhooks 自动化部署流程（vue-ssr">     <img class="post_bg" src="/img/default2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Github + Webhooks 自动化部署流程（vue-ssr"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/project/github-webhook/" title="Github + Webhooks 自动化部署流程（vue-ssr">Github + Webhooks 自动化部署流程（vue-ssr</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.262Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/project/">project</a></span></div><div class="content">一、先说明下最终要实现的效果
+1、服务器监听 GitHub，push代码后，拉取最新代码
+2、安装依赖，打包代码
+3、把打包的文件（dist/*）移动到发布目录，并命名（next
+4、把正在运行的目录（dist）重命名（pre），（next）重命名（dist）
+5、重启服务二、GitHub的webhooks
+
+三、创建 webhook 服务后端webhook.js
+&lt;span style=&quot;font-family: &amp;quot;Source Sans Pro&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, Arial, sans-serif;&quot;&gt;const http = require(&quot;http&quot;);&lt;/span&gt;const createHandler = require(&quot;github-webhook-handler&quot;);const handler = createHandler(&#123; path: &quot;/&quot;, secre ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/11/14/project/terser-webpack-plugin/" title="terser-webpack-plugin">     <img class="post_bg" src="/img/default2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="terser-webpack-plugin"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/project/terser-webpack-plugin/" title="terser-webpack-plugin">terser-webpack-plugin</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.262Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/project/">project</a></span></div><div class="content">github
+Getting StartedTo begin, you’ll need to install terser-webpack-plugin:
+$ npm install terser-webpack-plugin --save-dev
+
+Then add the plugin to your webpack config. For example:
+webpack.config.js
+const TerserPlugin = require(&#x27;terser-webpack-plugin&#x27;);module.exports = &#123;      optimization: &#123;        minimizer: [new TerserPlugin()],  &#125;,&#125;;
+
+参数：
+
+test：Type: String|RegExp|Array&lt;String|RegExp&gt; Default: /\.m?js(\?.*)?$/i
+
+
+include/exclude:
+  Type: String|RegExp|Arr ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/11/14/project/webpack-end/" title="webpack 打包结构">     <img class="post_bg" src="/img/default2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="webpack 打包结构"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/project/webpack-end/" title="webpack 打包结构">webpack 打包结构</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.262Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/project/">project</a></span></div><div class="content">       window[ &quot;YYJ&quot; ]  =( function ( modules ) &#123;  // webpackBootstrap   // The module cache   var  installedModules  =  &#123;&#125;;   // The require function   function   __webpack_require__ ( moduleId ) &#123;           // Check if module is in cache           if (installedModules[moduleId]) &#123;               return  installedModules[moduleId].exports;           &#125;       // Create a new module (and put it into the cache)       var  module  =  installedModules[moduleId]  ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/11/14/project/webpack-loader/" title="webpack 编写一个loader">     <img class="post_bg" src="/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="webpack 编写一个loader"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/project/webpack-loader/" title="webpack 编写一个loader">webpack 编写一个loader</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.262Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/project/">project</a></span></div><div class="content">
+loader就是一个node模块，它输出了一个函数。
+
+当某种资源需要用这个loader转换时，这个函数会被调用。并且，这个函数可以通过提供给它的this上下文访问Loader API。reverse-txt-loader定义
+module.exports = function(src) &#123;      //src是原文件内容（abcde），下面对内容进行处理，这里是反转  var result = src.split(&#x27;&#x27;).reverse().join(&#x27;&#x27;);   //返回JavaScript源码，必须是String或者Buffer  return `module.exports = &#x27;$&#123;result&#125;&#x27;`;&#125;
+// 使用
+&#123;    test: /\\.txt$/,    use: [          &#123;              &#x27;./path/reverse-txt-loader&#x27;      &#125;    ]&#125;
+
+lo ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/11/14/other/mobile/" title="移动端知识的一些总结">     <img class="post_bg" src="/img/default2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="移动端知识的一些总结"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/other/mobile/" title="移动端知识的一些总结">移动端知识的一些总结</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.261Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/other/">other</a></span></div><div class="content">一.css部分1.meta标签
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1,user-scalable=no&quot;/&gt;
+移动端加上这个标签才是真正的自适应，不加的话，假如你把一个980px宽度(手机端常规是980)的PC网页 放在手机上显示，倒也能正常显示不出现滚动条，不过是移动设备对页面 做了缩小优化，所以字体等都相应缩小了 （980px是相对于手机像素的，我的是超过1000px多一些就出现滚动条了，这个没具体研究）。关于 initial-scale=1 ，这个参照iphone5的尺寸320568，如果你页面按照6401136做的话，scale就设为0.5
+&lt;!-- IOS中safari允许全屏浏览 --&gt;&lt;meta content=&quot;yes&quot; name=&quot;apple-mobile-web-app-capable&quot;&gt;   &lt;!-- IOS中Safari顶端状态条样式 --&gt;& ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/11/14/project/babel/" title="Babel原理及其使用">     <img class="post_bg" src="/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Babel原理及其使用"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/project/babel/" title="Babel原理及其使用">Babel原理及其使用</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.261Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/project/">project</a></span></div><div class="content">Babel的包构成核心包babel-core：babel转译器本身，提供了babel的转译API，如babel.transform等，用于对代码进行转译。像webpack的babel-loader就是调用这些API来完成转译过程的。babylon：js的词法解析器babel-traverse：用于对AST（抽象语法树，想了解的请自行查询编译原理）的遍历，主要给plugin用babel-generator：根据AST生成代码
+
+功能包babel-types：用于检验、构建和改变AST树的节点babel-template：辅助函数，用于从字符串形式的代码来构建AST树节点babel-helpers：一系列预制的babel-template函数，用于提供给一些plugins使用babel-code-frames：用于生成错误信息，打印出错误点源代码帧以及指出出错位置babel-plugin-xxx：babel转译过程中使用到的插件，其中babel-plugin-transform-xxx是transform步骤使用的babel-preset-xxx：transform阶段使用到的一系列的pl ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/11/14/node/npm-link/" title="npm包开发调试">     <img class="post_bg" src="/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="npm包开发调试"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/node/npm-link/" title="npm包开发调试">npm包开发调试</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.260Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/Node/">Node</a></span></div><div class="content">开发NPM模块的时候，有时我们会希望，边开发边试用，比如本地调试的时候， 
+require(&#x27;myModule&#x27;)
+会自动加载本机开发中的模块。Node规定，使用一个模块时，需要将其安装到全局的或项目的 node_modules 目录之中。对于开发中的模块，解决方法就是在全局的 node_modules 目录之中，生成一个符号链接，指向模块的本地目录。 
+
+npm link 就能起到这个作用，会自动建立这个符号链接。 
+
+请设想这样一个场景，你开发了一个模块 myModule ，目录为 src/myModule ，你自己的项目 myProject 要用到这个模块，项目目录为 src/myProject 
+第一步
+在模块目录（ src/myModule ）下运行 # src/myModule$ npm link      npm link
+
+
+
+会在NPM的全局模块目录内，生成一个符号链接文件，该文件的名字就是package.json 文件中指定的模块名
+/path/to/global/node_modules/myModule -&gt; src/myModule
+ ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/11/14/other/hy/" title="红小豆语录">     <img class="post_bg" src="/img/hy.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="红小豆语录"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/other/hy/" title="红小豆语录">红小豆语录</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.260Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/other/">other</a></span></div><div class="content">一、术语1、音名：
+C   D  E F GA  B
+
+2、唱名：
+1 2 3 4 5 6  7 do  re mi fasol la si
+注：若是C调，则是1（do）对应这C，若是D调，则是1（do）对应这D；（一脸无辜，这是什么啊？
+
+
+3、吉他常用音阶模式图（吉他中相邻品格为半音关系，也就是，E与F、B和C之间只差半音，其他都是全音）
+
+注： 这咋那么多啊（外面下雪了，可大了o(╥﹏╥)o
+4、十二平均律：
+将do、re、mi、sol、la、si、do这个八度音程平均分成12份（可以看做对应吉他的0到12品，12品的E正好比空弦升一个八度
+用钢琴的键比较易懂一点（正好一个八度十二个键，相邻键为半音关系（不知道能不能这么解释？
+
+以下为钢琴88键从左到右对应的绝对中心频率：（中央C 对应： 261.626，摘自维基百科
+ 12键CC#D D#E F  F#G G#  AA#  B 大字二组         27.5000 29.1352 30.8677大字一组32.7032 34.6478 36.7081 38.8909 41.203443.6535  46.2493 48.99 ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/11/14/other/java/" title="《Java工程师修炼之道》">     <img class="post_bg" src="/img/default3.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="《Java工程师修炼之道》"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/other/java/" title="《Java工程师修炼之道》">《Java工程师修炼之道》</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.260Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/other/">other</a></span></div><div class="content">什么是最左前缀原则？MySQL中的索引可以以一定顺序引用多列，这种索引叫作联合索引。如User表的name和city加联合索引就是(name,city)，而最左前缀原则指的是，如果查询的时候查询条件精确匹配索引的左边连续一列或几列，则此列就可以被用到。如下：
+select * from user where name=xx and city=xx ; ／／可以命中索引select * from user where name=xx ; // 可以命中索引select * from user where city=xx ; // 无法命中索引       
+
+
+
+这里需要注意的是，查询的时候如果两个条件都用上了，但是顺序不同，如 city= xx and name ＝xx，那么现在的查询引擎会自动优化为匹配联合索引的顺序，这样是能够命中索引的。
+由于最左前缀原则，在创建联合索引时，索引字段的顺序需要考虑字段值去重之后的个数，较多的放前面。ORDER BY子句也遵循此规则。
+注意避免冗余索引冗余索引指的是索引的功能相同，能够命中就肯定能命中 ，那么 就是冗余索引如（name,city ）和 ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/11/14/node/jwt/" title="JSON Web Token">     <img class="post_bg" src="/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JSON Web Token"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/node/jwt/" title="JSON Web Token">JSON Web Token</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.259Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/Node/">Node</a></span></div><div class="content">
+Json web token (JWT), 是为了在网络应用环境间传递声明而执行的一种基于JSON的开放标准（(RFC 7519).该token被设计为紧凑且安全的，特别适用于分布式站点的单点登录（SSO）场景。
+
+一、跨域认证的问题互联网服务离不开用户认证。一般流程是下面这样。
+
+1、用户向服务器发送用户名和密码。
+2、服务器验证通过后，在当前对话（session）里面保存相关数据，比如用户角色、登录时间等等。
+3、服务器向用户返回一个 session_id，写入用户的 Cookie。
+4、用户随后的每一次请求，都会通过 Cookie，将 session_id 传回服务器。
+5、服务器收到 session_id，找到前期保存的数据，由此得知用户的身份。
+
+这种模式的问题在于，扩展性（scaling）不好。单机当然没有问题，如果是服务器集群，或者是跨域的服务导向架构，就要求 session 数据共享，每台服务器都能够读取 session。
+举例来说，A 网站和 B 网站是同一家公司的关联服务。现在要求，用户只要在其中一个网站登录，再访问另一个网站就会自动登录，请问怎么实现？
+一种解决 ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/11/14/node/node-wss/" title="node ws模块">     <img class="post_bg" src="/img/default2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="node ws模块"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/node/node-wss/" title="node ws模块">node ws模块</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.259Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/Node/">Node</a></span></div><div class="content">认识 TCP
+TCP 协议可以总结几个特点：有状态的长连接：客户端发起连接请求，服务端响应并建立连接，连接会一直保持直到一方主动断开。主动性：建立起与客户端的连接后，服务端可主动向客户端发起调用。信息安全性：同样可以使用 SSL 证书进行信息加密，访问时用 WSS 。跨域：默认支持跨域。
+编写聊天室源码ws-with-koa
+服务端 API安装第三方模块 ws：npm install ws开启一个 WebSocket 的服务器，端口为 8080
+
+var socketServer = require(&#x27;ws&#x27;).Server;var wss = new socketServer(&#123;    port: 8080&#125;);
+也可以利用 Express 来开启 WebSocket 的服务器
+
+var app = require(&#x27;express&#x27;)();var server = require(&#x27;http&#x27;).Server(app);var socketServer = require(&#x27;ws&#x27;) ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/11/14/node/node-schedule/" title="Nodejs定时任务（node-schedule)">     <img class="post_bg" src="/img/default2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Nodejs定时任务（node-schedule)"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/node/node-schedule/" title="Nodejs定时任务（node-schedule)">Nodejs定时任务（node-schedule)</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.259Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/Node/">Node</a></span></div><div class="content">
+定时导出某些数据、定时发送消息或邮件给用户、定时备份什么类型的文件等等
+
+安装npm install node-schedule --save 或者 yarn add node-schedule
+用法1、Cron风格定时器const schedule = require(&#x27;node-schedule&#x27;);const  scheduleCronstyle = ()=&gt;&#123;    //每分钟的第30秒定时执行一次:    schedule.scheduleJob(&#x27;30 * * * * *&#x27;,()=&gt;&#123;        console.log(&#x27;scheduleCronstyle:&#x27; + new Date());    &#125;); &#125;scheduleCronstyle();
+
+
+schedule.scheduleJob的回调函数中写入要执行的任务代码，一个定时器就完成了！
+规则参数讲解    *代表通配符*  *  *  *  *  *┬ ┬ ┬ ┬ ┬ ┬│ │ │ │ │  |│  ...</div></div></div><nav id="pagination"><div class="pagination"><span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside_content" id="aside_content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><img class="avatar-img" src="/img/face.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">雪人</div><div class="author-info__description">雪人的笔记</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length_num">153</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length_num">40</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length_num">12</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/kwey"><i class="fab fa-github"></i><span>Follow Me</span></a></div></div><div class="sticky_layout"><div class="card-widget card-announcement"><div class="card-content"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div></div><div class="card-widget card-recent-post"><div class="card-content"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/08/brower/fps/" title="WebRender如何摆脱jank"><img src="/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="WebRender如何摆脱jank"/></a><div class="content"><a class="title" href="/2021/05/08/brower/fps/" title="WebRender如何摆脱jank">WebRender如何摆脱jank</a><time datetime="2021-05-08T02:58:41.114Z" title="发表于 2021-05-08 10:58:41">2021-05-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/05/07/brower/gpu-acc/" title="GPU硬件加速"><img src="/img/default3.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="GPU硬件加速"/></a><div class="content"><a class="title" href="/2021/05/07/brower/gpu-acc/" title="GPU硬件加速">GPU硬件加速</a><time datetime="2021-05-07T07:06:14.068Z" title="发表于 2021-05-07 15:06:14">2021-05-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/dm-render/render/" title="浏览器渲染原理"><img src="/img/default2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="浏览器渲染原理"/></a><div class="content"><a class="title" href="/2021/04/30/dm-render/render/" title="浏览器渲染原理">浏览器渲染原理</a><time datetime="2021-04-30T01:58:27.810Z" title="发表于 2021-04-30 09:58:27">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/02/01/brower/lifecycle/" title="浏览器周期"><img src="/img/default3.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="浏览器周期"/></a><div class="content"><a class="title" href="/2021/02/01/brower/lifecycle/" title="浏览器周期">浏览器周期</a><time datetime="2021-02-01T06:04:52.359Z" title="发表于 2021-02-01 14:04:52">2021-02-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/11/19/doc/mask/" title="CSS Masking Module Level 1"><img src="/img/hy.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CSS Masking Module Level 1"/></a><div class="content"><a class="title" href="/2020/11/19/doc/mask/" title="CSS Masking Module Level 1">CSS Masking Module Level 1</a><time datetime="2020-11-19T06:06:47.980Z" title="发表于 2020-11-19 14:06:47">2020-11-19</time></div></div></div></div></div><div class="card-widget" id="card-newest-comments"><div class="card-content"><div class="item-headline"><i class="fas fa-bolt"></i><span>最新评论</span></div><div class="aside-list"><span>正在加载中...</span></div></div></div><div class="card-widget card-categories"><div class="card-content"><div class="item-headline"><i class="fas fa-folder-open"></i><span>分类</span></div><ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Databse/"><span class="card-category-list-name">Databse</span><span class="card-category-list-count">7</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Javascript/"><span class="card-category-list-name">Javascript</span><span class="card-category-list-count">20</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Linux/"><span class="card-category-list-name">Linux</span><span class="card-category-list-count">19</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Node/"><span class="card-category-list-name">Node</span><span class="card-category-list-count">8</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/brower/"><span class="card-category-list-name">brower</span><span class="card-category-list-count">23</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/frame/"><span class="card-category-list-name">frame</span><span class="card-category-list-count">7</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/gpu/"><span class="card-category-list-name">gpu</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/network/"><span class="card-category-list-name">network</span><span class="card-category-list-count">1</span></a></li>
+            <li class="card-category-list-item more is-center"><a class="card-category-list-link-more" href="/categories/">
+                <span>查看更多</span><i class="fas fa-angle-right"></i></a></li>
+            </ul></div></div><div class="card-widget card-tags"><div class="card-content"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/CMD/" style="font-size: 1.1em; color: #999">CMD</a> <a href="/tags/CSS/" style="font-size: 1.1em; color: #999">CSS</a> <a href="/tags/Javascript/" style="font-size: 1.5em; color: #99a9bf">Javascript</a> <a href="/tags/Mongodb/" style="font-size: 1.19em; color: #999da1">Mongodb</a> <a href="/tags/brower/" style="font-size: 1.41em; color: #99a5b7">brower</a> <a href="/tags/centos/" style="font-size: 1.28em; color: #99a0aa">centos</a> <a href="/tags/cmd/" style="font-size: 1.32em; color: #99a2ae">cmd</a> <a href="/tags/cors/" style="font-size: 1.1em; color: #999">cors</a> <a href="/tags/css/" style="font-size: 1.28em; color: #99a0aa">css</a> <a href="/tags/django/" style="font-size: 1.19em; color: #999da1">django</a> <a href="/tags/err/" style="font-size: 1.1em; color: #999">err</a> <a href="/tags/es6/" style="font-size: 1.46em; color: #99a7bb">es6</a> <a href="/tags/git/" style="font-size: 1.1em; color: #999">git</a> <a href="/tags/github/" style="font-size: 1.14em; color: #999b9d">github</a> <a href="/tags/html/" style="font-size: 1.37em; color: #99a4b2">html</a> <a href="/tags/http/" style="font-size: 1.37em; color: #99a4b2">http</a> <a href="/tags/hy/" style="font-size: 1.1em; color: #999">hy</a> <a href="/tags/java/" style="font-size: 1.14em; color: #999b9d">java</a> <a href="/tags/javascript/" style="font-size: 1.1em; color: #999">javascript</a> <a href="/tags/jdk/" style="font-size: 1.1em; color: #999">jdk</a> <a href="/tags/jwt/" style="font-size: 1.1em; color: #999">jwt</a> <a href="/tags/lifecycle/" style="font-size: 1.1em; color: #999">lifecycle</a> <a href="/tags/mobile/" style="font-size: 1.1em; color: #999">mobile</a> <a href="/tags/model/" style="font-size: 1.23em; color: #999ea6">model</a> <a href="/tags/mse/" style="font-size: 1.1em; color: #999">mse</a> <a href="/tags/mysql/" style="font-size: 1.23em; color: #999ea6">mysql</a> <a href="/tags/network/" style="font-size: 1.1em; color: #999">network</a> <a href="/tags/nginx/" style="font-size: 1.28em; color: #99a0aa">nginx</a> <a href="/tags/node/" style="font-size: 1.1em; color: #999">node</a> <a href="/tags/npm/" style="font-size: 1.14em; color: #999b9d">npm</a> <a href="/tags/nuxt/" style="font-size: 1.1em; color: #999">nuxt</a> <a href="/tags/proxy/" style="font-size: 1.1em; color: #999">proxy</a> <a href="/tags/schedule/" style="font-size: 1.1em; color: #999">schedule</a> <a href="/tags/tcp/" style="font-size: 1.1em; color: #999">tcp</a> <a href="/tags/typescript/" style="font-size: 1.14em; color: #999b9d">typescript</a> <a href="/tags/video/" style="font-size: 1.19em; color: #999da1">video</a> <a href="/tags/vue/" style="font-size: 1.14em; color: #999b9d">vue</a> <a href="/tags/webpack/" style="font-size: 1.28em; color: #99a0aa">webpack</a> <a href="/tags/ws/" style="font-size: 1.14em; color: #999b9d">ws</a> <a href="/tags/xhr/" style="font-size: 1.1em; color: #999">xhr</a></div></div></div><div class="card-widget card-archives"><div class="card-content"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2021/05/"><span class="card-archive-list-date">五月 2021</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2021/04/"><span class="card-archive-list-date">四月 2021</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2021/02/"><span class="card-archive-list-date">二月 2021</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/11/"><span class="card-archive-list-date">十一月 2020</span><span class="card-archive-list-count">149</span></a></li></ul></div></div><div class="card-widget card-webinfo"><div class="card-content"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">153</div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">345.2k</div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2021-07-11T01:26:41.300Z"></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By 雪人</div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.spacingElementById('content-inner')
+  else {
+    $.getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js', () => {
+      pangu.spacingElementById('content-inner')
+    })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguFn)</script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div></div><script>'use strict';'serviceWorker'in navigator&&navigator.serviceWorker.register('service-worker.js').then(function(a){a.onupdatefound=function(){var b=a.installing;b.onstatechange=function(){switch(b.state){case'installed':navigator.serviceWorker.controller?console.log('New or updated content is available.'):console.log('Content is now available offline!');break;case'redundant':console.error('The installing service worker became redundant.');}}}}).catch(function(a){console.error('Error during service worker registration:',a)});
+</script></body></html>

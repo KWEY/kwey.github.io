@@ -1,0 +1,194 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Linux定时任务 + mongodb自动备份 | 雪人</title><meta name="keywords" content="cmd"><meta name="author" content="雪人"><meta name="copyright" content="雪人"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="mongodump -d k-blog -c articles -o .&#x2F;  原文地址 Linux 自动定时备份 MongoDB mongodb自动整库备份脚本#!&#x2F;bin&#x2F;shDB_HOST&#x3D;&quot;127.0.0.1&quot;DB_NAME&#x3D;&quot;node_user&quot;OUT_DIR&#x3D;&quot;&#x2F;data&#x2F;backup&#x2F;mongod_bak&#x2F;mongod_bak_now">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux定时任务 + mongodb自动备份">
+<meta property="og:url" content="https://www.webq.top/2020/11/14/linux/crontab-mongo/index.html">
+<meta property="og:site_name" content="雪人">
+<meta property="og:description" content="mongodump -d k-blog -c articles -o .&#x2F;  原文地址 Linux 自动定时备份 MongoDB mongodb自动整库备份脚本#!&#x2F;bin&#x2F;shDB_HOST&#x3D;&quot;127.0.0.1&quot;DB_NAME&#x3D;&quot;node_user&quot;OUT_DIR&#x3D;&quot;&#x2F;data&#x2F;backup&#x2F;mongod_bak&#x2F;mongod_bak_now">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.webq.top/img/default2.jpg">
+<meta property="article:published_time" content="2020-11-14T08:10:34.251Z">
+<meta property="article:modified_time" content="2021-05-07T07:12:05.825Z">
+<meta property="article:author" content="雪人">
+<meta property="article:tag" content="cmd">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.webq.top/img/default2.jpg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://www.webq.top/2020/11/14/linux/crontab-mongo/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="manifest" href="/pwa/manifest.json"/><link rel="apple-touch-icon" sizes="180x180" href="/pwa/favicon.png"/><link rel="icon" type="image/png" sizes="32x32" href="/pwa/favicon.png"/><link rel="icon" type="image/png" sizes="16x16" href="/pwa/favicon.png"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.4.0',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  ClickShowText: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true,
+  postUpdate: '2021-05-07 15:12:05'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {
+  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }
+})()</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/face.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">153</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">40</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">12</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 工具集</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/follow/"><i class="fa-fw fas fa-star"></i><span> 收藏夹</span></a></li><li><a class="site-page" href="/audio/"><i class="fa-fw fas fa-music"></i><span> audio_context</span></a></li><li><a class="site-page" href="/piano/"><i class="fa-fw fas fa-music"></i><span> 在线Piano</span></a></li><li><a class="site-page" href="/hy/"><i class="fa-fw fas fa-video"></i><span> Canvas绘图</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 文档库</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/2020/11/15/doc/ci/"><i class="fa-fw far fa-circle"></i><span> CI</span></a></li><li><a class="site-page" href="/2020/11/15/doc/h264/"><i class="fa-fw far fa-video"></i><span> h264</span></a></li><li><a class="site-page" href="/2020/11/15/doc/f4v/"><i class="fa-fw far fa-video"></i><span> f4v</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mask/"><i class="fa-fw far fa-mask"></i><span> mask</span></a></li><li><a class="site-page" href="/2020/11/15/doc/dj/"><i class="fa-fw far fa-python"></i><span> Django</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mse/"><i class="fa-fw far fa-buffer"></i><span> MSE</span></a></li></ul></div></div></div></div><div id="body-wrap"><div id="sidebar"><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#mongodb%E8%87%AA%E5%8A%A8%E6%95%B4%E5%BA%93%E5%A4%87%E4%BB%BD%E8%84%9A%E6%9C%AC"><span class="toc-number">1.</span> <span class="toc-text">mongodb自动整库备份脚本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mongodb%E6%95%B4%E5%BA%93%E8%BF%98%E5%8E%9F-%E2%80%94%E2%80%93-mongorestore"><span class="toc-number">2.</span> <span class="toc-text">Mongodb整库还原 —– mongorestore</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%95%E4%B8%AAcollection%E5%A4%87%E4%BB%BD%EF%BC%9A"><span class="toc-number">3.</span> <span class="toc-text">单个collection备份：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%95%E4%B8%AAcollection%E6%81%A2%E5%A4%8D%EF%BC%9A"><span class="toc-number">4.</span> <span class="toc-text">单个collection恢复：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux-%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1-crond"><span class="toc-number">5.</span> <span class="toc-text">Linux 定时任务   crond</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#crond%E7%AE%80%E4%BB%8B%EF%BC%9A"><span class="toc-number">6.</span> <span class="toc-text">crond简介：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E4%BA%8E%E6%97%B6%E9%97%B4%E7%9A%84%E5%AE%9A%E4%B9%89%EF%BC%8C%E4%B8%80%E5%85%B1%E5%88%86%E4%B8%BA6%E9%83%A8%E5%88%86%EF%BC%9A"><span class="toc-number">6.1.</span> <span class="toc-text">对于时间的定义，一共分为6部分：</span></a></li></ol></li></ol></div></div></div><header class="post-bg" id="page-header" style="background-image: url(/img/linux.jpg)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">雪人</a></span><span id="menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 工具集</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/follow/"><i class="fa-fw fas fa-star"></i><span> 收藏夹</span></a></li><li><a class="site-page" href="/audio/"><i class="fa-fw fas fa-music"></i><span> audio_context</span></a></li><li><a class="site-page" href="/piano/"><i class="fa-fw fas fa-music"></i><span> 在线Piano</span></a></li><li><a class="site-page" href="/hy/"><i class="fa-fw fas fa-video"></i><span> Canvas绘图</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 文档库</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/2020/11/15/doc/ci/"><i class="fa-fw far fa-circle"></i><span> CI</span></a></li><li><a class="site-page" href="/2020/11/15/doc/h264/"><i class="fa-fw far fa-video"></i><span> h264</span></a></li><li><a class="site-page" href="/2020/11/15/doc/f4v/"><i class="fa-fw far fa-video"></i><span> f4v</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mask/"><i class="fa-fw far fa-mask"></i><span> mask</span></a></li><li><a class="site-page" href="/2020/11/15/doc/dj/"><i class="fa-fw far fa-python"></i><span> Django</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mse/"><i class="fa-fw far fa-buffer"></i><span> MSE</span></a></li></ul></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">Linux定时任务 + mongodb自动备份</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-11-14T08:10:34.251Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-05-07T07:12:05.825Z" title="更新于 2021-05-07 15:12:05">2021-05-07</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Linux/">Linux</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>5分钟</span></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><blockquote>
+<p>mongodump -d k-blog -c articles -o ./</p>
+</blockquote>
+<p><a href="https://www.jianshu.com/p/0f1e009beb84" target="_blank">原文地址</a></p>
+<p><a href="https://brickyang.github.io/2017/03/02/Linux-%E8%87%AA%E5%8A%A8%E5%A4%87%E4%BB%BD-MongoDB/" target="_blank">Linux 自动定时备份 MongoDB</a></p>
+<h2 id="mongodb自动整库备份脚本"><a href="#mongodb自动整库备份脚本" class="headerlink" title="mongodb自动整库备份脚本"></a>mongodb自动整库备份脚本</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line">DB_HOST=<span class="string">&quot;127.0.0.1&quot;</span></span><br><span class="line"></span><br><span class="line">DB_NAME=<span class="string">&quot;node_user&quot;</span></span><br><span class="line"></span><br><span class="line">OUT_DIR=<span class="string">&quot;/data/backup/mongod_bak/mongod_bak_now&quot;</span> <span class="comment">#临时备份目录</span></span><br><span class="line"></span><br><span class="line">TAR_DIR=<span class="string">&quot;/data/backup/mongod_bak/mongod_bak_list&quot;</span> <span class="comment">#备份存放路径</span></span><br><span class="line"></span><br><span class="line">DATE=$(date +%Y_%m_%d) <span class="comment">#获取当前系统时间</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;-----当前时间为<span class="variable">$DATE</span>-----&quot;</span></span><br><span class="line"></span><br><span class="line">DAYS=7 <span class="comment">#DAYS=7代表删除7天前的备份，即只保留最近7天的备份</span></span><br><span class="line"></span><br><span class="line">TAR_BAK=<span class="string">&quot;mongod_bak_<span class="variable">$DATE</span>.tar.gz&quot;</span> <span class="comment">#最终保存的数据库备份文件名</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> <span class="variable">$OUT_DIR</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;-----删除原有备份文件-----&quot;</span></span><br><span class="line"></span><br><span class="line">find <span class="variable">$OUT_DIR</span>/ -<span class="built_in">print</span></span><br><span class="line"></span><br><span class="line">rm -rf <span class="variable">$OUT_DIR</span>/*</span><br><span class="line"></span><br><span class="line">mkdir -p <span class="variable">$OUT_DIR</span>/<span class="variable">$DATE</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;-----开始备份全部数据库-----&quot;</span></span><br><span class="line"></span><br><span class="line">mongodump -h <span class="variable">$DB_HOST</span> -o <span class="variable">$OUT_DIR</span>/<span class="variable">$DATE</span> <span class="comment">#备份全部数据库，具体可以参照：  mongodump --help</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;-----开始压缩备份文件-----&quot;</span></span><br><span class="line"></span><br><span class="line">tar -zcvf <span class="variable">$TAR_DIR</span>/<span class="variable">$TAR_BAK</span> <span class="variable">$OUT_DIR</span>/<span class="variable">$DATE</span> <span class="comment">#压缩为.tar.gz格式</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;-----删除7天前的备份文件-----&quot;</span></span><br><span class="line"></span><br><span class="line">find <span class="variable">$TAR_DIR</span>/ -mtime +<span class="variable">$DAYS</span> -delete <span class="comment">#删除7天前的备份文件</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Mongodb整库还原-—–-mongorestore"><a href="#Mongodb整库还原-—–-mongorestore" class="headerlink" title="Mongodb整库还原 —– mongorestore"></a>Mongodb整库还原 —– mongorestore</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mongorestore -h dbhost -d dbname –directoryperdb dbdirectory</span><br><span class="line">-h：MongoDB所在服务器地址</span><br><span class="line">-d：需要恢复的数据库实例，例如：<span class="built_in">test</span>，当然这个名称也可以和备份时候的不一样，比如test2</span><br><span class="line">–directoryperdb：备份数据所在位置，例如：c:\\data\\dump\\<span class="built_in">test</span>，这里为什么要多加一个<span class="built_in">test</span>，而不是备份时候的dump，读者自己查看提示吧！</span><br><span class="line">–-drop：恢复的时候，先删除当前数据，然后恢复备份的数据。就是说，备份后添加修改的数据都会被删除，慎用哦！</span><br></pre></td></tr></table></figure>
+
+<h2 id="单个collection备份："><a href="#单个collection备份：" class="headerlink" title="单个collection备份："></a>单个collection备份：</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mongoexport -h dbhost -d dbname -c collectionname -f collectionKey -o dbdirectory</span><br><span class="line">-h: MongoDB所在服务器地址</span><br><span class="line">-d: 需要恢复的数据库实例</span><br><span class="line">-c: 需要恢复的集合</span><br><span class="line">-f: 需要导出的字段(省略为所有字段)</span><br><span class="line">-o: 表示导出的文件名</span><br></pre></td></tr></table></figure>
+
+<h2 id="单个collection恢复："><a href="#单个collection恢复：" class="headerlink" title="单个collection恢复："></a>单个collection恢复：</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mongoimport -d dbhost -c collectionname –<span class="built_in">type</span> csv –headerline –file</span><br><span class="line">-<span class="built_in">type</span>: 指明要导入的文件格式</span><br><span class="line">-headerline: 批明不导入第一行，因为第一行是列名</span><br><span class="line">-file: 指明要导入的文件路径</span><br></pre></td></tr></table></figure>
+
+<h2 id="Linux-定时任务-crond"><a href="#Linux-定时任务-crond" class="headerlink" title="Linux 定时任务   crond"></a>Linux 定时任务   crond</h2><p>1、默认crontab 的邮件位置为： /var/spool/mail/root</p>
+<h2 id="crond简介："><a href="#crond简介：" class="headerlink" title="crond简介："></a>crond简介：</h2><p>1）、crond是一个linux下 的定时执行工具，可以在无需人工干预的情况下运行作业。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">　　/sbin/service crond start    //启动服务</span><br><span class="line"></span><br><span class="line">　　/sbin/service crond stop     //关闭服务</span><br><span class="line"></span><br><span class="line">　　/sbin/service crond restart  //重启服务</span><br><span class="line"></span><br><span class="line">　　/sbin/service crond reload   //重新载入配置</span><br><span class="line"></span><br><span class="line">　　/sbin/service crond status   //查看服务状态</span><br></pre></td></tr></table></figure>
+
+<p>2)、/etc/cron.d/ 这个目录用来存放任何要执行的crontab文件或脚本。</p>
+<p>3）、脚本实例：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">##每天早上6点 </span></span><br><span class="line">0 6 * * * <span class="built_in">echo</span> <span class="string">&quot;Good morning.&quot;</span> &amp;gt;&amp;gt; /tmp/test.txt //注意单纯<span class="built_in">echo</span>，从屏幕上看不到任何输出，因为cron把任何输出都email到root的信箱了。</span><br><span class="line"></span><br><span class="line"><span class="comment">##每两个小时 </span></span><br><span class="line">0 */2 * * * <span class="built_in">echo</span> <span class="string">&quot;Have a break now.&quot;</span> &amp;gt;&amp;gt; /tmp/test.txt  </span><br><span class="line"></span><br><span class="line"><span class="comment">##晚上11点到早上8点之间每两个小时和早上八点 </span></span><br><span class="line">0 23-7/2，8 * * * <span class="built_in">echo</span> <span class="string">&quot;Have a good dream&quot;</span> &amp;gt;&amp;gt; /tmp/test.txt</span><br><span class="line"></span><br><span class="line"><span class="comment">##每个月的4号和每个礼拜的礼拜一到礼拜三的早上11点 </span></span><br><span class="line">0 11 4 * 1-3 <span class="built_in">command</span> line</span><br><span class="line"></span><br><span class="line"><span class="comment">##1月1日早上4点 </span></span><br><span class="line">0 4 1 1 * <span class="built_in">command</span> line SHELL=/bin/bash PATH=/sbin:/bin:/usr/sbin:/usr/bin MAILTO=root //如果出现错误，或者有数据输出，数据作为邮件发给这个帐号 HOME=/ </span><br><span class="line"></span><br><span class="line"><span class="comment">##每小时执行/etc/cron.hourly内的脚本</span></span><br><span class="line">01 * * * * root run-parts /etc/cron.hourly</span><br><span class="line"></span><br><span class="line"><span class="comment">##每天执行/etc/cron.daily内的脚本</span></span><br><span class="line">02 4 * * * root run-parts /etc/cron.daily </span><br><span class="line"></span><br><span class="line"><span class="comment">##每星期执行/etc/cron.weekly内的脚本</span></span><br><span class="line">22 4 * * 0 root run-parts /etc/cron.weekly </span><br><span class="line"></span><br><span class="line"><span class="comment">##每月去执行/etc/cron.monthly内的脚本 </span></span><br><span class="line">42 4 1 * * root run-parts /etc/cron.monthly </span><br><span class="line"></span><br><span class="line">注意: <span class="string">&quot;run-parts&quot;</span>这个参数了，如果去掉这个参数的话，后面就可以写要运行的某个脚本名，而不是文件夹名。 　 </span><br><span class="line"></span><br><span class="line"><span class="comment">##每天的下午4点、5点、6点的5 min、15 min、25 min、35 min、45 min、55 min时执行命令。 </span></span><br><span class="line">5，15，25，35，45，55 16，17，18 * * * <span class="built_in">command</span></span><br><span class="line"></span><br><span class="line"><span class="comment">##每周一，三，五的下午3：00系统进入维护状态，重新启动系统。</span></span><br><span class="line">00 15 * * 1，3，5 shutdown -r +5</span><br><span class="line"></span><br><span class="line"><span class="comment">##每小时的10分，40分执行用户目录下的innd/bbslin这个指令： </span></span><br><span class="line">10，40 * * * * innd/bbslink </span><br><span class="line"></span><br><span class="line"><span class="comment">##每小时的1分执行用户目录下的bin/account这个指令： </span></span><br><span class="line">1 * * * * bin/account</span><br><span class="line"></span><br><span class="line"><span class="comment">##每天早晨三点二十分执行用户目录下如下所示的两个指令（每个指令以;分隔）： </span></span><br><span class="line">20 3 * * * （/bin/rm -f expire.ls logins.bad;bin/expire<span class="variable">$#</span>@62;expire.1st）　　</span><br><span class="line"></span><br><span class="line"><span class="comment">##每年的一月和四月，4号到9号的3点12分和3点55分执行/bin/rm -f expire.1st这个指令，并把结果添加在mm.txt这个文件之后（mm.txt文件位于用户自己的目录位置）。 </span></span><br><span class="line">12,55 3 4-9 1,4 * /bin/rm -f expire.1st<span class="variable">$#</span>@62;<span class="variable">$#</span>@62;mm.txt </span><br></pre></td></tr></table></figure>
+<h3 id="对于时间的定义，一共分为6部分："><a href="#对于时间的定义，一共分为6部分：" class="headerlink" title="对于时间的定义，一共分为6部分："></a>对于时间的定义，一共分为6部分：</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">      minute hour day-of-month month-of-year day-of-week commands </span><br><span class="line">合法值 00-59 00-23 01-31 01-12 0-6 (0 is sunday) </span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">除了数字还有几个个特殊的符号就是  * 、/ 、- 、,  </span><br></pre></td></tr></table></figure>
+
+<p>“*” 代表所有的取值范围内的数字，</p>
+<p>“/“代表每的意思,”/5”表示每5个单位，</p>
+<p>“-“代表从某个数字到某个数字,</p>
+<p>“,”分开几个离散的数字</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">crontab -l   /  -r  /  -e</span><br><span class="line">    -l 在标准输出上显示当前的crontab。 </span><br><span class="line">　　-r 删除当前的crontab文件。 </span><br><span class="line">　　-e 使用VISUAL或者EDITOR环境变量所指的编辑器编辑当前的crontab文件。当结束编辑离开时，编辑后的文件将自动安装。</span><br></pre></td></tr></table></figure>
+
+
+
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">雪人</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://www.webq.top/2020/11/14/linux/crontab-mongo/">https://www.webq.top/2020/11/14/linux/crontab-mongo/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.webq.top" target="_blank">雪人</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/cmd/">cmd</a></div><div class="post_share"><div class="social-share" data-image="/img/default2.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/11/14/linux/kcptun/"><img class="prev-cover" src="/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">使用kcptun加速shadowsocks</div></div></a></div><div class="next-post pull-right"><a href="/2020/11/14/linux/crontab/"><img class="next-cover" src="/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">crontab 定时任务</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2020/11/14/linux/crontab-1/" title="centos7 常用命令【systemctl替换service】"><img class="cover" src="/img/default.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-14</div><div class="title">centos7 常用命令【systemctl替换service】</div></div></a></div><div><a href="/2020/11/14/linux/crontab/" title="crontab 定时任务"><img class="cover" src="/img/default.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-14</div><div class="title">crontab 定时任务</div></div></a></div><div><a href="/2020/11/14/linux/firewalld/" title="centos7安装防火墙firewalld"><img class="cover" src="/img/default3.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-14</div><div class="title">centos7安装防火墙firewalld</div></div></a></div><div><a href="/2020/11/14/linux/vi/" title="Linux vi/vim"><img class="cover" src="/img/default3.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-14</div><div class="title">Linux vi/vim</div></div></a></div><div><a href="/2020/11/14/linux/yum/" title="linux下安装软件--yum命令"><img class="cover" src="/img/default.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-14</div><div class="title">linux下安装软件--yum命令</div></div></a></div><div><a href="/2020/11/14/python/decorators/" title="python中的装饰器"><img class="cover" src="/img/default2.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-14</div><div class="title">python中的装饰器</div></div></a></div></div></div></article></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By 雪人</div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.spacingElementById('content-inner')
+  else {
+    $.getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js', () => {
+      pangu.spacingElementById('content-inner')
+    })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguFn)</script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div></div></body></html>

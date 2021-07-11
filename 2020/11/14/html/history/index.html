@@ -1,0 +1,217 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>pushState、replaceState、popstate 事件阻塞 DOM 解析和渲染的 | 雪人</title><meta name="keywords" content="html"><meta name="author" content="雪人"><meta name="copyright" content="雪人"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="HTML5引入了 history.pushState() 和 history.replaceState() 方法，它们分别可以添加和修改历史记录条目。这些方法通常与window.onpopstate 配合使用。  MDN 使用 history.pushState() 可以改变referrer，它在用户发送 XMLHttpRequest 请求时在HTTP头部使用，改变state后创建的 XMLHt">
+<meta property="og:type" content="article">
+<meta property="og:title" content="pushState、replaceState、popstate 事件阻塞 DOM 解析和渲染的">
+<meta property="og:url" content="https://www.webq.top/2020/11/14/html/history/index.html">
+<meta property="og:site_name" content="雪人">
+<meta property="og:description" content="HTML5引入了 history.pushState() 和 history.replaceState() 方法，它们分别可以添加和修改历史记录条目。这些方法通常与window.onpopstate 配合使用。  MDN 使用 history.pushState() 可以改变referrer，它在用户发送 XMLHttpRequest 请求时在HTTP头部使用，改变state后创建的 XMLHt">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.webq.top/img/default2.jpg">
+<meta property="article:published_time" content="2020-11-14T08:10:34.237Z">
+<meta property="article:modified_time" content="2020-11-14T08:10:34.237Z">
+<meta property="article:author" content="雪人">
+<meta property="article:tag" content="html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.webq.top/img/default2.jpg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://www.webq.top/2020/11/14/html/history/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="manifest" href="/pwa/manifest.json"/><link rel="apple-touch-icon" sizes="180x180" href="/pwa/favicon.png"/><link rel="icon" type="image/png" sizes="32x32" href="/pwa/favicon.png"/><link rel="icon" type="image/png" sizes="16x16" href="/pwa/favicon.png"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.4.0',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  ClickShowText: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true,
+  postUpdate: '2020-11-14 16:10:34'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {
+  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }
+})()</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/face.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">153</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">40</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">12</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 工具集</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/follow/"><i class="fa-fw fas fa-star"></i><span> 收藏夹</span></a></li><li><a class="site-page" href="/audio/"><i class="fa-fw fas fa-music"></i><span> audio_context</span></a></li><li><a class="site-page" href="/piano/"><i class="fa-fw fas fa-music"></i><span> 在线Piano</span></a></li><li><a class="site-page" href="/hy/"><i class="fa-fw fas fa-video"></i><span> Canvas绘图</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 文档库</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/2020/11/15/doc/ci/"><i class="fa-fw far fa-circle"></i><span> CI</span></a></li><li><a class="site-page" href="/2020/11/15/doc/h264/"><i class="fa-fw far fa-video"></i><span> h264</span></a></li><li><a class="site-page" href="/2020/11/15/doc/f4v/"><i class="fa-fw far fa-video"></i><span> f4v</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mask/"><i class="fa-fw far fa-mask"></i><span> mask</span></a></li><li><a class="site-page" href="/2020/11/15/doc/dj/"><i class="fa-fw far fa-python"></i><span> Django</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mse/"><i class="fa-fw far fa-buffer"></i><span> MSE</span></a></li></ul></div></div></div></div><div id="body-wrap"><div id="sidebar"><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#pushState-%E6%96%B9%E6%B3%95%E7%9A%84%E4%BE%8B%E5%AD%90"><span class="toc-number">1.</span> <span class="toc-text">pushState() 方法的例子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pushState-%E6%96%B9%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text">pushState() 方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#replaceState-%E6%96%B9%E6%B3%95"><span class="toc-number">3.</span> <span class="toc-text">replaceState() 方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#replaceState-%E6%96%B9%E6%B3%95%E7%A4%BA%E4%BE%8B"><span class="toc-number">4.</span> <span class="toc-text">replaceState() 方法示例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#popstate-%E4%BA%8B%E4%BB%B6"><span class="toc-number">5.</span> <span class="toc-text">popstate 事件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E7%8A%B6%E6%80%81"><span class="toc-number">6.</span> <span class="toc-text">获取当前状态</span></a></li></ol></div></div></div><header class="post-bg" id="page-header" style="background-image: url(/img/html.jpg)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">雪人</a></span><span id="menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 工具集</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/follow/"><i class="fa-fw fas fa-star"></i><span> 收藏夹</span></a></li><li><a class="site-page" href="/audio/"><i class="fa-fw fas fa-music"></i><span> audio_context</span></a></li><li><a class="site-page" href="/piano/"><i class="fa-fw fas fa-music"></i><span> 在线Piano</span></a></li><li><a class="site-page" href="/hy/"><i class="fa-fw fas fa-video"></i><span> Canvas绘图</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 文档库</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/2020/11/15/doc/ci/"><i class="fa-fw far fa-circle"></i><span> CI</span></a></li><li><a class="site-page" href="/2020/11/15/doc/h264/"><i class="fa-fw far fa-video"></i><span> h264</span></a></li><li><a class="site-page" href="/2020/11/15/doc/f4v/"><i class="fa-fw far fa-video"></i><span> f4v</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mask/"><i class="fa-fw far fa-mask"></i><span> mask</span></a></li><li><a class="site-page" href="/2020/11/15/doc/dj/"><i class="fa-fw far fa-python"></i><span> Django</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mse/"><i class="fa-fw far fa-buffer"></i><span> MSE</span></a></li></ul></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">pushState、replaceState、popstate 事件阻塞 DOM 解析和渲染的</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-11-14T08:10:34.237Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-11-14T08:10:34.237Z" title="更新于 2020-11-14 16:10:34">2020-11-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/web/">web</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>6分钟</span></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><blockquote>
+<p>HTML5引入了 history.pushState() 和 history.replaceState() 方法，它们分别可以添加和修改历史记录条目。这些方法通常与window.onpopstate 配合使用。</p>
+</blockquote>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/History_API" target="_blank">MDN</a></p>
+<p>使用 history.pushState() 可以改变referrer，它在用户发送 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en/DOM/XMLHttpRequest" title="en/XMLHttpRequest">XMLHttpRequest</a> 请求时在HTTP头部使用，改变state后创建的 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en/DOM/XMLHttpRequest" title="en/XMLHttpRequest">XMLHttpRequest</a> 对象的referrer都会被改变。因为referrer是标识创建  <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en/DOM/XMLHttpRequest" title="en/XMLHttpRequest">XMLHttpRequest</a> 对象时 this 所代表的window对象中document的URL。</p>
+<h2 id="pushState-方法的例子"><a href="#pushState-方法的例子" class="headerlink" title="pushState() 方法的例子"></a>pushState() 方法的例子</h2><p>假设在 <a target="_blank" rel="noopener" href="http://mozilla.org/foo.html">http://mozilla.org/foo.html</a> 中执行了以下 JavaScript 代码:</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> stateObj = &#123; <span class="attr">foo</span>: <span class="string">&quot;bar&quot;</span> &#125;;</span><br><span class="line">history.pushState(stateObj, <span class="string">&quot;page 2&quot;</span>, <span class="string">&quot;bar.html&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>这将使浏览器地址栏显示为 <a target="_blank" rel="noopener" href="http://mozilla.org/bar.html%EF%BC%8C%E4%BD%86%E5%B9%B6%E4%B8%8D%E4%BC%9A%E5%AF%BC%E8%87%B4%E6%B5%8F%E8%A7%88%E5%99%A8%E5%8A%A0%E8%BD%BD">http://mozilla.org/bar.html，但并不会导致浏览器加载</a> bar.html ，甚至不会检查bar.html 是否存在。<br>假设现在用户又访问了 <a target="_blank" rel="noopener" href="http://google.com,然后点击了返回按钮.此时,地址栏将显示/">http://google.com，然后点击了返回按钮。此时，地址栏将显示</a> <a target="_blank" rel="noopener" href="http://mozilla.org/bar.html%EF%BC%8C%E5%90%8C%E6%97%B6%E9%A1%B5%E9%9D%A2%E4%BC%9A%E8%A7%A6%E5%8F%91">http://mozilla.org/bar.html，同时页面会触发</a> popstate 事件，事件对象state中包含了 stateObj 的一份拷贝。页面本身与 foo.html 一样，尽管其在 popstate  事件中可能会修改自身的内容。<br>如果我们再次点击返回按钮，页面URL会变为<a target="_blank" rel="noopener" href="http://mozilla.org/foo.html%EF%BC%8C%E6%96%87%E6%A1%A3%E5%AF%B9%E8%B1%A1document%E4%BC%9A%E8%A7%A6%E5%8F%91%E5%8F%A6%E5%A4%96%E4%B8%80%E4%B8%AA">http://mozilla.org/foo.html，文档对象document会触发另外一个</a> popstate 事件，这一次的事件对象state object为null。 这里也一样，返回并不改变文档的内容，尽管文档在接收 popstate 事件时可能会改变自己的内容，其内容仍与之前的展现一致。</p>
+<h2 id="pushState-方法"><a href="#pushState-方法" class="headerlink" title="pushState() 方法"></a>pushState() 方法</h2><p>pushState() 需要三个参数: </p>
+<ul>
+<li><p>一个状态对象,</p>
+<p>  状态对象state是一个JavaScript对象，通过pushState () 创建新的历史记录条目。无论什么时候用户导航到新的状态，popstate事件就会被触发，且该事件的state属性包含该历史记录条目状态对象的副本。</p>
+<p>  状态对象可以是能被序列化的任何东西。原因在于Firefox将状态对象保存在用户的磁盘上，以便在用户重启浏览器时使用，我们规定了状态对象在序列化表示后有640k的大小限制。如果你给 pushState() 方法传了一个序列化后大于640k的状态对象，该方法会抛出异常。如果你需要更大的空间，建议使用 sessionStorage 以及 localStorage.</p>
+</li>
+<li><p>一个标题 (目前被忽略),<br> 标题 — Firefox 目前忽略这个参数，但未来可能会用到。传递一个空字符串在这里是安全的，而在将来这是不安全的。二选一的话，你可以为跳转的state传递一个短标题。</p>
+</li>
+<li><p>(可选的) 一个URL.<br>   该参数定义了新的历史URL记录。注意，调用 pushState() 后浏览器并不会立即加载这个URL，但可能会在稍后某些情况下加载这个URL，比如在用户重新打开浏览器时。新URL不必须为绝对路径。如果新URL是相对路径，那么它将被作为相对于当前URL处理。新URL必须与当前URL同源，否则 pushState() 会抛出一个异常。该参数是可选的，缺省为当前URL。</p>
+</li>
+</ul>
+<blockquote>
+<p>注意: 从 Gecko 2.0 (Firefox 4 / Thunderbird 3.3 / SeaMonkey 2.1) 到 Gecko 5.0 (Firefox 5.0 / Thunderbird 5.0 / SeaMonkey 2.2)，传递的对象是使用JSON进行序列化的。 从  Gecko 6.0 (Firefox 6.0 / Thunderbird 6.0 / SeaMonkey 2.3)开始，该对象的序列化将使用<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en/DOM/The_structured_clone_algorithm" title="en/DOM/The structured clone algorithm">结构化克隆算法</a>。这将会使更多对象可以被安全的传递。</p>
+</blockquote>
+<pre><code>    在某种意义上，调用 pushState() 与 设置 window.location = &quot;#foo&quot; 类似，二者都会在当前页面创建并激活新的历史记录。但 pushState() 具有如下几条优点：
+    新的 URL 可以是与当前URL同源的任意URL 。而设置 window.location 仅当你只修改了哈希值时才保持同一个document
+    如果需要，你可以不必改变URL。而设置 window.location = &quot;#foo&quot;;在当前哈希不是 #foo 的情况下， 仅仅是新建了一个新的历史记录项。
+    你可以为新的历史记录项关联任意数据。而基于哈希值的方式，则必须将所有相关数据编码到一个短字符串里。 
+    假如 标题 在之后会被浏览器用到，那么这个数据是可以被使用的（哈希则不然）。</code></pre>
+<blockquote>
+<p>注意 pushState() 绝对不会触发 hashchange 事件，即使新的URL与旧的URL仅哈希不同也是如此。</p>
+</blockquote>
+<p>在 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Mozilla/Tech/XUL">XUL</a> 文档中，它创建指定的 XUL 元素。</p>
+<p>在其它文档中，它创建一个命名空间URI为null的元素。</p>
+<h2 id="replaceState-方法"><a href="#replaceState-方法" class="headerlink" title="replaceState() 方法"></a>replaceState() 方法</h2><p>history.replaceState() 的使用与 history.pushState() 非常相似，区别在于  </p>
+<ul>
+<li>replaceState()  是修改了当前的历史记录项而不是新建一个。 注意这并不会阻止其在全局浏览器历史记录中创建一个新的历史记录项。</li>
+<li>replaceState() 的使用场景在于为了响应用户操作，你想要更新状态对象state或者当前历史记录的URL。</li>
+</ul>
+<blockquote>
+<p>注意： 从Gecko 2.0 (Firefox 4 / Thunderbird 3.3 / SeaMonkey 2.1) 到 Gecko 5.0 (Firefox 5.0 / Thunderbird 5.0 / SeaMonkey 2.2)，传递的对象是使用JSON进行序列化的。 从  Gecko 6.0 (Firefox 6.0 / Thunderbird 6.0 / SeaMonkey 2.3)开始，该对象的序列化将使用<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en/DOM/The_structured_clone_algorithm" title="en/DOM/The structured clone algorithm">结构化克隆算法</a>。这将会使更多对象可以被安全的传递。</p>
+</blockquote>
+<h2 id="replaceState-方法示例"><a href="#replaceState-方法示例" class="headerlink" title="replaceState() 方法示例"></a>replaceState() 方法示例</h2><p>假设 <a target="_blank" rel="noopener" href="http://mozilla.org/foo.html">http://mozilla.org/foo.html</a> 执行了如下JavaScript代码：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> stateObj = &#123; <span class="attr">foo</span>: <span class="string">&quot;bar&quot;</span> &#125;;</span><br><span class="line">history.pushState(stateObj, <span class="string">&quot;page 2&quot;</span>, <span class="string">&quot;bar.html&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>上文2行代码可以在 “pushState()方法示例” 部分找到。然后，假设<a target="_blank" rel="noopener" href="http://mozilla.org/bar.html%E6%89%A7%E8%A1%8C%E4%BA%86%E5%A6%82%E4%B8%8B">http://mozilla.org/bar.html执行了如下</a> JavaScript：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">history.replaceState(stateObj, <span class="string">&quot;page 3&quot;</span>, <span class="string">&quot;bar2.html&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>这将会导致地址栏显示<a target="_blank" rel="noopener" href="http://mozilla.org/bar2.html,%EF%BC%8C%E4%BD%86%E6%98%AF%E6%B5%8F%E8%A7%88%E5%99%A8%E5%B9%B6%E4%B8%8D%E4%BC%9A%E5%8E%BB%E5%8A%A0%E8%BD%BDbar2.html">http://mozilla.org/bar2.html,，但是浏览器并不会去加载bar2.html</a> 甚至都不需要检查 bar2.html 是否存在。</p>
+<p>假设现在用户重新导向到了<a target="_blank" rel="noopener" href="http://www.microsoft.com,然后点击了回退按钮.这里,地址栏会显示http//mozilla.org/bar2.html%E3%80%82%E5%81%87%E5%A6%82%E7%94%A8%E6%88%B7%E5%86%8D%E6%AC%A1%E7%82%B9%E5%87%BB%E5%9B%9E%E9%80%80%E6%8C%89%E9%92%AE%EF%BC%8C%E5%9C%B0%E5%9D%80%E6%A0%8F%E4%BC%9A%E6%98%BE%E7%A4%BAhttp://mozilla.org/foo.html%EF%BC%8C%E5%AE%8C%E5%85%A8%E8%B7%B3%E8%BF%87%E4%BA%86bar.html%E3%80%82">http://www.microsoft.com，然后点击了回退按钮。这里，地址栏会显示http://mozilla.org/bar2.html。假如用户再次点击回退按钮，地址栏会显示http://mozilla.org/foo.html，完全跳过了bar.html。</a></p>
+<h2 id="popstate-事件"><a href="#popstate-事件" class="headerlink" title="popstate 事件"></a>popstate 事件</h2><p>每当活动的历史记录项发生变化时， popstate 事件都会被传递给window对象。如果当前活动的历史记录项是被 pushState 创建的，或者是由 replaceState 改变的，那么 popstate 事件的状态属性 state 会包含一个当前历史记录状态对象的拷贝。</p>
+<p>使用示例请参见 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/Window/onpopstate" title="window.onpopstate是popstate事件在window对象上的事件处理程序.">window.onpopstate</a> 。</p>
+<h2 id="获取当前状态"><a href="#获取当前状态" class="headerlink" title="获取当前状态"></a>获取当前状态</h2><p>页面加载时，或许会有个非null的状态对象。这是有可能发生的，</p>
+<p>举个例子:</p>
+<p>假如页面（通过pushState() 或 replaceState() 方法）设置了状态对象而后用户重启了浏览器。那么当页面重新加载时，页面会接收一个onload事件，但没有 popstate 事件。然而，假如你读取了history.state属性，你将会得到如同popstate 被触发时能得到的状态对象。</p>
+<p>你可以读取当前历史记录项的状态对象state，而不必等待popstate 事件， 只需要这样使用history.state 属性： </p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> currentState = history.state;</span><br></pre></td></tr></table></figure>
+
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">雪人</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://www.webq.top/2020/11/14/html/history/">https://www.webq.top/2020/11/14/html/history/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.webq.top" target="_blank">雪人</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/html/">html</a></div><div class="post_share"><div class="social-share" data-image="/img/default2.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/11/14/html/history-2/"><img class="prev-cover" src="/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">使用pushState()改变url而不刷新</div></div></a></div><div class="next-post pull-right"><a href="/2020/11/14/html/html-render/"><img class="next-cover" src="/img/default3.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">CSS 与 JS 阻塞 DOM 解析和渲染的</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2020/11/14/html/cors/" title="CORS settings attributes"><img class="cover" src="/img/default2.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-14</div><div class="title">CORS settings attributes</div></div></a></div><div><a href="/2020/11/14/html/history-2/" title="使用pushState()改变url而不刷新"><img class="cover" src="/img/default.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-14</div><div class="title">使用pushState()改变url而不刷新</div></div></a></div><div><a href="/2020/11/14/html/html-render/" title="CSS 与 JS 阻塞 DOM 解析和渲染的"><img class="cover" src="/img/default3.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-14</div><div class="title">CSS 与 JS 阻塞 DOM 解析和渲染的</div></div></a></div><div><a href="/2020/11/14/html/link-preload/" title="通过rel="preload"进行内容预加载"><img class="cover" src="/img/default3.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-14</div><div class="title">通过rel="preload"进行内容预加载</div></div></a></div><div><a href="/2020/11/14/html/link/" title="HTML 中<link>元素"><img class="cover" src="/img/default2.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-14</div><div class="title">HTML 中<link>元素</div></div></a></div><div><a href="/2020/11/14/html/nofollow/" title="rel=nofollow属性"><img class="cover" src="/img/default.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-14</div><div class="title">rel=nofollow属性</div></div></a></div></div></div></article></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By 雪人</div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.spacingElementById('content-inner')
+  else {
+    $.getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js', () => {
+      pangu.spacingElementById('content-inner')
+    })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguFn)</script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div></div></body></html>

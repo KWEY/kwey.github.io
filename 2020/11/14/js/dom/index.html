@@ -1,0 +1,222 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HTML DOM (文档对象模型) | 雪人</title><meta name="keywords" content="Javascript"><meta name="author" content="雪人"><meta name="copyright" content="雪人"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="文档对象模型 (DOM) 是HTML和XML文档的编程接口。它提供了对文档的结构化的表述，并定义了一种方式可以使从程序中对该结构进行访问，从而改变文档的结构，样式和内容  DOM 将文档解析为一个由节点和对象（包含属性和方法的对象）组成的结构集合。简言之，它会将web页面和脚本或程序语言连接起来。说白了DOM就是浏览器为JavaScript提供的一系列接口（通过window.documnet提供">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTML DOM (文档对象模型)">
+<meta property="og:url" content="https://www.webq.top/2020/11/14/js/dom/index.html">
+<meta property="og:site_name" content="雪人">
+<meta property="og:description" content="文档对象模型 (DOM) 是HTML和XML文档的编程接口。它提供了对文档的结构化的表述，并定义了一种方式可以使从程序中对该结构进行访问，从而改变文档的结构，样式和内容  DOM 将文档解析为一个由节点和对象（包含属性和方法的对象）组成的结构集合。简言之，它会将web页面和脚本或程序语言连接起来。说白了DOM就是浏览器为JavaScript提供的一系列接口（通过window.documnet提供">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.webq.top/img/default3.jpg">
+<meta property="article:published_time" content="2020-11-14T08:10:34.241Z">
+<meta property="article:modified_time" content="2020-11-14T08:10:34.241Z">
+<meta property="article:author" content="雪人">
+<meta property="article:tag" content="Javascript">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.webq.top/img/default3.jpg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://www.webq.top/2020/11/14/js/dom/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="manifest" href="/pwa/manifest.json"/><link rel="apple-touch-icon" sizes="180x180" href="/pwa/favicon.png"/><link rel="icon" type="image/png" sizes="32x32" href="/pwa/favicon.png"/><link rel="icon" type="image/png" sizes="16x16" href="/pwa/favicon.png"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.4.0',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  ClickShowText: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true,
+  postUpdate: '2020-11-14 16:10:34'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {
+  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }
+})()</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/face.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">153</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">40</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">12</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 工具集</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/follow/"><i class="fa-fw fas fa-star"></i><span> 收藏夹</span></a></li><li><a class="site-page" href="/audio/"><i class="fa-fw fas fa-music"></i><span> audio_context</span></a></li><li><a class="site-page" href="/piano/"><i class="fa-fw fas fa-music"></i><span> 在线Piano</span></a></li><li><a class="site-page" href="/hy/"><i class="fa-fw fas fa-video"></i><span> Canvas绘图</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 文档库</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/2020/11/15/doc/ci/"><i class="fa-fw far fa-circle"></i><span> CI</span></a></li><li><a class="site-page" href="/2020/11/15/doc/h264/"><i class="fa-fw far fa-video"></i><span> h264</span></a></li><li><a class="site-page" href="/2020/11/15/doc/f4v/"><i class="fa-fw far fa-video"></i><span> f4v</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mask/"><i class="fa-fw far fa-mask"></i><span> mask</span></a></li><li><a class="site-page" href="/2020/11/15/doc/dj/"><i class="fa-fw far fa-python"></i><span> Django</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mse/"><i class="fa-fw far fa-buffer"></i><span> MSE</span></a></li></ul></div></div></div></div><div id="body-wrap"><div id="sidebar"><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#DOM-%E5%88%9B%E5%BB%BA"><span class="toc-number">1.</span> <span class="toc-text">DOM 创建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DOM-%E6%9F%A5%E8%AF%A2"><span class="toc-number">2.</span> <span class="toc-text">DOM 查询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DOM%E4%BA%8B%E4%BB%B6"><span class="toc-number">3.</span> <span class="toc-text">DOM事件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B7%E5%BC%8F%E6%93%8D%E4%BD%9C"><span class="toc-number">4.</span> <span class="toc-text">样式操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DOM%E5%85%83%E7%B4%A0%E7%9A%84%E5%B1%9E%E6%80%A7%E5%92%8C%E6%96%B9%E6%B3%95"><span class="toc-number">5.</span> <span class="toc-text">DOM元素的属性和方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">5.1.</span> <span class="toc-text">元素样式尺寸</span></a></li></ol></li></ol></div></div></div><header class="post-bg" id="page-header" style="background-image: url(/img/js.jpg)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">雪人</a></span><span id="menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 工具集</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/follow/"><i class="fa-fw fas fa-star"></i><span> 收藏夹</span></a></li><li><a class="site-page" href="/audio/"><i class="fa-fw fas fa-music"></i><span> audio_context</span></a></li><li><a class="site-page" href="/piano/"><i class="fa-fw fas fa-music"></i><span> 在线Piano</span></a></li><li><a class="site-page" href="/hy/"><i class="fa-fw fas fa-video"></i><span> Canvas绘图</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 文档库</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/2020/11/15/doc/ci/"><i class="fa-fw far fa-circle"></i><span> CI</span></a></li><li><a class="site-page" href="/2020/11/15/doc/h264/"><i class="fa-fw far fa-video"></i><span> h264</span></a></li><li><a class="site-page" href="/2020/11/15/doc/f4v/"><i class="fa-fw far fa-video"></i><span> f4v</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mask/"><i class="fa-fw far fa-mask"></i><span> mask</span></a></li><li><a class="site-page" href="/2020/11/15/doc/dj/"><i class="fa-fw far fa-python"></i><span> Django</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mse/"><i class="fa-fw far fa-buffer"></i><span> MSE</span></a></li></ul></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">HTML DOM (文档对象模型)</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-11-14T08:10:34.241Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-11-14T08:10:34.241Z" title="更新于 2020-11-14 16:10:34">2020-11-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/web/">web</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>5分钟</span></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><blockquote>
+<p>文档对象模型 (DOM) 是HTML和XML文档的编程接口。它提供了对文档的结构化的表述，并定义了一种方式可以使从程序中对该结构进行访问，从而改变文档的结构，样式和内容</p>
+</blockquote>
+<p>DOM 将文档解析为一个由节点和对象（包含属性和方法的对象）组成的结构集合。简言之，它会将web页面和脚本或程序语言连接起来。<br>说白了DOM就是浏览器为JavaScript提供的一系列接口（通过window.documnet提供的），通过这些接口我们可以操作web页面。 但DOM并不是编程语言，它是文档对象的模型，该模型是独立于编程语言的。</p>
+<h2 id="DOM-创建"><a href="#DOM-创建" class="headerlink" title="DOM 创建"></a>DOM 创建</h2><p>DOM节点（Node）通常对应于一个标签，一个文本，或者一个HTML属性。DOM节点有一个nodeType属性用来表示当前元素的类型，它是一个整数：<ol><li>Element，元素 ——1</li><li>Attribute，属性 ——–2</li><li>Text，文本 ——3</li><li>comment 节点 ——8</li><li>Document 节点 ——9</li><li>DocumentFrament节点 ——11</li><li><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Node/nodeType" target="_blank">其他的参见这</a></p>
+</li></ol>
+DOM节点创建最常用的便是<a target="_blank" rel="noopener" href="http://www.w3school.com.cn/xmldom/met_document_createelement.asp">document.createElement</a>和document.createTextNode方法：
+
+
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> el1 = <span class="built_in">document</span>.createElement(<span class="string">&#x27;div&#x27;</span>);</span><br><span class="line"><span class="keyword">var</span> el2 = <span class="built_in">document</span>.createElement(<span class="string">&#x27;input&#x27;</span>);</span><br><span class="line"><span class="keyword">var</span> node = <span class="built_in">document</span>.createTextNode(<span class="string">&#x27;hello world!&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="DOM-查询"><a href="#DOM-查询" class="headerlink" title="DOM 查询"></a>DOM 查询</h2><p>元素查询的API返回的的结果是DOM节点或者DOM节点的列表。document提供了两种Query方法：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 返回当前文档中第一个类名为 &quot;myclass&quot; 的元素</span></span><br><span class="line"><span class="keyword">var</span> el = <span class="built_in">document</span>.querySelector(<span class="string">&quot;.myclass&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 返回一个文档中所有的class为&quot;note&quot;或者 &quot;alert&quot;的div元素</span></span><br><span class="line"><span class="keyword">var</span> els = <span class="built_in">document</span>.querySelectorAll(<span class="string">&quot;div.note, div.alert&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取元素</span></span><br><span class="line"><span class="keyword">var</span> el = <span class="built_in">document</span>.getElementById(<span class="string">&#x27;xxx&#x27;</span>);</span><br><span class="line"><span class="keyword">var</span> els = <span class="built_in">document</span>.getElementsByClassName(<span class="string">&#x27;highlight&#x27;</span>);</span><br><span class="line"><span class="keyword">var</span> els = <span class="built_in">document</span>.getElementsByTagName(<span class="string">&#x27;td&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> els = <span class="built_in">document</span>.getElementsByName(<span class="string">&#x27;name&#x27;</span>); <span class="comment">// name属性</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="DOM事件"><a href="#DOM事件" class="headerlink" title="DOM事件"></a>DOM事件</h2><ol>
+<li>element.<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/EventTarget/addEventListener" target="_blank">addEventListener</a>(type, listener, [, options])<br>给元素添加指定事件type以及响应该事件的回调函数listener。options也可以为Boolean值表示捕获阶段还是冒泡阶段执行默认为false，冒泡阶段执行</li>
+<li>element.<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/EventTarget/removeEventListener" target="_blank">removeEventListener</a>(type, listener, [, options])<br>移除元素上指定事件，如果元素上分别在捕获和冒泡阶段都注册了事件，需要分别移除。</li>
+<li>document.<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Document/createEvent" target="_blank">createEvent</a>()<br>创建一个自定义事件，随后必须使用init进行初始化。</li>
+<li>element.<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/EventTarget/dispatchEvent" target="_blank">dispatchEvent</a>(event)<br>对指定元素触发一个事件。</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 创建事件</span></span><br><span class="line"><span class="keyword">var</span> event = <span class="built_in">document</span>.createEvent(<span class="string">&#x27;Event&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义事件名为&#x27;build&#x27;.</span></span><br><span class="line">event.initEvent(<span class="string">&#x27;build&#x27;</span>, <span class="literal">true</span>, <span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 监听事件</span></span><br><span class="line">elem.addEventListener(<span class="string">&#x27;build&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">        <span class="comment">// e.target matches elem</span></span><br><span class="line">    &#125;, <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 触发对象可以是任何元素或其他事件目标</span></span><br><span class="line">elem.dispatchEvent(event);</span><br></pre></td></tr></table></figure>
+
+<h2 id="样式操作"><a href="#样式操作" class="headerlink" title="样式操作"></a>样式操作</h2><p>1、js如何操作class</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">加类：   dom.classList.add(className);</span><br><span class="line">移除类： dom.classList.remove(className);</span><br><span class="line">替换类： dom.classList.replace(className1,className2);</span><br><span class="line">判断类： dom.classList.contains(className);　　　　<span class="comment">// 这个只能一次判断一个 类</span></span><br></pre></td></tr></table></figure>
+
+
+<p>2、js如何操作style</p>
+<p>如果属性有’-‘号，就写成驼峰的形式（如textAlign）  如果想保留 - 号，<br>就中括号的形式  element.style[‘text-align’] = ‘100px’;</p>
+<p>3、设置style的属性</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">element.setAttribute(<span class="string">&#x27;style&#x27;</span>, <span class="string">&#x27;height: 100px !important&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+
+<p>4、使用setProperty  如果要设置!important，推荐用这种方法设置第三个参数</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">element.style.setProperty(<span class="string">&#x27;height&#x27;</span>, <span class="string">&#x27;300px&#x27;</span>, <span class="string">&#x27;important&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>5、设置cssText</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">element.style.cssText += <span class="string">&#x27;height: 100px !important&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>6、insertRule()、addRule</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">[sheet].insertRule([CSS样式]，指定位置)</span><br><span class="line">    </span><br><span class="line">[sheet]表示某个样式表，它可以通过<span class="built_in">document</span>.styleSheets来获得</span><br></pre></td></tr></table></figure>
+<p>然后用JS获取这个样式表：</p>
+<p>最后我们就可以给这个样式表中添加样式了：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> sheet = <span class="built_in">document</span>.styleSheets[<span class="number">0</span>];</span><br><span class="line">sheet.addRule(<span class="string">&#x27;.box&#x27;</span>, <span class="string">&#x27;height: 100px&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>sheet.insertRule(‘#box{width: 300px; height: 300px; background-color: #0f0;}’,0);<br>或者</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 或者插入新样式时操作</span></span><br><span class="line">    <span class="keyword">var</span> styleEl = <span class="built_in">document</span>.createElement(<span class="string">&#x27;style&#x27;</span>),</span><br><span class="line">        styleSheet = styleEl.sheet;</span><br><span class="line"></span><br><span class="line">    styleSheet.addRule(<span class="string">&#x27;.box&#x27;</span>, <span class="string">&#x27;height: 100px&#x27;</span>);</span><br><span class="line">    styleSheet.insertRule(<span class="string">&#x27;.box &#123;height: 100px&#125;&#x27;</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">document</span>.head.appendChild(styleEl);  </span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="DOM元素的属性和方法"><a href="#DOM元素的属性和方法" class="headerlink" title="DOM元素的属性和方法"></a>DOM元素的属性和方法</h2><table><thead><tr><th>方法</th><th>描述</th></tr></thead><tbody><tr><td>element.id</td><td>设置或者返回元素的 id 属性</td></tr><tr><td>element.className</td><td>设置或者返回元素的 class 属性</td></tr><tr><td>element.style</td><td>设置或返回元素的 style 属性</td></tr><tr><td>element.title</td><td>设置或者返回元素的 title 属性</td></tr><tr><td>element.innerHTML</td><td>设置或返回元素的内容</td></tr><tr><td>element.tagName</td><td>返回元素的标签名</td></tr><tr><td>element.lastChiled</td><td>返回元素的最后一个子元素</td></tr><tr><td>element.nodeValue</td><td>设置或返回元素的值</td></tr><tr><td>element.nodeName</td><td>返回元素的名称</td></tr><tr><td>element.nodeType</td><td>返回元素的节点类型</td></tr><tr><td>element.toString()</td><td>把元素转为字符串</td></tr><tr><td>element.textContent</td><td>设置或者返回节点及其后代的内容</td></tr><tr><td>element.parentNode</td><td>返回元素的父节点</td></tr><tr><td>element.appendChild()</td><td>向元素添加新的子节点，作为最后一个子节点</td></tr><tr><td>element.cloneNode()</td><td>克隆元素</td></tr><tr><td>element.getAttribute()</td><td>返回元素节点的指定属性值</td></tr><tr><td>element.getAttributeNode()</td><td>返回指定的属性节点</td></tr><tr><td>element.removeAttribute()</td><td>从元素中移除指定属性</td></tr><tr><td>element.removeAttributeNode()</td><td>移除指定的属性节点，并返回被移除的节点</td></tr><tr><td>element.hasAttribute()</td><td>如果元素拥有指定属性，则返回true,否则返回false</td></tr><tr><td>element.hasAttributes()</td><td>如果元素拥有属性，则返回true,否则返回false</td></tr><tr><td>element.hasChildNodes()</td><td>如果元素拥有子节点，则返回true,否则返回false</td></tr><tr><td>element.clientWidth</td><td>返回元素的可见宽度</td></tr><tr><td>element.clientHeight</td><td>返回元素的可见高度</td></tr><tr><td>element.offsetWidth</td><td>返回元素的宽度</td></tr><tr><td>element.offsetHeight</td><td>返回元素的高度</td></tr><tr><td>element.offsetLeft</td><td>返回元素的水平偏移位置</td></tr><tr><td>element.offsetTop</td><td>返回元素的垂直偏移位置</td></tr><tr><td>element.offsetParent</td><td>返回元素的偏移容器</td></tr><tr><td>element.scrollWidth</td><td>返回元素的整体宽度</td></tr><tr><td>element.scrollHeight</td><td>返回元素的整体高度</td></tr><tr><td>element.scrollLeft</td><td>返回元素左边缘与视图之间的距离</td></tr><tr><td>element.scrollTop</td><td>返回元素上边缘与视图之间的距离</td></tr><tr><td>element.childNodes</td><td>范湖元素子节点的 NodeList 。</td></tr><tr><td>nodelist.item()</td><td>返回 NodeList 中位于指定下标的节点</td></tr><tr><td>nodelist.length</td><td>返回 NodeList 中的节点数</td></tr></tbody></table>
+
+<h3>元素样式尺寸</h3>
+1. window.getComputedStyle(elem)
+获取elem所有应用了css后的属性值。返回一个实时的 CSSStyleDeclaration 对象。
+2. elem.getBoundingClientRect()
+返回元素的大小以及相对于视口的位置。返回一个DOMRect对象。包括元素的 left right top bottom width height x y 属性值。
+
+<p><img src="/img/dom.gif"></p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">雪人</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://www.webq.top/2020/11/14/js/dom/">https://www.webq.top/2020/11/14/js/dom/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.webq.top" target="_blank">雪人</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Javascript/">Javascript</a></div><div class="post_share"><div class="social-share" data-image="/img/default3.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/11/14/js/color-hex-rgb/"><img class="prev-cover" src="/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">JS HEX十六进制与RGB, HSL颜色的相互转换</div></div></a></div><div class="next-post pull-right"><a href="/2020/11/14/js/data-format/"><img class="next-cover" src="/img/default2.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Date对象 format</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2020/11/14/js/MessageChannel/" title="MessageChannel"><img class="cover" src="/img/default.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-14</div><div class="title">MessageChannel</div></div></a></div><div><a href="/2020/11/14/js/MutationObserver/" title="MutationObserver"><img class="cover" src="/img/default3.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-14</div><div class="title">MutationObserver</div></div></a></div><div><a href="/2020/11/14/js/addEventListener/" title="addEventListener 详解以及应用"><img class="cover" src="/img/default3.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-14</div><div class="title">addEventListener 详解以及应用</div></div></a></div><div><a href="/2020/11/14/js/bind-polyfill/" title="bind 的polyfill补充"><img class="cover" src="/img/default.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-14</div><div class="title">bind 的polyfill补充</div></div></a></div><div><a href="/2020/11/14/js/bind/" title="Function.prototype.bind()"><img class="cover" src="/img/default3.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-14</div><div class="title">Function.prototype.bind()</div></div></a></div><div><a href="/2020/11/14/js/color-hex-rgb/" title="JS HEX十六进制与RGB, HSL颜色的相互转换"><img class="cover" src="/img/default.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-14</div><div class="title">JS HEX十六进制与RGB, HSL颜色的相互转换</div></div></a></div></div></div></article></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By 雪人</div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.spacingElementById('content-inner')
+  else {
+    $.getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js', () => {
+      pangu.spacingElementById('content-inner')
+    })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguFn)</script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div></div></body></html>

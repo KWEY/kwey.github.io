@@ -1,0 +1,42 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+        <title>雪人的收藏夹</title>
+        <link type="text/css" href="follow.css" />
+        <style>
+            .kwe-follow {
+                width: 100%;
+                padding-top: 10px;
+            }
+            .kwe-index {
+                position: absolute;
+                left: 40px;
+                padding-top: 10px;
+                cursor: pointer;
+                font-size: 20px;
+                color: #ff6700;
+            }
+            .kwe-index:hover {
+                text-shadow: 0.1rem 0.1rem 0.2rem rgba(0,0,0,0.15)
+            }
+        </style>
+        <script src="knav.js"></script>
+    </head>
+    <body>
+        <a class="kwe-index" href="/">首页</a>
+        <div class="kwe-follow"></div>
+        <script>
+        var app = new Nav({
+            className: 'kwe-follow',
+            // url: './nav-x.json',
+            callback: data => {
+                console.log(JSON.stringify(data))
+            }
+        })
+        </script>
+    </body>
+</html>

@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>audiocontext</title>
+        <style>
+            body{
+                background: #ccc;
+            }
+            #content {
+                line-height: 2;
+            }
+            .audio_box {
+                position: fixed;
+                bottom: 10px;
+                left: 10px;
+                z-index: 1;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="content"></div>
+        <audio
+            src="hy.mp3"
+            controls
+            loop
+            class="audio_box"
+            crossorigin="anonymous"
+        ></audio>
+        <script src="audio.js"></script>
+        <script>
+            const music = document.querySelector('.audio_box')
+            const btn = document.querySelector('.start')
+            const audioDemo = new AudioDemo(music, {
+                id: 'content'
+            })
+        </script>
+    </body>
+</html>

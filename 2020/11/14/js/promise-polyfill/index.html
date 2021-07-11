@@ -1,0 +1,238 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Promise-Polyfill源码解析 | 雪人</title><meta name="keywords" content="Javascript"><meta name="author" content="雪人"><meta name="copyright" content="雪人"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="https:&#x2F;&#x2F;github.com&#x2F;taylorhakes&#x2F;promise-polyfill 我们平时都是以new Promise(params)的形式使用Promise的，说明Promise是一个构造函数，那我们就从构造函数为入口来分析Promise-polyfill源码。如下： &#x2F;*** @constructor* @param &amp;#123;Function&amp;#125; fn*&#x2F;functi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Promise-Polyfill源码解析">
+<meta property="og:url" content="https://www.webq.top/2020/11/14/js/promise-polyfill/index.html">
+<meta property="og:site_name" content="雪人">
+<meta property="og:description" content="https:&#x2F;&#x2F;github.com&#x2F;taylorhakes&#x2F;promise-polyfill 我们平时都是以new Promise(params)的形式使用Promise的，说明Promise是一个构造函数，那我们就从构造函数为入口来分析Promise-polyfill源码。如下： &#x2F;*** @constructor* @param &amp;#123;Function&amp;#125; fn*&#x2F;functi">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.webq.top/img/default3.jpg">
+<meta property="article:published_time" content="2020-11-14T08:10:34.247Z">
+<meta property="article:modified_time" content="2020-11-14T08:10:34.247Z">
+<meta property="article:author" content="雪人">
+<meta property="article:tag" content="Javascript">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.webq.top/img/default3.jpg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://www.webq.top/2020/11/14/js/promise-polyfill/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="manifest" href="/pwa/manifest.json"/><link rel="apple-touch-icon" sizes="180x180" href="/pwa/favicon.png"/><link rel="icon" type="image/png" sizes="32x32" href="/pwa/favicon.png"/><link rel="icon" type="image/png" sizes="16x16" href="/pwa/favicon.png"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.4.0',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  ClickShowText: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: false,
+  postUpdate: '2020-11-14 16:10:34'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {
+  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }
+})()</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/face.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">153</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">40</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">12</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 工具集</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/follow/"><i class="fa-fw fas fa-star"></i><span> 收藏夹</span></a></li><li><a class="site-page" href="/audio/"><i class="fa-fw fas fa-music"></i><span> audio_context</span></a></li><li><a class="site-page" href="/piano/"><i class="fa-fw fas fa-music"></i><span> 在线Piano</span></a></li><li><a class="site-page" href="/hy/"><i class="fa-fw fas fa-video"></i><span> Canvas绘图</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 文档库</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/2020/11/15/doc/ci/"><i class="fa-fw far fa-circle"></i><span> CI</span></a></li><li><a class="site-page" href="/2020/11/15/doc/h264/"><i class="fa-fw far fa-video"></i><span> h264</span></a></li><li><a class="site-page" href="/2020/11/15/doc/f4v/"><i class="fa-fw far fa-video"></i><span> f4v</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mask/"><i class="fa-fw far fa-mask"></i><span> mask</span></a></li><li><a class="site-page" href="/2020/11/15/doc/dj/"><i class="fa-fw far fa-python"></i><span> Django</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mse/"><i class="fa-fw far fa-buffer"></i><span> MSE</span></a></li></ul></div></div></div></div><div id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/js.jpg)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">雪人</a></span><span id="menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 工具集</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/follow/"><i class="fa-fw fas fa-star"></i><span> 收藏夹</span></a></li><li><a class="site-page" href="/audio/"><i class="fa-fw fas fa-music"></i><span> audio_context</span></a></li><li><a class="site-page" href="/piano/"><i class="fa-fw fas fa-music"></i><span> 在线Piano</span></a></li><li><a class="site-page" href="/hy/"><i class="fa-fw fas fa-video"></i><span> Canvas绘图</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 文档库</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/2020/11/15/doc/ci/"><i class="fa-fw far fa-circle"></i><span> CI</span></a></li><li><a class="site-page" href="/2020/11/15/doc/h264/"><i class="fa-fw far fa-video"></i><span> h264</span></a></li><li><a class="site-page" href="/2020/11/15/doc/f4v/"><i class="fa-fw far fa-video"></i><span> f4v</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mask/"><i class="fa-fw far fa-mask"></i><span> mask</span></a></li><li><a class="site-page" href="/2020/11/15/doc/dj/"><i class="fa-fw far fa-python"></i><span> Django</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mse/"><i class="fa-fw far fa-buffer"></i><span> MSE</span></a></li></ul></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">Promise-Polyfill源码解析</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-11-14T08:10:34.247Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-11-14T08:10:34.247Z" title="更新于 2020-11-14 16:10:34">2020-11-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/web/">web</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>6分钟</span></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><p><a href="https://github.com/taylorhakes/promise-polyfill" target="_blank">https://github.com/taylorhakes/promise-polyfill</a></p>
+<p>我们平时都是以new Promise(params)的形式使用Promise的，说明Promise是一个构造函数，那我们就从构造函数为入口来分析Promise-polyfill源码。如下：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* <span class="doctag">@constructor</span></span></span><br><span class="line"><span class="comment">* <span class="doctag">@param <span class="type">&#123;Function&#125;</span> <span class="variable">fn</span></span></span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Promise</span>(<span class="params">fn</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!(<span class="built_in">this</span> <span class="keyword">instanceof</span> <span class="built_in">Promise</span>))</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">TypeError</span>(<span class="string">&#x27;Promises must be constructed via new&#x27;</span>);</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> fn !== <span class="string">&#x27;function&#x27;</span>) <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">TypeError</span>(<span class="string">&#x27;not a function&#x27;</span>);</span><br><span class="line">    <span class="comment">/** <span class="doctag">@type <span class="type">&#123;!number&#125;</span> </span>*/</span></span><br><span class="line"><span class="built_in">this</span>._state = <span class="number">0</span>;</span><br><span class="line"><span class="comment">/** <span class="doctag">@type <span class="type">&#123;!boolean&#125;</span> </span>*/</span></span><br><span class="line"><span class="built_in">this</span>._handled = <span class="literal">false</span>;</span><br><span class="line"><span class="comment">/** <span class="doctag">@type <span class="type">&#123;Promise|undefined&#125;</span> </span>*/</span></span><br><span class="line"><span class="built_in">this</span>._value = <span class="literal">undefined</span>;</span><br><span class="line"><span class="comment">/** <span class="doctag">@type <span class="type">&#123;!Array&amp;lt;!Function&gt;&#125;</span> </span>*/</span></span><br><span class="line"><span class="built_in">this</span>._deferreds = [];</span><br><span class="line"></span><br><span class="line">doResolve(fn, <span class="built_in">this</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>第一个if语句说明Promise必须以构造函数形式被调用，第二个if语句则说明Promise的唯一参数fn必须是函数类型。接下来是四个对象属性的定义，我们逐一来看：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"> <span class="comment">/** <span class="doctag">@type <span class="type">&#123;!number&#125;</span> </span>*/</span></span><br><span class="line"><span class="built_in">this</span>._state = <span class="number">0</span>;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>_state属性定义了Promise的状态，我们都知道Promise有pending、fulfilled、rejected三种状态，在源码里，三种状态分别对应_state值为0、1、2。此外，源码中还有_state值为3，第四种内部状态，这个我们后面遇到再讲。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">/** <span class="doctag">@type <span class="type">&#123;!boolean&#125;</span> </span>*/</span></span><br><span class="line">   <span class="built_in">this</span>._handled = <span class="literal">false</span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>_handled属性的类型为Boolean，初始值为false，其代表Promise是否被处理。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">/** <span class="doctag">@type <span class="type">&#123;Promise|undefined&#125;</span> </span>*/</span></span><br><span class="line">   <span class="built_in">this</span>._value = <span class="literal">undefined</span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>_value属性的类型为Promise或undefined，初始值为undefined，其代表。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">/** <span class="doctag">@type <span class="type">&#123;!Array&amp;lt;!Function&gt;&#125;</span> </span>*/</span></span><br><span class="line">   <span class="built_in">this</span>._deferreds = [];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>_deferreds属性的类型为Array，初始值为空数组，其作用我们后面遇到再讲，现在只要注意其数组中存放的值为Function。<br>最后是一个函数调用：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">doResolve(fn, <span class="built_in">this</span>);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>将Promise的参数fn与代表当前对象的this作为参数，调用了deResolve函数。至此，我们可以发现整个构造函数只是在做一些必要的检查和属性定义，并没有做什么处理，那关键点应该就在最后的函数调用。我们来看看deResolve函数都做了些什么：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"> <span class="function"><span class="keyword">function</span> <span class="title">doResolve</span>(<span class="params">fn, self</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> done = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">        fn(</span><br><span class="line">            <span class="function"><span class="keyword">function</span>(<span class="params">value</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (done) <span class="keyword">return</span>;</span><br><span class="line">            done = <span class="literal">true</span>;</span><br><span class="line">            resolve(self, value);</span><br><span class="line">            &#125;,</span><br><span class="line">        <span class="function"><span class="keyword">function</span>(<span class="params">reason</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (done) <span class="keyword">return</span>;</span><br><span class="line">            done = <span class="literal">true</span>;</span><br><span class="line">            reject(self, reason);</span><br><span class="line">            &#125;</span><br><span class="line">    );</span><br><span class="line">    &#125; <span class="keyword">catch</span> (ex) &#123;</span><br><span class="line">        <span class="keyword">if</span> (done) <span class="keyword">return</span>;</span><br><span class="line">        done = <span class="literal">true</span>;</span><br><span class="line">        reject(self, ex);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>总体上看，首先定义了一个变量done，初始值为false，接下来是一个try..catch语句，我们先来分析try部分:</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"> <span class="keyword">try</span> &#123;</span><br><span class="line">        fn(</span><br><span class="line">            <span class="function"><span class="keyword">function</span>(<span class="params">value</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (done) <span class="keyword">return</span>;</span><br><span class="line">            done = <span class="literal">true</span>;</span><br><span class="line">            resolve(self, value);</span><br><span class="line">            &#125;,</span><br><span class="line">        <span class="function"><span class="keyword">function</span>(<span class="params">reason</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (done) <span class="keyword">return</span>;</span><br><span class="line">            done = <span class="literal">true</span>;</span><br><span class="line">            reject(self, reason);</span><br><span class="line">            &#125;</span><br><span class="line">    );</span><br><span class="line">&#125; </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>上面讲过fn就是构造函数的参数，也就是我们new Promise时传入的回调函数:</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// do something</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>我们用resolve, reject替换fn中的两个参数，结果变成:</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">fn(resolve, reject);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>也就是说try部分总共就做了一件事，就是讲我们传入的回调函数执行了，并传入了两个回调函数作为参数。这里特别注意一点，到目前为止，并没有涉及到异步之类的，所以我们可以知道Promise构造函数内的代码是同步执行的！<br>那么传入的两个回调函数是什么时候被执行的呢？其实就是在我们调用resolve(value)或reject(reason)的时候：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// do something</span></span><br><span class="line">    <span class="comment">// resolve(value);</span></span><br><span class="line">    reject(reason);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>我们再看两个回调函数的内部逻辑，两者唯一的差别就是最后调用的函数不同，我们先看相同的部分:</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (done) <span class="keyword">return</span>;</span><br><span class="line">   done = <span class="literal">true</span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>done变量为true则直接退出函数，否则将done置为true，再执行下面代码。所以我们知道，done变量的作用就是为了防止resolve()和reject()被同时调用。因为Promise标准规定了，其状态只能从pending-&gt;fulfilled或pending-&gt;rejected。<br>再看不同部分:</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">resolve(self, value);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">reject(self, reason);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>这两个函数的参数是当前对象和我们传入的值，也就是我们所说的完成的值和拒绝的原因，由此我们可以预测，调用这两个函数会将Promsie的状态变为fulfilled或rejected。<br>最后看catch部分:</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">catch</span> (ex) &#123;</span><br><span class="line">    <span class="keyword">if</span> (done) <span class="keyword">return</span>;</span><br><span class="line">    done = <span class="literal">true</span>;</span><br><span class="line">    reject(self, ex);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>其逻辑完全与try部分的第二个回调函数一样，其实就是说，调用Promsie构造函数如果抛出异常，则Promise就会变为rejected状态。<br>接下来分析resolve与reject函数：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">resolve</span>(<span class="params">self, newValue</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (newValue === self)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">TypeError</span>(<span class="string">&#x27;A promise cannot be resolved with itself.&#x27;</span>);</span><br><span class="line">        <span class="keyword">if</span> (</span><br><span class="line">            newValue &amp;&amp;</span><br><span class="line">            (<span class="keyword">typeof</span> newValue === <span class="string">&#x27;object&#x27;</span> || <span class="keyword">typeof</span> newValue === <span class="string">&#x27;function&#x27;</span>)</span><br><span class="line">        ) &#123;</span><br><span class="line">            <span class="keyword">var</span> then = newValue.then;</span><br><span class="line">            <span class="keyword">if</span> (newValue <span class="keyword">instanceof</span> <span class="built_in">Promise</span>) &#123;</span><br><span class="line">            self._state = <span class="number">3</span>;</span><br><span class="line">            self._value = newValue;</span><br><span class="line">            finale(self);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> then === <span class="string">&#x27;function&#x27;</span>) &#123;</span><br><span class="line">            doResolve(bind(then, newValue), self);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        self._state = <span class="number">1</span>;</span><br><span class="line">        self._value = newValue;</span><br><span class="line">        finale(self);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">        reject(self, e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>整个代码被try…catch包裹，先看只有一行代码的catch部分:</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">reject(self, e);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>整个resolve函数抛出异常，都会调用reject函数，所以我们也明白了，resolve后的状态不一定就是fulfilled，也可能是rejected，但reject后的状态一定是rejected。<br>再看try部分，我们先跳过前面二个条件判断，直接看最后的部分：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">self._state = <span class="number">1</span>;</span><br><span class="line">   self._value = newValue;</span><br><span class="line">   finale(self);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>_state属性赋值为1，前面讲过，1代表状态为fulfilled。_value保存了完成的值，最后将当前对象作为参数调用了finale函数。finale主要为then方法做准备的，与Promise构造函数关系不大，我们讲then方法时再分析。<br>然后是第一个条件检测：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (newValue === self)</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">TypeError</span>(<span class="string">&#x27;A promise cannot be resolved with itself.&#x27;</span>);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>newValue是我们传入的完成的值，self是当前的Promise对象，也就是说，完成的值不能是当前对象本身。就是下面这种情况:</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">setTimeout</span>(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        resolve(promise);</span><br><span class="line">        &#125;, <span class="number">0</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>用异步的原因是保证resolve(promise)时，promise已经被赋值。<br>第二个条件主要是处理特殊类型的完成值：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> ( newValue &amp;&amp; (<span class="keyword">typeof</span> newValue === <span class="string">&#x27;object&#x27;</span> || <span class="keyword">typeof</span> newValue === <span class="string">&#x27;function&#x27;</span>) ) &#123;</span><br><span class="line">        <span class="keyword">var</span> then = newValue.then;</span><br><span class="line">        <span class="comment">//...</span></span><br><span class="line">&#125; </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如果newValue是对象或函数类型，就将其then属性保存在then变量中。</p>
+<p>往下讲之前，我们需要知道一个概念：thenable类型，拥有then方法的对象或函数。这个定义其实是借鉴了鸭子类型：如果它看起来像一只鸭子，并且叫起来相一致鸭子，那么它一定是一只鸭子。为什么要提这个呢？因为我们需要判断一个值是否是纯粹的Promise对象，具体由来就不讲了，推荐大家去看《你不知道的JavaScript 中卷》。</p>
+<p>知道thenable类型，我们就清楚下面的代码是做什么的了：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (newValue <span class="keyword">instanceof</span> <span class="built_in">Promise</span>) &#123;</span><br><span class="line">    self._state = <span class="number">3</span>;</span><br><span class="line">    self._value = newValue;</span><br><span class="line">    finale(self);</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>为什么这个判断要先判断？因为Promise也有then方法，所以要先判断值是不是纯粹的Promise。以_state=3标记。再判断是否是thenable类型：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"> <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> then === <span class="string">&#x27;function&#x27;</span>) &#123;</span><br><span class="line">        doResolve(bind(then, newValue), self);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>其中bind函数为Function.prototype.bind的polyfill：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bind</span>(<span class="params">fn, thisArg</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        fn.apply(thisArg, <span class="built_in">arguments</span>);</span><br><span class="line">        &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>即将以newValue为this的函数和当前对象作为参数再次调用doResolve函数，这么做的原因，是如果Promise的完成的值是Promise或thenable类型，那么最终状态取决于Promise或thenable的状态。</p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">雪人</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://www.webq.top/2020/11/14/js/promise-polyfill/">https://www.webq.top/2020/11/14/js/promise-polyfill/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.webq.top" target="_blank">雪人</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Javascript/">Javascript</a></div><div class="post_share"><div class="social-share" data-image="/img/default3.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/11/14/js/regex/"><img class="prev-cover" src="/img/default2.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">正则表达式大全</div></div></a></div><div class="next-post pull-right"><a href="/2020/11/14/js/regex2/"><img class="next-cover" src="/img/default2.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">正则表达式基本语法</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2020/11/14/js/MessageChannel/" title="MessageChannel"><img class="cover" src="/img/default.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-14</div><div class="title">MessageChannel</div></div></a></div><div><a href="/2020/11/14/js/MutationObserver/" title="MutationObserver"><img class="cover" src="/img/default3.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-14</div><div class="title">MutationObserver</div></div></a></div><div><a href="/2020/11/14/js/addEventListener/" title="addEventListener 详解以及应用"><img class="cover" src="/img/default3.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-14</div><div class="title">addEventListener 详解以及应用</div></div></a></div><div><a href="/2020/11/14/js/bind-polyfill/" title="bind 的polyfill补充"><img class="cover" src="/img/default.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-14</div><div class="title">bind 的polyfill补充</div></div></a></div><div><a href="/2020/11/14/js/bind/" title="Function.prototype.bind()"><img class="cover" src="/img/default3.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-14</div><div class="title">Function.prototype.bind()</div></div></a></div><div><a href="/2020/11/14/js/color-hex-rgb/" title="JS HEX十六进制与RGB, HSL颜色的相互转换"><img class="cover" src="/img/default.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-14</div><div class="title">JS HEX十六进制与RGB, HSL颜色的相互转换</div></div></a></div></div></div></article></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By 雪人</div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.spacingElementById('content-inner')
+  else {
+    $.getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js', () => {
+      pangu.spacingElementById('content-inner')
+    })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguFn)</script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div></div></body></html>

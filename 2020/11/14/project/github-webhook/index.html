@@ -1,0 +1,179 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Github + Webhooks 自动化部署流程（vue-ssr | 雪人</title><meta name="keywords" content="github"><meta name="author" content="雪人"><meta name="copyright" content="雪人"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="一、先说明下最终要实现的效果 1、服务器监听 GitHub，push代码后，拉取最新代码 2、安装依赖，打包代码 3、把打包的文件（dist&#x2F;*）移动到发布目录，并命名（next 4、把正在运行的目录（dist）重命名（pre），（next）重命名（dist） 5、重启服务二、GitHub的webhooks  三、创建 webhook 服务后端webhook.js &lt;span style&#x3D;&amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Github + Webhooks 自动化部署流程（vue-ssr">
+<meta property="og:url" content="https://www.webq.top/2020/11/14/project/github-webhook/index.html">
+<meta property="og:site_name" content="雪人">
+<meta property="og:description" content="一、先说明下最终要实现的效果 1、服务器监听 GitHub，push代码后，拉取最新代码 2、安装依赖，打包代码 3、把打包的文件（dist&#x2F;*）移动到发布目录，并命名（next 4、把正在运行的目录（dist）重命名（pre），（next）重命名（dist） 5、重启服务二、GitHub的webhooks  三、创建 webhook 服务后端webhook.js &lt;span style&#x3D;&amp;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.webq.top/img/default2.jpg">
+<meta property="article:published_time" content="2020-11-14T08:10:34.262Z">
+<meta property="article:modified_time" content="2020-11-14T08:10:34.262Z">
+<meta property="article:author" content="雪人">
+<meta property="article:tag" content="github">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.webq.top/img/default2.jpg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://www.webq.top/2020/11/14/project/github-webhook/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="manifest" href="/pwa/manifest.json"/><link rel="apple-touch-icon" sizes="180x180" href="/pwa/favicon.png"/><link rel="icon" type="image/png" sizes="32x32" href="/pwa/favicon.png"/><link rel="icon" type="image/png" sizes="16x16" href="/pwa/favicon.png"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.4.0',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  ClickShowText: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true,
+  postUpdate: '2020-11-14 16:10:34'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {
+  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }
+})()</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/face.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">153</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">40</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">12</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 工具集</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/follow/"><i class="fa-fw fas fa-star"></i><span> 收藏夹</span></a></li><li><a class="site-page" href="/audio/"><i class="fa-fw fas fa-music"></i><span> audio_context</span></a></li><li><a class="site-page" href="/piano/"><i class="fa-fw fas fa-music"></i><span> 在线Piano</span></a></li><li><a class="site-page" href="/hy/"><i class="fa-fw fas fa-video"></i><span> Canvas绘图</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 文档库</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/2020/11/15/doc/ci/"><i class="fa-fw far fa-circle"></i><span> CI</span></a></li><li><a class="site-page" href="/2020/11/15/doc/h264/"><i class="fa-fw far fa-video"></i><span> h264</span></a></li><li><a class="site-page" href="/2020/11/15/doc/f4v/"><i class="fa-fw far fa-video"></i><span> f4v</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mask/"><i class="fa-fw far fa-mask"></i><span> mask</span></a></li><li><a class="site-page" href="/2020/11/15/doc/dj/"><i class="fa-fw far fa-python"></i><span> Django</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mse/"><i class="fa-fw far fa-buffer"></i><span> MSE</span></a></li></ul></div></div></div></div><div id="body-wrap"><div id="sidebar"><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%85%88%E8%AF%B4%E6%98%8E%E4%B8%8B%E6%9C%80%E7%BB%88%E8%A6%81%E5%AE%9E%E7%8E%B0%E7%9A%84%E6%95%88%E6%9E%9C"><span class="toc-number">1.</span> <span class="toc-text">一、先说明下最终要实现的效果</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81GitHub%E7%9A%84webhooks"><span class="toc-number">2.</span> <span class="toc-text">二、GitHub的webhooks</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E5%88%9B%E5%BB%BA-webhook-%E6%9C%8D%E5%8A%A1%E5%90%8E%E7%AB%AF"><span class="toc-number">3.</span> <span class="toc-text">三、创建 webhook 服务后端</span></a></li></ol></div></div></div><header class="post-bg" id="page-header" style="background-image: url(/img/git.png)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">雪人</a></span><span id="menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 工具集</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/follow/"><i class="fa-fw fas fa-star"></i><span> 收藏夹</span></a></li><li><a class="site-page" href="/audio/"><i class="fa-fw fas fa-music"></i><span> audio_context</span></a></li><li><a class="site-page" href="/piano/"><i class="fa-fw fas fa-music"></i><span> 在线Piano</span></a></li><li><a class="site-page" href="/hy/"><i class="fa-fw fas fa-video"></i><span> Canvas绘图</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 文档库</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/2020/11/15/doc/ci/"><i class="fa-fw far fa-circle"></i><span> CI</span></a></li><li><a class="site-page" href="/2020/11/15/doc/h264/"><i class="fa-fw far fa-video"></i><span> h264</span></a></li><li><a class="site-page" href="/2020/11/15/doc/f4v/"><i class="fa-fw far fa-video"></i><span> f4v</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mask/"><i class="fa-fw far fa-mask"></i><span> mask</span></a></li><li><a class="site-page" href="/2020/11/15/doc/dj/"><i class="fa-fw far fa-python"></i><span> Django</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mse/"><i class="fa-fw far fa-buffer"></i><span> MSE</span></a></li></ul></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">Github + Webhooks 自动化部署流程（vue-ssr</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-11-14T08:10:34.262Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-11-14T08:10:34.262Z" title="更新于 2020-11-14 16:10:34">2020-11-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/project/">project</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">635</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>3分钟</span></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><h2 id="一、先说明下最终要实现的效果"><a href="#一、先说明下最终要实现的效果" class="headerlink" title="一、先说明下最终要实现的效果"></a>一、先说明下最终要实现的效果</h2><ul>
+<li>1、服务器监听 GitHub，push代码后，拉取最新代码</li>
+<li>2、安装依赖，打包代码</li>
+<li>3、把打包的文件（dist/*）移动到发布目录，并命名（next</li>
+<li>4、把正在运行的目录（dist）重命名（pre），（next）重命名（dist）</li>
+<li>5、重启服务<h2 id="二、GitHub的webhooks"><a href="#二、GitHub的webhooks" class="headerlink" title="二、GitHub的webhooks"></a>二、GitHub的webhooks</h2><img src="/img/webhook.png"></li>
+</ul>
+<h2 id="三、创建-webhook-服务后端"><a href="#三、创建-webhook-服务后端" class="headerlink" title="三、创建 webhook 服务后端"></a>三、创建 webhook 服务后端</h2><p>webhook.js</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&lt;span style=<span class="string">&quot;font-family: &amp;quot;Source Sans Pro&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, Arial, sans-serif;&quot;</span>&gt;<span class="keyword">const</span> http = <span class="built_in">require</span>(<span class="string">&quot;http&quot;</span>);&lt;/span&gt;</span><br><span class="line"><span class="keyword">const</span> createHandler = <span class="built_in">require</span>(<span class="string">&quot;github-webhook-handler&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> handler = createHandler(&#123; <span class="attr">path</span>: <span class="string">&quot;/&quot;</span>, <span class="attr">secret</span>: <span class="string">&quot;hongye&quot;</span> &#125;);</span><br><span class="line"><span class="comment">// 上面的 secret 保持和 GitHub 后台设置的一致</span></span><br><span class="line"></span><br><span class="line">handler.on(<span class="string">&quot;error&quot;</span>, <span class="function"><span class="keyword">function</span>(<span class="params">err</span>) </span>&#123;</span><br><span class="line">      <span class="built_in">console</span>.error(<span class="string">&quot;Error:&quot;</span>, err.message);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">handler.on(<span class="string">&quot;push&quot;</span>, <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">const</span> name = event.payload.repository.name;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&quot;Received a push event for %s to %s&quot;</span>, name, event.payload.ref);</span><br><span class="line">  <span class="keyword">switch</span> (name) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&quot;vue-ssr&quot;</span>:</span><br><span class="line">      runCmd(<span class="string">&quot;sh&quot;</span>, [<span class="string">&quot;./deploy.sh&quot;</span>, name], <span class="function"><span class="keyword">function</span>(<span class="params">text</span>) </span>&#123;</span><br><span class="line">            <span class="built_in">console</span>.log(text);</span><br><span class="line">      &#125;);</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">runCmd</span>(<span class="params">cmd, args, callback</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">const</span> spawn = <span class="built_in">require</span>(<span class="string">&quot;child_process&quot;</span>).spawn;</span><br><span class="line">  <span class="keyword">const</span> child = spawn(cmd, args);</span><br><span class="line">  <span class="keyword">let</span> resp = <span class="string">&quot;&quot;</span>;</span><br><span class="line">  child.stdout.on(<span class="string">&quot;data&quot;</span>, <span class="function"><span class="keyword">function</span>(<span class="params">buffer</span>) </span>&#123;</span><br><span class="line">        resp += buffer.toString();</span><br><span class="line">  &#125;);</span><br><span class="line">  child.stdout.on(<span class="string">&quot;end&quot;</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        callback(resp);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http</span><br><span class="line">  .createServer(<span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">        handler(req, res, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">          res.statusCode = <span class="number">404</span>;</span><br><span class="line">      res.end(<span class="string">&quot;no such location&quot;</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;)</span><br><span class="line">  .listen(<span class="number">8080</span>);</span><br><span class="line">  </span><br></pre></td></tr></table></figure>
+<p>packages.json</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">imgLoad</span>(<span class="params">url</span>) </span>&#123;&#123;</span><br><span class="line">    <span class="string">&quot;name&quot;</span>: <span class="string">&quot;hongye&quot;</span>,</span><br><span class="line">    <span class="string">&quot;version&quot;</span>: <span class="string">&quot;1.0.0&quot;</span>,</span><br><span class="line">    <span class="string">&quot;description&quot;</span>: <span class="string">&quot;&quot;</span>,</span><br><span class="line">    <span class="string">&quot;main&quot;</span>: <span class="string">&quot;webhook.js&quot;</span>,</span><br><span class="line">    <span class="string">&quot;scripts&quot;</span>: &#123;</span><br><span class="line">            <span class="string">&quot;deploy&quot;</span>: <span class="string">&quot;pm2 start webhook.js&quot;</span>,</span><br><span class="line">        <span class="string">&quot;red&quot;</span>: <span class="string">&quot;pm2 restart webhook.js&quot;</span>,</span><br><span class="line">        <span class="string">&quot;start&quot;</span>: <span class="string">&quot;pm2 start ./server&quot;</span>, <span class="comment">//vue-项目启动程序</span></span><br><span class="line">        <span class="string">&quot;re&quot;</span>: <span class="string">&quot;pm2 restart ./server&quot;</span>  <span class="comment">// vue-项目重启</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">&quot;author&quot;</span>: <span class="string">&quot;&quot;</span>,</span><br><span class="line">    <span class="string">&quot;license&quot;</span>: <span class="string">&quot;ISC&quot;</span>,</span><br><span class="line">    <span class="string">&quot;dependencies&quot;</span>: &#123;</span><br><span class="line">            <span class="string">&quot;axios&quot;</span>: <span class="string">&quot;^0.19.0&quot;</span>,</span><br><span class="line">        <span class="string">&quot;tslib&quot;</span>: <span class="string">&quot;^1.10.0&quot;</span>,</span><br><span class="line">        <span class="string">&quot;typescript&quot;</span>: <span class="string">&quot;^3.7.2&quot;</span>,</span><br><span class="line">        <span class="string">&quot;koa&quot;</span>: <span class="string">&quot;^2.11.0&quot;</span>,</span><br><span class="line">        <span class="string">&quot;koa-static&quot;</span>: <span class="string">&quot;^5.0.0&quot;</span>,</span><br><span class="line">        <span class="string">&quot;koa-send&quot;</span>: <span class="string">&quot;^5.0.0&quot;</span>,</span><br><span class="line">        <span class="string">&quot;vue&quot;</span>: <span class="string">&quot;^2.6.10&quot;</span>,</span><br><span class="line">        <span class="string">&quot;vue-class-component&quot;</span>: <span class="string">&quot;^7.0.2&quot;</span>,</span><br><span class="line">        <span class="string">&quot;vue-property-decorator&quot;</span>: <span class="string">&quot;^8.3.0&quot;</span>,</span><br><span class="line">        <span class="string">&quot;vue-router&quot;</span>: <span class="string">&quot;^3.1.3&quot;</span>,</span><br><span class="line">        <span class="string">&quot;vuex&quot;</span>: <span class="string">&quot;^3.0.1&quot;</span>,</span><br><span class="line">        <span class="string">&quot;vue-server-renderer&quot;</span>: <span class="string">&quot;^2.6.10&quot;</span>,</span><br><span class="line">        <span class="string">&quot;vue-lazyload&quot;</span>: <span class="string">&quot;^1.3.3&quot;</span>,</span><br><span class="line">        <span class="string">&quot;github-webhook-handler&quot;</span>: <span class="string">&quot;^0.7.1&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>deploy.sh</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line"># 网站的根目录</span><br><span class="line">WEB_PATH&#x3D;&#39;&#x2F;var&#x2F;www&#x2F;vue-ssr&#39;</span><br><span class="line">DEP_PATH&#x3D;&#39;&#x2F;var&#x2F;www&#x2F;deploy&#39;</span><br><span class="line"> </span><br><span class="line">cd $WEB_PATH</span><br><span class="line">echo &quot;fetching from remote...&quot;</span><br><span class="line"># 为了避免冲突，强制更新本地文件</span><br><span class="line">git fetch --all</span><br><span class="line">git reset --hard origin&#x2F;master</span><br><span class="line">npm i</span><br><span class="line">npm run build:mac</span><br><span class="line"></span><br><span class="line">mkdir -p $DEP_PATH&#x2F;next</span><br><span class="line">mv .&#x2F;dist&#x2F;* $DEP_PATH&#x2F;next</span><br><span class="line"></span><br><span class="line">cd $DEP_PATH</span><br><span class="line">rm -rf .&#x2F;pre</span><br><span class="line">mv -f .&#x2F;dist .&#x2F;pre</span><br><span class="line">mv -f .&#x2F;next .&#x2F;dist</span><br><span class="line">rm -rf .&#x2F;next&#x2F;*</span><br><span class="line"></span><br><span class="line">npm run re</span><br><span class="line"></span><br><span class="line">echo &quot;done&quot;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">雪人</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://www.webq.top/2020/11/14/project/github-webhook/">https://www.webq.top/2020/11/14/project/github-webhook/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.webq.top" target="_blank">雪人</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/github/">github</a></div><div class="post_share"><div class="social-share" data-image="/img/default2.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/11/14/project/commitlint/"><img class="prev-cover" src="/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">git的commit规范及强制校验</div></div></a></div><div class="next-post pull-right"><a href="/2020/11/14/project/terser-webpack-plugin/"><img class="next-cover" src="/img/default2.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">terser-webpack-plugin</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2020/11/14/project/webpack-loader/" title="webpack 编写一个loader"><img class="cover" src="/img/default.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-14</div><div class="title">webpack 编写一个loader</div></div></a></div></div></div></article></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By 雪人</div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.spacingElementById('content-inner')
+  else {
+    $.getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js', () => {
+      pangu.spacingElementById('content-inner')
+    })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguFn)</script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div></div></body></html>

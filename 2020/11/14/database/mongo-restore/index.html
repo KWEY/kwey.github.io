@@ -1,0 +1,206 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>数据库的备份、还原、导入及导出 | 雪人</title><meta name="keywords" content="Mongodb"><meta name="author" content="雪人"><meta name="copyright" content="雪人"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="mongodb 备份、还原、导入、导出简单操作 一般来说，进行整库导出导入时使用mongodump和mongorestore，这一对组合操作的数据是BSON格式，进行大量dump和restore时效率较高 进行单个集合导出导入时使用  mongoexport（备份)  mongoimport（还原）   这一对组合操作的数据是JSON格式，可读性较高。 mongodump（备份)说明：  mong">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库的备份、还原、导入及导出">
+<meta property="og:url" content="https://www.webq.top/2020/11/14/database/mongo-restore/index.html">
+<meta property="og:site_name" content="雪人">
+<meta property="og:description" content="mongodb 备份、还原、导入、导出简单操作 一般来说，进行整库导出导入时使用mongodump和mongorestore，这一对组合操作的数据是BSON格式，进行大量dump和restore时效率较高 进行单个集合导出导入时使用  mongoexport（备份)  mongoimport（还原）   这一对组合操作的数据是JSON格式，可读性较高。 mongodump（备份)说明：  mong">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.webq.top/img/default3.jpg">
+<meta property="article:published_time" content="2020-11-14T08:10:34.234Z">
+<meta property="article:modified_time" content="2020-11-14T08:10:34.234Z">
+<meta property="article:author" content="雪人">
+<meta property="article:tag" content="Mongodb">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.webq.top/img/default3.jpg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://www.webq.top/2020/11/14/database/mongo-restore/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="manifest" href="/pwa/manifest.json"/><link rel="apple-touch-icon" sizes="180x180" href="/pwa/favicon.png"/><link rel="icon" type="image/png" sizes="32x32" href="/pwa/favicon.png"/><link rel="icon" type="image/png" sizes="16x16" href="/pwa/favicon.png"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.4.0',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  ClickShowText: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true,
+  postUpdate: '2020-11-14 16:10:34'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {
+  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }
+})()</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/face.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">153</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">40</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">12</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 工具集</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/follow/"><i class="fa-fw fas fa-star"></i><span> 收藏夹</span></a></li><li><a class="site-page" href="/audio/"><i class="fa-fw fas fa-music"></i><span> audio_context</span></a></li><li><a class="site-page" href="/piano/"><i class="fa-fw fas fa-music"></i><span> 在线Piano</span></a></li><li><a class="site-page" href="/hy/"><i class="fa-fw fas fa-video"></i><span> Canvas绘图</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 文档库</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/2020/11/15/doc/ci/"><i class="fa-fw far fa-circle"></i><span> CI</span></a></li><li><a class="site-page" href="/2020/11/15/doc/h264/"><i class="fa-fw far fa-video"></i><span> h264</span></a></li><li><a class="site-page" href="/2020/11/15/doc/f4v/"><i class="fa-fw far fa-video"></i><span> f4v</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mask/"><i class="fa-fw far fa-mask"></i><span> mask</span></a></li><li><a class="site-page" href="/2020/11/15/doc/dj/"><i class="fa-fw far fa-python"></i><span> Django</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mse/"><i class="fa-fw far fa-buffer"></i><span> MSE</span></a></li></ul></div></div></div></div><div id="body-wrap"><div id="sidebar"><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#mongodump%EF%BC%88%E5%A4%87%E4%BB%BD"><span class="toc-number">1.</span> <span class="toc-text">mongodump（备份)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mongorestore%EF%BC%88%E8%BF%98%E5%8E%9F%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">mongorestore（还原）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mongoexport%EF%BC%88%E5%AF%BC%E5%87%BA%EF%BC%89%E5%8F%8Amongoimport%EF%BC%88%E5%AF%BC%E5%85%A5%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">mongoexport（导出）及mongoimport（导入）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mongoexport%EF%BC%88%E5%AF%BC%E5%87%BA%EF%BC%89"><span class="toc-number">4.</span> <span class="toc-text">mongoexport（导出）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mongoimport%EF%BC%88%E5%AF%BC%E5%85%A5%EF%BC%89"><span class="toc-number">5.</span> <span class="toc-text">mongoimport（导入）</span></a></li></ol></div></div></div><header class="post-bg" id="page-header" style="background-image: url(/img/database.jpg)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">雪人</a></span><span id="menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 工具集</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/follow/"><i class="fa-fw fas fa-star"></i><span> 收藏夹</span></a></li><li><a class="site-page" href="/audio/"><i class="fa-fw fas fa-music"></i><span> audio_context</span></a></li><li><a class="site-page" href="/piano/"><i class="fa-fw fas fa-music"></i><span> 在线Piano</span></a></li><li><a class="site-page" href="/hy/"><i class="fa-fw fas fa-video"></i><span> Canvas绘图</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 文档库</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/2020/11/15/doc/ci/"><i class="fa-fw far fa-circle"></i><span> CI</span></a></li><li><a class="site-page" href="/2020/11/15/doc/h264/"><i class="fa-fw far fa-video"></i><span> h264</span></a></li><li><a class="site-page" href="/2020/11/15/doc/f4v/"><i class="fa-fw far fa-video"></i><span> f4v</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mask/"><i class="fa-fw far fa-mask"></i><span> mask</span></a></li><li><a class="site-page" href="/2020/11/15/doc/dj/"><i class="fa-fw far fa-python"></i><span> Django</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mse/"><i class="fa-fw far fa-buffer"></i><span> MSE</span></a></li></ul></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">数据库的备份、还原、导入及导出</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-11-14T08:10:34.234Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-11-14T08:10:34.234Z" title="更新于 2020-11-14 16:10:34">2020-11-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Databse/">Databse</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>4分钟</span></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><p><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000006236494">mongodb 备份、还原、导入、导出简单操作</a></p>
+<p>一般来说，进行整库导出导入时使用mongodump和mongorestore，这一对组合操作的数据是BSON格式，进行大量dump和restore时效率较高</p>
+<p>进行单个集合导出导入时使用</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://docs.mongodb.com/manual/reference/program/mongoexport">mongoexport</a>（备份)</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://docs.mongodb.com/manual/reference/program/mongoimport">mongoimport</a>（还原）</p>
+</li>
+</ul>
+<p>这一对组合操作的数据是JSON格式，可读性较高。</p>
+<h2 id="mongodump（备份"><a href="#mongodump（备份" class="headerlink" title="mongodump（备份)"></a>mongodump（备份)</h2><p>说明：</p>
+<blockquote>
+<p>mongodump是一个用于导出二进制数据库内容的实用工具，它导出的bson文档中只会包含着集合文档等信息，不包括索引信息（索引信息会单独导出），所以还原后，索引必须重建（这个不用担心，使用mongorestore会自动重建mongodump生成的索引信息）。3.4版本中添加了对只读视图的支持。</p>
+</blockquote>
+<p>参数：<br>| 命令      |全称         |    默认值        |参考释义   |<br>|  —-    |  —–      | ——-         | —–   |<br>|  —-    |  –help      | ——-         | 查看mongodump命令的使用帮助   |<br>|  —-    |  –version      | ——-         | 返回mongodump的版本号   |<br>|  -h    |  –host <hostname>&lt;:port&gt;      | localhost:27017         | 指定mongod要连接的主机名及端口号   |<br>|  —-    |  –port <port>      | 27017         | 指定MongoDB实例监听客户连接的TCP端口号   |<br>|  -u    |  –username      | ——-         | 指定用于向使用认证的MongoDB数据库认证的用户名，与–password和<br>–authenticationDatabase结合使用   |<br>|  -p    |  –password      | ——-         | 指定用于向使用认证的MongoDB数据库认证的密码。与–username和 –<br>authenticationDatabase选项结合使用。   |<br>|  -d    |  –db      | ——-         | 指定要备份的数据库。如果不指定，mongodump会将此实例中的所有数据库备份。   |<br>|  -c    |  –collection      | ——-         | 指定要备份的集合。如果不指定，则会将指定数据库或实例中的所有集合备份。|<br>|      |  –gzip     | ——-         | 3.2版本+，压缩输出，如果mongodump指定导出到目录，则该选项会将每个文件都压缩，并添加.gz后缀；如果mongodump指定导出到文档或标准输出流，则该选项会压缩到文档或输出流中|<br>|  -o    |  –out (path)      | ——-         | 指定导出数据的目录路径，如不指定，则mongodump默认将文件输出到dump所在的工作目录中。该选项不能和–archive一起使用   |</p>
+<p>例子：<br>随便进一目录：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mongodump -d mytest -c user -o  ./</span><br></pre></td></tr></table></figure>
+<p>会在当前目录生成mytest文件夹，里面有两个文件：</p>
+<ul>
+<li>user.bson</li>
+<li>user.metadata,json</li>
+</ul>
+<blockquote>
+<p>整库备份：</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mongodump -d k-blog -o ./</span><br></pre></td></tr></table></figure>
+<p>在备份完成后，系统自动在当前目录下建立一个k-blog目</p>
+<h2 id="mongorestore（还原）"><a href="#mongorestore（还原）" class="headerlink" title="mongorestore（还原）"></a>mongorestore（还原）</h2><p>说明： </p>
+<blockquote>
+<p>mongorestore用来导入数据到MongoDB实例中，3.0.0版本以上支持通过标准输入流来导入数据。</p>
+</blockquote>
+<p>参数：<br>| 命令      |全称         |    默认值        |参考释义   |<br>|  —-    |  —–      | ——-         | —–   |<br>|  -d    |  –db (database)      | ——-         | 指定要还原的数据库。如果不指定，restore将会还原dump记录的所有数据库，并会覆盖现有数据库数据|<br>|  -c    |  –collection      | ——-         | 指定要还原的集合。如果不指定，mongorestore会从文件名中读取识别集合名称（如果有扩展名则会省略扩展名）   |<br>|  —-    |  –drop          | ——-         | 还原集合之前会先从目标数据库中删除集合，不会删除不在备份中的集合。   |<br>|  —-    |  –gzip      | ——-         | 3.2版本+，从压缩文件中还原  |<br>|  —-    |  (path)      | ——-         | 要还原的数据文件路径，该参数必须是mongorestore命令的最后一个参数   |<br>例子：</p>
+<p>通过user.bson文件还原mytest数据库中的user集合，并在还原之前进行删除</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mongorestore --drop -d k-blog -c user ./user.bson</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>整库恢复：</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mongorestore  -d k-blog  ./</span><br></pre></td></tr></table></figure>
+<h2 id="mongoexport（导出）及mongoimport（导入）"><a href="#mongoexport（导出）及mongoimport（导入）" class="headerlink" title="mongoexport（导出）及mongoimport（导入）"></a>mongoexport（导出）及mongoimport（导入）</h2><h2 id="mongoexport（导出）"><a href="#mongoexport（导出）" class="headerlink" title="mongoexport（导出）"></a>mongoexport（导出）</h2><p>参数<br>| 命令      |全称         |    默认值        |参考释义   |<br>|  —-    |  —–      | ——-         | —–   |<br>|  —-    |  –help      | ——-         | 查看mongoexport的使用帮助   |<br>|  —-    |  –version      | ——-         | 查看mongoexport的版本号   |<br>|  —-    |  –db &lt;database&gt;      | ——-         | 指定要在哪个数据库上运行该命令   |<br>|  —-    |  –collection &lt;collection&gt;      | ——-         | 指定要导出的集合   |<br>|  —-    |  –fields &lt;field1[,field2]&gt;      | ——-         | 指定导出时只导出一个或多个字段，导出多个时，需要使用逗号分隔;当字段中有空格时，需要用英文引号括起来。   |<br>|  —-    |  –query &lt;JSON&gt;      | ——-         | 提供查询文档作为导出数据源   |<br>|  —-    |  –type&lt;string&gt;      | ——-         | 指定要导出的文件类型，可选值：json，csv   |<br>|  -o    |  –out &lt;file&gt;      | ——-         | 指定要导出的文件路径（含文件名），如果不指定，则会导出为标准输出（例如stdout）   |<br>例子：<br>导出mytest数据库中的user集合到user.json文件中</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mongoexport -d mytest -c user -o ./user.json</span><br></pre></td></tr></table></figure>
+<p>会在当前目录中生成json文件<div></p>
+<h2 id="mongoimport（导入）"><a href="#mongoimport（导入）" class="headerlink" title="mongoimport（导入）"></a>mongoimport（导入）</h2><p>参数：<br>| 命令      |全称         |    默认值        |参考释义   |<br>|  —-    |  —–      | ——-         | —–   |<br>|  —-    |  –ignoreBlanks      | ——-         | 忽略要导入文件中的空字段，如果不指定该参数，则默认会读取空字段并创建   |<br>|  —-    |  –type &lt;json csv tsv&gt;  | json，csv，tsv   | 要导入的文件类型，另外支持tsv  |<br>|  —-    |  –headerline      | ——-         | 使用第一行作为字段名称   |<br>|  —-    |  –mode &lt;insert upsert merge&gt;      | insert（插入），upsert（替换数据库中的文档），merge（合并         | 指定导入过程中，如何应对数据库文档与导入文件中的文档匹配（默认会使用_id字段对比）的情况   |</p>
+<p>例子：<br>从user.json文件导入到mytest数据库中的user集合，并在之前进行删除</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mongoimport --drop -d mytest -c user --file ./user.json</span><br></pre></td></tr></table></figure></div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">雪人</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://www.webq.top/2020/11/14/database/mongo-restore/">https://www.webq.top/2020/11/14/database/mongo-restore/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.webq.top" target="_blank">雪人</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Mongodb/">Mongodb</a></div><div class="post_share"><div class="social-share" data-image="/img/default3.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/11/14/database/mariadb-mysql/"><img class="prev-cover" src="/img/default3.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">MariaDB 与MySQL</div></div></a></div><div class="next-post pull-right"><a href="/2020/11/14/database/mysql-transaction/"><img class="next-cover" src="/img/default3.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">MySQL 事务相关以及索引查询</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2020/11/14/database/centos-mongo/" title="CentOS 7上安装和配置MongoDB"><img class="cover" src="/img/default2.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-14</div><div class="title">CentOS 7上安装和配置MongoDB</div></div></a></div><div><a href="/2020/11/14/database/mongoose-populate/" title="Mongoose Populate 基本使用"><img class="cover" src="/img/default.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-14</div><div class="title">Mongoose Populate 基本使用</div></div></a></div></div></div></article></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By 雪人</div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.spacingElementById('content-inner')
+  else {
+    $.getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js', () => {
+      pangu.spacingElementById('content-inner')
+    })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguFn)</script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div></div></body></html>

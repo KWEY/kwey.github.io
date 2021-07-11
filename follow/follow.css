@@ -1,0 +1,38 @@
+
+/* #body-wrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 100%;
+}
+#page {
+    background: transparent;
+    box-shadow: none;
+}
+.layout_page {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding-top: 64px;
+} */
+
+#page-header {
+    height: 60px;
+    min-height: 60px;
+}
+#content-inner {
+    display: block;
+    max-width: 1000000px;
+    padding-top: 6px;
+}
+#page {
+    width: auto !important;
+    padding: 0;
+}
+.aside_content,
+#page-site-info,
+#footer {
+    display: none;
+}

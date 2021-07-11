@@ -1,0 +1,211 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>种草 ES2020 新特性 | 雪人</title><meta name="keywords" content="es6"><meta name="author" content="雪人"><meta name="copyright" content="雪人"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="查看标准 一：Promise.allSettled并发任务中，无论一个任务正常或者异常，都会返回对应的的状态（fulfilled 或者 rejected）与结果（业务value 或者 拒因 reason），在 then 里面通过 filter 来过滤出想要的业务逻辑结果，这就能最大限度的保障业务当前状态的可访问性，而 Promise.allSettled 就是解决这问题的。 Promise.all">
+<meta property="og:type" content="article">
+<meta property="og:title" content="种草 ES2020 新特性">
+<meta property="og:url" content="https://www.webq.top/2020/11/14/js/es2020/index.html">
+<meta property="og:site_name" content="雪人">
+<meta property="og:description" content="查看标准 一：Promise.allSettled并发任务中，无论一个任务正常或者异常，都会返回对应的的状态（fulfilled 或者 rejected）与结果（业务value 或者 拒因 reason），在 then 里面通过 filter 来过滤出想要的业务逻辑结果，这就能最大限度的保障业务当前状态的可访问性，而 Promise.allSettled 就是解决这问题的。 Promise.all">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.webq.top/img/default.jpg">
+<meta property="article:published_time" content="2020-11-14T08:10:34.241Z">
+<meta property="article:modified_time" content="2020-11-14T08:10:34.241Z">
+<meta property="article:author" content="雪人">
+<meta property="article:tag" content="es6">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.webq.top/img/default.jpg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://www.webq.top/2020/11/14/js/es2020/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="manifest" href="/pwa/manifest.json"/><link rel="apple-touch-icon" sizes="180x180" href="/pwa/favicon.png"/><link rel="icon" type="image/png" sizes="32x32" href="/pwa/favicon.png"/><link rel="icon" type="image/png" sizes="16x16" href="/pwa/favicon.png"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.4.0',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  ClickShowText: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true,
+  postUpdate: '2020-11-14 16:10:34'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {
+  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }
+})()</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/face.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">153</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">40</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">12</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 工具集</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/follow/"><i class="fa-fw fas fa-star"></i><span> 收藏夹</span></a></li><li><a class="site-page" href="/audio/"><i class="fa-fw fas fa-music"></i><span> audio_context</span></a></li><li><a class="site-page" href="/piano/"><i class="fa-fw fas fa-music"></i><span> 在线Piano</span></a></li><li><a class="site-page" href="/hy/"><i class="fa-fw fas fa-video"></i><span> Canvas绘图</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 文档库</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/2020/11/15/doc/ci/"><i class="fa-fw far fa-circle"></i><span> CI</span></a></li><li><a class="site-page" href="/2020/11/15/doc/h264/"><i class="fa-fw far fa-video"></i><span> h264</span></a></li><li><a class="site-page" href="/2020/11/15/doc/f4v/"><i class="fa-fw far fa-video"></i><span> f4v</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mask/"><i class="fa-fw far fa-mask"></i><span> mask</span></a></li><li><a class="site-page" href="/2020/11/15/doc/dj/"><i class="fa-fw far fa-python"></i><span> Django</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mse/"><i class="fa-fw far fa-buffer"></i><span> MSE</span></a></li></ul></div></div></div></div><div id="body-wrap"><div id="sidebar"><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%EF%BC%9APromise-allSettled"><span class="toc-number">1.</span> <span class="toc-text">一：Promise.allSettled</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%EF%BC%9A%E5%8F%AF%E9%80%89%E9%93%BE%EF%BC%88Optional-chaining%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">二：可选链（Optional chaining）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%EF%BC%9A%E7%A9%BA%E5%80%BC%E5%90%88%E5%B9%B6%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-number">3.</span> <span class="toc-text">三：空值合并运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%EF%BC%9Adynamic-import"><span class="toc-number">4.</span> <span class="toc-text">四：dynamic-import</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%EF%BC%9AglobalThis"><span class="toc-number">5.</span> <span class="toc-text">五：globalThis</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%EF%BC%9ABigInt"><span class="toc-number">6.</span> <span class="toc-text">六：BigInt</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83%EF%BC%9AString-prototype-matchAll"><span class="toc-number">7.</span> <span class="toc-text">七：String.prototype.matchAll</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AB%E3%80%81for-in-%E7%BB%93%E6%9E%84"><span class="toc-number">8.</span> <span class="toc-text">八、for-in 结构</span></a></li></ol></div></div></div><header class="post-bg" id="page-header" style="background-image: url(/../../img/js.jpg)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">雪人</a></span><span id="menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 工具集</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/follow/"><i class="fa-fw fas fa-star"></i><span> 收藏夹</span></a></li><li><a class="site-page" href="/audio/"><i class="fa-fw fas fa-music"></i><span> audio_context</span></a></li><li><a class="site-page" href="/piano/"><i class="fa-fw fas fa-music"></i><span> 在线Piano</span></a></li><li><a class="site-page" href="/hy/"><i class="fa-fw fas fa-video"></i><span> Canvas绘图</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 文档库</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/2020/11/15/doc/ci/"><i class="fa-fw far fa-circle"></i><span> CI</span></a></li><li><a class="site-page" href="/2020/11/15/doc/h264/"><i class="fa-fw far fa-video"></i><span> h264</span></a></li><li><a class="site-page" href="/2020/11/15/doc/f4v/"><i class="fa-fw far fa-video"></i><span> f4v</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mask/"><i class="fa-fw far fa-mask"></i><span> mask</span></a></li><li><a class="site-page" href="/2020/11/15/doc/dj/"><i class="fa-fw far fa-python"></i><span> Django</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mse/"><i class="fa-fw far fa-buffer"></i><span> MSE</span></a></li></ul></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">种草 ES2020 新特性</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-11-14T08:10:34.241Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-11-14T08:10:34.241Z" title="更新于 2020-11-14 16:10:34">2020-11-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Javascript/">Javascript</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">988</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>4分钟</span></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><p><a href="https://prop-tc39.now.sh/" target="_blank">查看标准</a></p>
+<h2 id="一：Promise-allSettled"><a href="#一：Promise-allSettled" class="headerlink" title="一：Promise.allSettled"></a>一：Promise.allSettled</h2><p>并发任务中，无论一个任务正常或者异常，都会返回对应的的状态（fulfilled 或者 rejected）与结果（业务value 或者 拒因 reason），在 then 里面通过 filter 来过滤出想要的业务逻辑结果，这就能最大限度的保障业务当前状态的可访问性，而 Promise.allSettled 就是解决这问题的。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Promise</span>.allSettled([</span><br><span class="line">    <span class="built_in">Promise</span>.reject(&#123;<span class="attr">code</span>: <span class="number">500</span>, <span class="attr">msg</span>: <span class="string">&#x27;服务异常&#x27;</span>&#125;),</span><br><span class="line">    <span class="built_in">Promise</span>.resolve(&#123; <span class="attr">code</span>: <span class="number">200</span>, <span class="attr">list</span>: []&#125;),</span><br><span class="line">    <span class="built_in">Promise</span>.resolve(&#123;<span class="attr">code</span>: <span class="number">200</span>, <span class="attr">list</span>: []&#125;)</span><br><span class="line">])</span><br><span class="line">.then(<span class="function">(<span class="params">ret</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">        0: &#123;status: &quot;rejected&quot;, reason: &#123;…&#125;&#125;</span></span><br><span class="line"><span class="comment">        1: &#123;status: &quot;fulfilled&quot;, value: &#123;…&#125;&#125;</span></span><br><span class="line"><span class="comment">        2: &#123;status: &quot;fulfilled&quot;, value: &#123;…&#125;&#125;</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="comment">// 过滤掉 rejected 状态，尽可能多的保证页面区域数据渲染</span></span><br><span class="line">    RenderContent(ret.filter(<span class="function">(<span class="params">el</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> el.status !== <span class="string">&#x27;rejected&#x27;</span>;</span><br><span class="line">    &#125;));</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h2 id="二：可选链（Optional-chaining）"><a href="#二：可选链（Optional-chaining）" class="headerlink" title="二：可选链（Optional chaining）"></a>二：可选链（Optional chaining）</h2><p>可选链 可让我们在查询具有多层级的对象时，不再需要进行冗余的各种前置校验。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> name = user &amp;&amp; user.info &amp;&amp; user.info.name;</span><br><span class="line"><span class="keyword">var</span> age = user &amp;&amp; user.info &amp;&amp; user.info.getAge &amp;&amp; user.info.getAge();</span><br><span class="line"><span class="comment">// 之后：</span></span><br><span class="line"><span class="keyword">var</span> name = user?.info?.name;</span><br><span class="line"><span class="keyword">var</span> age = user?.info?.getAge?.();</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="三：空值合并运算符"><a href="#三：空值合并运算符" class="headerlink" title="三：空值合并运算符"></a>三：空值合并运算符</h2><p>只有值为undefined 或者 null  的时候，才会取默认值</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> level = user.data?.level ?? <span class="string">&#x27;暂无等级&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="四：dynamic-import"><a href="#四：dynamic-import" class="headerlink" title="四：dynamic-import"></a>四：dynamic-import</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">el.onclick = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">import</span>(<span class="string">`/path/current-logic.js`</span>)</span><br><span class="line">    .then(<span class="function">(<span class="params"><span class="built_in">module</span></span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">module</span>.doSomthing();</span><br><span class="line">    &#125;)</span><br><span class="line">    .catch(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">// load error;</span></span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="五：globalThis"><a href="#五：globalThis" class="headerlink" title="五：globalThis"></a>五：globalThis</h2><p>而 globalThis 目的就是提供一种标准化方式访问全局对象，有了 globalThis 后，你可以在任意上下文，任意时刻都能获取到全局对象。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> getGlobal = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; </span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> self !== <span class="string">&#x27;undefined&#x27;</span>) &#123; <span class="keyword">return</span> self; &#125; </span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="built_in">window</span> !== <span class="string">&#x27;undefined&#x27;</span>) &#123; <span class="keyword">return</span> <span class="built_in">window</span>; &#125; </span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="built_in">global</span> !== <span class="string">&#x27;undefined&#x27;</span>) &#123; <span class="keyword">return</span> <span class="built_in">global</span>; &#125; </span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&#x27;unable to locate global object&#x27;</span>); </span><br><span class="line">&#125;; </span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> globals = getGlobal(); </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/globalThis" target="_blank">MDN</a></p>
+<h2 id="六：BigInt"><a href="#六：BigInt" class="headerlink" title="六：BigInt"></a>六：BigInt</h2><p>BigInt 是一种新的数据原始（primitive）类型</p>
+<p>我们可以用 BigInt 对象表示大于  的整数。可以通过常规操作（例如算术运算符）进行加、减、乘、除、余数和幂等运算。它可以由数字和十六进制或二进制字符串构造。此外它还支持 AND、OR、NOT 和 XOR 之类的按位运算。唯一无效的位运算是零填充右移运算符（&gt;&gt;&gt;）。</p>
+<p>使用 BigInt 有两种方式：</p>
+<p>1、在整数字面量后面加n。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> bigIntNum = <span class="number">9007199254740993n</span>;</span><br></pre></td></tr></table></figure>
+<p>2、使用 BigInt 函数。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> bigIntNum = BigInt(<span class="number">9007199254740</span>);</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="七：String-prototype-matchAll"><a href="#七：String-prototype-matchAll" class="headerlink" title="七：String.prototype.matchAll"></a>七：String.prototype.matchAll</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> str = <span class="string">&#x27;&lt;text&gt;JS&lt;/text&gt;&lt;text&gt;正则&lt;/text&gt;&#x27;</span>;</span><br><span class="line"><span class="keyword">var</span> reg = <span class="regexp">/&lt;\\w+&gt;(.*?)&lt;\\/</span>\\w+&gt;/g;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(str.match(reg));</span><br><span class="line"><span class="comment">// -&gt; [&quot;&lt;text&gt;JS&lt;/text&gt;&quot;, &quot;&lt;text&gt;正则&lt;/text&gt;&quot;]</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>ES2020提供了一种简易的方式：String.prototype.matchAll, 该方法会返回一个迭代器。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> str = <span class="string">&#x27;&lt;text&gt;JS&lt;/text&gt;&lt;text&gt;正则&lt;/text&gt;&#x27;</span>;</span><br><span class="line"><span class="keyword">var</span> allMatchs = str.matchAll(<span class="regexp">/&lt;\\w+&gt;(.*?)&lt;\\/</span>\\w+&gt;/g);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> match <span class="keyword">of</span> allMatchs) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(match);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 第一次迭代返回：</span></span><br><span class="line"><span class="comment">// [</span></span><br><span class="line"><span class="comment">//     &quot;&lt;text&gt;JS&lt;/text&gt;&quot;, </span></span><br><span class="line"><span class="comment">//     &quot;JS&quot;, </span></span><br><span class="line"><span class="comment">//     index: 0, </span></span><br><span class="line"><span class="comment">//     input: &quot;&lt;text&gt;JS&lt;/text&gt;&lt;text&gt;正则&lt;/text&gt;&quot;, </span></span><br><span class="line"><span class="comment">//     groups: undefined</span></span><br><span class="line"><span class="comment">// ]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 第二次迭代返回：</span></span><br><span class="line"><span class="comment">// [</span></span><br><span class="line"><span class="comment">//     &quot;&lt;text&gt;正则&lt;/text&gt;&quot;, </span></span><br><span class="line"><span class="comment">//     &quot;正则&quot;, </span></span><br><span class="line"><span class="comment">//     index: 15, </span></span><br><span class="line"><span class="comment">//     input: &quot;&lt;text&gt;JS&lt;/text&gt;&lt;text&gt;正则&lt;/text&gt;&quot;, </span></span><br><span class="line"><span class="comment">//     groups: undefined</span></span><br><span class="line"><span class="comment">// ]</span></span><br></pre></td></tr></table></figure>
+
+<p>能看出每次迭代中可获取所有的匹配，以及本次匹配的成功的一些其他元信息。</p>
+<h2 id="八、for-in-结构"><a href="#八、for-in-结构" class="headerlink" title="八、for-in 结构"></a>八、for-in 结构</h2><p>ECMA-262 几乎全部未指明 for (a in b) 顺序 ，但真正的引擎至少在某些情况下是一致的。</p>
+<p>历史上为获得完整的 for-in 顺序规范的一致意见所做的努力一再失败，部分原因是所有的引擎都有自己独特的实现，这是大量工作的结果，而且它们并不想重新讨论。</p>
+<p>总之，当使用 for (a in b) 控制结构时，不同的引擎已就如何迭代属性达成一致，从而使行为标准化。</p>
+<p>参考：<br><span style="font-size: large;"></p>
+<p><a href="https://learnku.com/f2e/t/39536?order_by=created_at&" target="_blank" style="font-weight: normal; font-size: large;">JavaScript ES2020 新特性的实例</a></p>
+<p><a href="https://github.com/tc39/proposals/blob/master/finished-proposals.md" target="_blank">tc39-Github</a></p>
+<p><a href="https://dev.to/carlillo/es2020-features-in-simple-examples-1513" target="_blank"><i></i></a><br><a href="https://zhuanlan.zhihu.com/p/100251213" target="_blank">种草 ES2020 新特性</a></p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">雪人</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://www.webq.top/2020/11/14/js/es2020/">https://www.webq.top/2020/11/14/js/es2020/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.webq.top" target="_blank">雪人</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/es6/">es6</a></div><div class="post_share"><div class="social-share" data-image="/img/default.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/11/14/js/data-format/"><img class="prev-cover" src="/img/default2.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Date对象 format</div></div></a></div><div class="next-post pull-right"><a href="/2020/11/14/js/addEventListener/"><img class="next-cover" src="/img/default3.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">addEventListener 详解以及应用</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2020/11/14/js/binary-tree/" title="二叉树"><img class="cover" src="/img/default2.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-14</div><div class="title">二叉树</div></div></a></div><div><a href="/2020/11/14/js/es6-2/" title="es6相关（二）Symbol"><img class="cover" src="/img/default.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-14</div><div class="title">es6相关（二）Symbol</div></div></a></div><div><a href="/2020/11/14/js/es6-5/" title="es6相关（五）Promise、async、Generator"><img class="cover" src="/img/default3.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-14</div><div class="title">es6相关（五）Promise、async、Generator</div></div></a></div><div><a href="/2020/11/14/js/es6-4/" title="es6相关（四）Proxy、Reflect"><img class="cover" src="/img/default3.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-14</div><div class="title">es6相关（四）Proxy、Reflect</div></div></a></div><div><a href="/2020/11/14/js/es6-3/" title="es6相关（三）Set、WeakSet、Map、WeakMap"><img class="cover" src="/img/default2.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-14</div><div class="title">es6相关（三）Set、WeakSet、Map、WeakMap</div></div></a></div><div><a href="/2020/11/14/js/es6-6/" title="es6相关（六）Class、Class 的继承"><img class="cover" src="/img/default2.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-14</div><div class="title">es6相关（六）Class、Class 的继承</div></div></a></div></div></div></article></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By 雪人</div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.spacingElementById('content-inner')
+  else {
+    $.getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js', () => {
+      pangu.spacingElementById('content-inner')
+    })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguFn)</script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div></div></body></html>

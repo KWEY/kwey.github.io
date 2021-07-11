@@ -1,0 +1,351 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>详解root和alias指令 | 雪人</title><meta name="keywords" content="nginx"><meta name="author" content="雪人"><meta name="copyright" content="雪人"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="配置nginx的静态文件有两个指令，一个 root 和一个 alias  静态文件Nginx以其高性能著称，常用与做前端反向代理服务器。同时nginx也是一个高性能的静态文件服务器。通常都会把应用的静态文件使用nginx处理。 对于这两个指令，是否需要在路径的后面加上斜杠，经常容易让人犯晕，本文通过尝试不同的匹配规则，归纳了一个比较通用的配置方式。 基本配置与简明 Nginx Location">
+<meta property="og:type" content="article">
+<meta property="og:title" content="详解root和alias指令">
+<meta property="og:url" content="https://www.webq.top/2020/11/14/linux/nginx-root-alias/index.html">
+<meta property="og:site_name" content="雪人">
+<meta property="og:description" content="配置nginx的静态文件有两个指令，一个 root 和一个 alias  静态文件Nginx以其高性能著称，常用与做前端反向代理服务器。同时nginx也是一个高性能的静态文件服务器。通常都会把应用的静态文件使用nginx处理。 对于这两个指令，是否需要在路径的后面加上斜杠，经常容易让人犯晕，本文通过尝试不同的匹配规则，归纳了一个比较通用的配置方式。 基本配置与简明 Nginx Location">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.webq.top/img/default3.jpg">
+<meta property="article:published_time" content="2020-11-14T08:10:34.253Z">
+<meta property="article:modified_time" content="2020-11-14T08:10:34.253Z">
+<meta property="article:author" content="雪人">
+<meta property="article:tag" content="nginx">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.webq.top/img/default3.jpg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://www.webq.top/2020/11/14/linux/nginx-root-alias/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="manifest" href="/pwa/manifest.json"/><link rel="apple-touch-icon" sizes="180x180" href="/pwa/favicon.png"/><link rel="icon" type="image/png" sizes="32x32" href="/pwa/favicon.png"/><link rel="icon" type="image/png" sizes="16x16" href="/pwa/favicon.png"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.4.0',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  ClickShowText: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true,
+  postUpdate: '2020-11-14 16:10:34'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {
+  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }
+})()</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/face.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">153</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">40</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">12</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 工具集</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/follow/"><i class="fa-fw fas fa-star"></i><span> 收藏夹</span></a></li><li><a class="site-page" href="/audio/"><i class="fa-fw fas fa-music"></i><span> audio_context</span></a></li><li><a class="site-page" href="/piano/"><i class="fa-fw fas fa-music"></i><span> 在线Piano</span></a></li><li><a class="site-page" href="/hy/"><i class="fa-fw fas fa-video"></i><span> Canvas绘图</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 文档库</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/2020/11/15/doc/ci/"><i class="fa-fw far fa-circle"></i><span> CI</span></a></li><li><a class="site-page" href="/2020/11/15/doc/h264/"><i class="fa-fw far fa-video"></i><span> h264</span></a></li><li><a class="site-page" href="/2020/11/15/doc/f4v/"><i class="fa-fw far fa-video"></i><span> f4v</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mask/"><i class="fa-fw far fa-mask"></i><span> mask</span></a></li><li><a class="site-page" href="/2020/11/15/doc/dj/"><i class="fa-fw far fa-python"></i><span> Django</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mse/"><i class="fa-fw far fa-buffer"></i><span> MSE</span></a></li></ul></div></div></div></div><div id="body-wrap"><div id="sidebar"><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6"><span class="toc-number">1.</span> <span class="toc-text">静态文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE"><span class="toc-number">2.</span> <span class="toc-text">基本配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9D%E8%AF%86root"><span class="toc-number">3.</span> <span class="toc-text">初识root</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#root%E6%8C%87%E4%BB%A4"><span class="toc-number">4.</span> <span class="toc-text">root指令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#root-%E4%B8%8E-%E6%96%9C%E6%9D%A0"><span class="toc-number">5.</span> <span class="toc-text">root 与 斜杠</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#alias%E6%8C%87%E4%BB%A4"><span class="toc-number">6.</span> <span class="toc-text">alias指令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">7.</span> <span class="toc-text">总结</span></a></li></ol></div></div></div><header class="post-bg" id="page-header" style="background-image: url(/../../img/linux.jpg)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">雪人</a></span><span id="menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 工具集</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/follow/"><i class="fa-fw fas fa-star"></i><span> 收藏夹</span></a></li><li><a class="site-page" href="/audio/"><i class="fa-fw fas fa-music"></i><span> audio_context</span></a></li><li><a class="site-page" href="/piano/"><i class="fa-fw fas fa-music"></i><span> 在线Piano</span></a></li><li><a class="site-page" href="/hy/"><i class="fa-fw fas fa-video"></i><span> Canvas绘图</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 文档库</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/2020/11/15/doc/ci/"><i class="fa-fw far fa-circle"></i><span> CI</span></a></li><li><a class="site-page" href="/2020/11/15/doc/h264/"><i class="fa-fw far fa-video"></i><span> h264</span></a></li><li><a class="site-page" href="/2020/11/15/doc/f4v/"><i class="fa-fw far fa-video"></i><span> f4v</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mask/"><i class="fa-fw far fa-mask"></i><span> mask</span></a></li><li><a class="site-page" href="/2020/11/15/doc/dj/"><i class="fa-fw far fa-python"></i><span> Django</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mse/"><i class="fa-fw far fa-buffer"></i><span> MSE</span></a></li></ul></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">详解root和alias指令</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-11-14T08:10:34.253Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-11-14T08:10:34.253Z" title="更新于 2020-11-14 16:10:34">2020-11-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Linux/">Linux</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.9k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>11分钟</span></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><blockquote>
+<p>配置nginx的静态文件有两个指令，一个 root 和一个 alias</p>
+</blockquote>
+<h2 id="静态文件"><a href="#静态文件" class="headerlink" title="静态文件"></a>静态文件</h2><p>Nginx以其高性能著称，常用与做前端反向代理服务器。同时nginx也是一个高性能的静态文件服务器。通常都会把应用的静态文件使用nginx处理。</p>
+<p>对于这两个指令，是否需要在路径的后面加上斜杠，经常容易让人犯晕，本文通过尝试不同的匹配规则，归纳了一个比较通用的配置方式。</p>
+<h2 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h2><p>与<a href="https://www.jianshu.com/p/e154c2ef002f" target="_blank">简明 Nginx Location Url 配置笔记</a>一文关于location url配置的实验一样，本文也使用vagrant虚拟机里的nginx。其基本配置如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># /etc/nginx/sites-enabled/pro.conf</span></span><br><span class="line">server &#123;</span><br><span class="line">   listen 80 default_server;</span><br><span class="line"></span><br><span class="line">   server_name localhost;</span><br><span class="line"></span><br><span class="line">   access_log /var/<span class="built_in">log</span>/nginx/pro/access.log;</span><br><span class="line">   error_log /var/<span class="built_in">log</span>/nginx/pro/error.log;</span><br><span class="line"></span><br><span class="line">   error_page 404 /404.html;</span><br><span class="line"></span><br><span class="line">   root /vagrant/pro;</span><br><span class="line">   index index.html index.htm;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>项目的目录如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">☁  pro  tree</span><br><span class="line">.</span><br><span class="line">├── 403.html</span><br><span class="line">├── 404.html</span><br><span class="line">├── index.html</span><br><span class="line">├── static</span><br><span class="line">│   ├── flask</span><br><span class="line">│   │   └── m.png</span><br><span class="line">│   └── stc.jpg</span><br><span class="line">└── upload</span><br><span class="line">    └── up.png</span><br><span class="line"></span><br><span class="line">3 directories, 6 files</span><br></pre></td></tr></table></figure>
+
+<p>分别有两个静态文件夹，一个是static，另外一个是upload。</p>
+<h2 id="初识root"><a href="#初识root" class="headerlink" title="初识root"></a>初识root</h2><p>root 是指定项目的根目录，适用与server和location。可以指定多个，如果locaiton没有指定，会往其外层的server或http中寻找继承。</p>
+<blockquote>
+<p>访问<a target="_blank" rel="noopener" href="http://192.168.33.10/static/stc.jpg">http://192.168.33.10/static/stc.jpg</a> 会发现图片已经返回。我们还尚未配置 location，为啥会正确的找到文件？学习root或者alias指令的时候，最好的办法是给文件拓展名加上一个字符，使得该文件在硬盘中不存在，那么就能从nginx的error.log中看到nginx寻找文件的方式。</p>
+</blockquote>
+<p>访问 <a target="_blank" rel="noopener" href="http://192.168.33.10/static/stc.jpgx%EF%BC%8C%E7%84%B6%E5%90%8E%E6%9F%A5%E7%9C%8B">http://192.168.33.10/static/stc.jpgx，然后查看</a> /var/log/nginx/pro/error.log文件，可以看到如下的错误信息：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">2016/09/28 07:41:48 [error] 4416<span class="comment">#0: *70 open()</span></span><br><span class="line"> <span class="string">&quot;/vagrant/pro/static/stc.jpgx&quot;</span> failed </span><br><span class="line"></span><br><span class="line">(2: No such file or directory), </span><br><span class="line">client: 192.168.33.1, server: localhost,</span><br><span class="line"> request: <span class="string">&quot;GET /static/stc.jpgx HTTP/1.1&quot;</span>, </span><br><span class="line">host: <span class="string">&quot;192.168.33.10&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>即/vagrant/pro/static/stc.jpgx 文件不存在。的确我们没有这个文件。如果文件名正确，就能访问，原因是由于在server中指定了root /vagrant/pro，此时的nginx就在该目录下寻找文件，而url上的地址，正好和文件的路径一致</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">http://192.168.33.10  /static/stc.jpg </span><br><span class="line">/vagrant/pro          /static/stc.jpg</span><br></pre></td></tr></table></figure>
+
+<p>由此可以猜想，nginx中root指令的地址，其实是替换了匹配后的url中的host。</p>
+<h2 id="root指令"><a href="#root指令" class="headerlink" title="root指令"></a>root指令</h2><p>为了验证上面的猜想，需要多写几个location做实验。添加一个location配置如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">location ^~ /static &#123;</span><br><span class="line">        root /vagrant/pro/static;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>再次访问<a target="_blank" rel="noopener" href="http://192.168.33.10/static/stc.jpg%EF%BC%8C%E5%8F%91%E7%8E%B0%E5%B9%B6%E4%B8%8D%E8%83%BD%E6%98%BE%E7%A4%BA%E5%9B%BE%E7%89%87%E4%BA%86%EF%BC%8C%E6%9F%A5%E7%9C%8Berror.log">http://192.168.33.10/static/stc.jpg，发现并不能显示图片了，查看error.log</a> 返回如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">2016/09/28 07:48:57 [error] 5978<span class="comment">#0: *71 open() </span></span><br><span class="line"><span class="string">&quot;/vagrant/pro/static/static/stc.jpg&quot;</span> failed </span><br><span class="line"></span><br><span class="line">(2: No such file or directory),</span><br><span class="line">client: 192.168.33.1, </span><br><span class="line">server: localhost, request: </span><br><span class="line"><span class="string">&quot;GET /static/stc.jpg HTTP/1.1&quot;</span>, </span><br><span class="line">host: <span class="string">&quot;192.168.33.10&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>nginx把地址识别成/vargrant/pro/static/static/stc.jpg多了一个static，套用上面的规则，其组合为192.168.33.10 == /vagrant/pro/static ，url是/static/stc.jpg。置换可以得到/vagrant/pro/static + /static/stc.jpg。与错误的error一致。解决方案就是把root中的static去掉，马上就能访问图片了。</p>
+<p>既然是那么把文件夹static命名为stc，其结果又会怎样？</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">location ^~ /static &#123;</span><br><span class="line">        root /vagrant/pro;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>访问 <a target="_blank" rel="noopener" href="http://192.168.33.10/static/stc.jpg">http://192.168.33.10/static/stc.jpg</a> 得到错误：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">2016/09/28 07:54:46 [error] 5992<span class="comment">#0: *73 open() </span></span><br><span class="line"><span class="string">&quot;/vagrant/pro/static/stc.jpg&quot;</span> </span><br><span class="line">failed (2: No such file or directory),</span><br><span class="line">client: 192.168.33.1, server: localhost,</span><br><span class="line">request: <span class="string">&quot;GET /static/stc.jpg HTTP/1.1&quot;</span>,</span><br><span class="line">host: <span class="string">&quot;192.168.33.10&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>计算路径/vagrant/pro + /static/stc.jpg， 找不到/vagrant/pro/static/stc.jpg文件，符合之前所说的规则，尝试修改location：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">location ^~ /stc &#123;</span><br><span class="line">        root /vagrant/pro;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>因为url变了，访问<a target="_blank" rel="noopener" href="http://192.168.33.10/stc/stc.jpg%EF%BC%8C%E6%89%8D%E8%83%BD%E5%A4%9F%E6%89%BE%E5%88%B0%E5%9B%BE%E7%89%87%E3%80%82%E7%8E%B0%E5%9C%A8%E6%8A%8Astc%E6%96%87%E4%BB%B6%E5%A4%B9%E5%8F%98%E5%9B%9Estatic%E3%80%82">http://192.168.33.10/stc/stc.jpg，才能够找到图片。现在把stc文件夹变回static。</a></p>
+<h2 id="root-与-斜杠"><a href="#root-与-斜杠" class="headerlink" title="root 与 斜杠"></a>root 与 斜杠</h2><p>很多人会疑惑，路径最后的斜杠/是否要加呢？location中的static后面的斜杠，和匹配后的url有关，不再赘述。root中的路径的斜杠/可以再通过实验确定。把location配置如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">location ^~ /static/ &#123;</span><br><span class="line">       root /vagrant/pro/;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>访问<a target="_blank" rel="noopener" href="http://192.168.33.10/static/stc.jpg">http://192.168.33.10/static/stc.jpg</a> 一切正常，访问<a target="_blank" rel="noopener" href="http://192.168.33.10/static/stc.jpg%EF%BC%8Cerror%E4%B8%BA%E6%89%BE%E4%B8%8D%E5%88%B0&quot;/vagrant/pro/static/stc.jpgs&quot;%E6%96%87%E4%BB%B6%E3%80%82">http://192.168.33.10/static/stc.jpg，error为找不到&quot;/vagrant/pro/static/stc.jpgs&quot;文件。</a></p>
+<p>如果按照root替换host的规则，那么替换过程为</p>
+<p>/vagrant/pro/ + /static/stc.jpg == /vagrant/pro//static/stc.jpg。在*nix系统中， 多个斜杠和一个斜杠是等价的，也就是 /vagrant/pro//static/stc.jpg 与/vagrant/pro/static/stc.jpg一样。</p>
+<p>这样一来，root路径后面的斜杠，加与不加效果都一样。既然如此，肯定有人会想到这么配置：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">location ^~ static/ &#123;</span><br><span class="line">        root /vagrant/pro;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果安照之前上面的即算法，那么应该是 /vagrant/pro + static/stc.jpg，相加的应该是/vagrant/prostatic/stc.jpg，按理说应该是错误，可是实际上却能访问图片。咄咄怪事？</p>
+<p>如果对前文nginx location的url匹配规则了解的话，应该看出来了其实 ^~ static/并不能匹配。修改 location</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">location ^~ static/ &#123;</span><br><span class="line">        rewrite ^ http://google.com;</span><br><span class="line">   <span class="comment"># root /vagrant/pro;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>访问<a target="_blank" rel="noopener" href="http://192.168.33.10/static/stc.jpg%E4%BE%9D%E7%84%B6%E5%8F%AF%E4%BB%A5%E5%BE%97%E5%88%B0%E5%9B%BE%E7%89%87%EF%BC%8C%E6%B2%A1%E6%9C%89%E8%B7%B3%E8%BD%ACgoogle%EF%BC%8C%E8%AF%B4%E6%98%8E%E5%B9%B6%E6%B2%A1%E6%9C%89%E5%8C%B9%E9%85%8D^">http://192.168.33.10/static/stc.jpg依然可以得到图片，没有跳转google，说明并没有匹配^</a>~ static/。</p>
+<p>其实原理也很简单，还记得我们第一次实验，当时尚未配置location，也同样可以返回图片。没错，尽管^~ static/没有匹配，而外层的server定义了root为/vagrant/pro，因此搜索图片正常返回，再注释外层的root，再一次访问。此时会得到一个404，查看error如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">2016/09/28 08:18:15 [error] 6227<span class="comment">#0: *82 open() </span></span><br><span class="line"><span class="string">&quot;/usr/share/nginx/html/static/stc.jpg&quot;</span> </span><br><span class="line">failed (2: No such file or directory),</span><br><span class="line"> client: 192.168.33.1, server: localhost, </span><br><span class="line">request: <span class="string">&quot;GET /static/stc.jpg HTTP/1.1&quot;</span>,</span><br><span class="line">host: <span class="string">&quot;192.168.33.10&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>/usr/share/nginx/html/static/stc.jpg，说明即使没有指定root，nginx默认也有一个root，/usr/share/nginx/html。当然，这个配置和 ^~ static/没有关系。</p>
+<p>如果~ static/stc.jpgs? 那么就能命中，此时访问图片，依然能够正确的解析，因此，并不存在 /vagrant/pro + static/stc.jpg这种情况。理解这里的关键是 root替换host，并加上匹配后的url，匹配后的url当然包括前面的斜杠，匹配部分的url则不会。</p>
+<p>对于 ~ static/stc.jpgs?模式，访问url<a target="_blank" rel="noopener" href="http://192.168.33.10/static/stc.jpg">http://192.168.33.10/static/stc.jpg</a></p>
+<ul>
+<li><p>匹配后的url为 /static/stc.jpg</p>
+</li>
+<li><p>匹配部分的url为  static/stc.jpg</p>
+</li>
+</ul>
+<p>掌握这个很重要，直接关系到后面alias指令与斜杠的关系。</p>
+<p>对于root指令，我们可以归纳。</p>
+<ul>
+<li><p>对于匹配后的url地址，将匹配的location中的root路径替换访问url的host即得到文件的真实地址。（多个斜杠其实等价于一个斜杠）</p>
+</li>
+<li><p>如果不匹配location，则寻找更外层的root做替换。</p>
+</li>
+<li><p>root指令最后的斜杠可加可不加。</p>
+</li>
+</ul>
+<h2 id="alias指令"><a href="#alias指令" class="headerlink" title="alias指令"></a>alias指令</h2><p>对于root，操作上很简单，只要把root地址替换host后就是文件在硬盘路径（真实地址）。对于alise，它并不是替换匹配后的url地址，而是替换匹配部分的url。alias指令也可以有多个。</p>
+<p>添加一个location，和root的方式几乎一样：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">location ^~ /upload &#123;</span><br><span class="line">       <span class="built_in">alias</span> /vagrant/pro;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>访问<a target="_blank" rel="noopener" href="http://192.168.33.10/upload/up.png%E5%B9%B6%E6%B2%A1%E6%9C%89%E5%9B%BE%E7%89%87%EF%BC%8C%E6%9F%A5%E7%9C%8Berror%E5%BE%97%E5%88%B0%EF%BC%9A">http://192.168.33.10/upload/up.png并没有图片，查看error得到：</a></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">2016/09/28 08:36:18 [error] </span><br><span class="line">6312<span class="comment">#0: *90 open() &quot;/vagrant/pro/up.png&quot; </span></span><br><span class="line">failed (2: No such file or directory), </span><br><span class="line">client: 192.168.33.1, server: localhost,</span><br><span class="line">request: <span class="string">&quot;GET /upload/up.png HTTP/1.1&quot;</span>,</span><br><span class="line">host: <span class="string">&quot;192.168.33.10&quot;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>可见 alias的模式并不是/vagrant/pro + /upload/up.png，而是 /vagrant/pro + /up.png。</p>
+<p>alias这个词在计算机里很常用，字面意思是“别名”，顾名思议就是换一个名字啦。实际替换规则就是把匹配的url地址，换成alias中的路径即可。例如上述的例子替换过程可以模拟如下：</p>
+<table>
+<thead>
+<tr>
+<th>过程</th>
+<th>模式或url</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>url模式</td>
+<td>^~ /upload</td>
+</tr>
+<tr>
+<td>alias路径</td>
+<td>/vagrant/pro</td>
+</tr>
+<tr>
+<td>访问地址</td>
+<td><a href="https://link.jianshu.com?t=http://192.168.33.10/upload/up.png" target="_blank" rel="nofollow">http://192.168.33.10/upload/up.png</a></td>
+</tr>
+<tr>
+<td>匹配部分的地址</td>
+<td>/upload + /up.png</td>
+</tr>
+<tr>
+<td>替换</td>
+<td>/upload == /vagrant/pro</td>
+</tr>
+<tr>
+<td>结果</td>
+<td>/vagrant/pro + /up.png</td>
+</tr>
+</tbody>
+</table>
+
+<p>为了修改图片的访问，修改locaton如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">location ^~ /upload &#123;</span><br><span class="line">      <span class="built_in">alias</span> /vagrant/pro/upload;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此时访问<a target="_blank" rel="noopener" href="http://192.168.33.10/upload/up.png%E5%B0%B1%E8%83%BD%E5%BE%97%E5%88%B0%E6%AD%A3%E7%A1%AE%E7%9A%84%E5%9B%BE%E7%89%87%E5%95%A6%EF%BC%8C%E4%BB%BF%E9%80%A0%E4%B8%8A%E9%9D%A2%E7%9A%84%E8%AE%A1%E7%AE%97%E8%BF%87%E7%A8%8B%E4%B8%BA%EF%BC%9A">http://192.168.33.10/upload/up.png就能得到正确的图片啦，仿造上面的计算过程为：</a></p>
+<table>
+<thead>
+<tr>
+<th>过程</th>
+<th>模式或url</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>url模式</td>
+<td>^~ /upload</td>
+</tr>
+<tr>
+<td>alias路径</td>
+<td>/vagrant/pro/upload</td>
+</tr>
+<tr>
+<td>访问地址</td>
+<td><a href="https://link.jianshu.com?t=http://192.168.33.10/upload/up.png" target="_blank" rel="nofollow">http://192.168.33.10/upload/up.png</a></td>
+</tr>
+<tr>
+<td>匹配部分的地址</td>
+<td>/upload + /up.png</td>
+</tr>
+<tr>
+<td>替换</td>
+<td>/upload == /vagrant/pro/upload</td>
+</tr>
+<tr>
+<td>结果</td>
+<td>/vagrant/pro/upload + /up.png</td>
+</tr>
+</tbody>
+</table>
+
+<p>从结果可以看出，正确的找到了文件路径，如果alias指令路径加上斜杠，那么计算处理的文件路径为：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">/upload == /vagrant/pro/upload</span><br><span class="line">/vagrant/pro/upload/ + /up.png</span><br></pre></td></tr></table></figure>
+
+<p>多个斜杠是合法的。等价于一个斜杠的情况。</p>
+<p>下面修改locaiton如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">location ^~ /upload/ &#123;</span><br><span class="line">       <span class="built_in">alias</span> /vagrant/pro/upload;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此时匹配时的url则变成  /upload/ + up.jpg, 那么置换的结果为 /vagrant/pro/upload + up.png，而/vagrant/pro/uploadup.png的路径是非法的，从error中也能看到置换的错误：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">2016/09/28 08:52:44 [error] 6452<span class="comment">#0: *92 </span></span><br><span class="line">open() <span class="string">&quot;/vagrant/pro/uploadup.png&quot;</span> </span><br><span class="line">failed (2: No such file or directory), </span><br><span class="line">client: 192.168.33.1, server: localhost, </span><br><span class="line">request: <span class="string">&quot;GET /upload/up.png HTTP/1.1&quot;</span>, </span><br><span class="line">host: <span class="string">&quot;192.168.33.10&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>解决办法也很简单，把/vagrant/pro/upload 改成 /vagrant/pro/upload/即可。由此可见，alias最后的斜杠并不像root指令那样可有可无，是否需要，取决于配合loacation的url匹配模式。</p>
+<p>前文root模式中，考虑了没有根的斜杠（~ static/stc.jpgs?）这种情况，alias情况下会很难捕捉错误。如果locaion配置如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">location ^~ upload/ &#123;</span><br><span class="line">       <span class="built_in">alias</span> /vagrant/pro/upload/;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>替换置换的文件路径应该为 /vagrant/pro/upload/up.png，可是实际测试中，这样配置alias，会一直导致一个301的重定向，如果alias目录没有打开autoindex，则会抛出一个403错误。具体情况尚未知晓，不知道是不是nginx的bug。为了避免这种情况，使用alias的时候，尽量不要配置location为 ^~ upload/的模式，并且不从根指定url，还是显得不伦不类。</p>
+<p>alise作为别名，比起root的一大好处就是不一定要url上的路径和文件路径一样，因为alise并不是替换host，而是替换匹配部分的host。修改配置如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">location ^~ /upload/ &#123;</span><br><span class="line">      <span class="built_in">alias</span> /vagrant/pro/static/;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>访问 <a target="_blank" rel="noopener" href="http://192.168.33.10/upload/stc.jpg%E6%88%96%E8%80%85">http://192.168.33.10/upload/stc.jpg或者</a> <a target="_blank" rel="noopener" href="http://192.168.33.10/upload/flask/m.png%E9%83%BD%E8%83%BD%E6%AD%A3%E7%A1%AE%E7%9A%84%E8%AE%BF%E9%97%AE%E5%88%B0static%E7%9B%AE%E5%BD%95%E4%B8%8B%E7%9A%84%E6%96%87%E4%BB%B6%EF%BC%8C%E5%B0%BD%E7%AE%A1url%E4%B8%8A%E6%98%AFupload%E3%80%82">http://192.168.33.10/upload/flask/m.png都能正确的访问到static目录下的文件，尽管url上是upload。</a></p>
+<p>替换规则也很简单，/upload/ == /vagrant/pro/static/ 得到 /vagrant/pro/static/ + stc.jpg 或 /vagrant/pro/static/ + flask/m.png。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>nginx的静态文件配置中，root和alias指令都能实现。为了避免混淆，尽量不要写没有根路径的url模式，即避免  static/这样的开头，根路径的斜杠需要保留，没有根路径其实也很奇怪。</p>
+<p>root和alias的区别主要在于替换的部分，root模式中，会把root配置的路径替换匹配后的url中的host。alias则把他指定的路径，替换url中匹配的部分。指令中的斜杠对于root指令没有影响，对于alise则按照替换规则匹配即可。</p>
+<p>root 指令</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">location /dir/ </span><br><span class="line">root root_path</span><br><span class="line">-&gt;http://host/dir/file.txt</span><br><span class="line">-&gt; root_path/dir/file.txt</span><br></pre></td></tr></table></figure>
+
+<p>alias 指令</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">location /dir</span><br><span class="line"><span class="built_in">alias</span> alias_path </span><br><span class="line">-&gt;http://host /dir /file.txt</span><br><span class="line">-&gt; alias_path/file.txt</span><br><span class="line"></span><br><span class="line">location /dir/ </span><br><span class="line"><span class="built_in">alias</span> alias_path/</span><br><span class="line">-&gt;http://host/dir/ file.txt</span><br><span class="line">-&gt;alias_path/file.txt</span><br></pre></td></tr></table></figure>
+
+<p>了解了root和alise之后，通常最佳实际是配置一个项目的根root，其他的文件夹则使用alias，毕竟alias更加灵活。</div><br><br><a href="https://www.jianshu.com/p/4be0d5882ec5" target="_blank">原文地址</a><br></p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">雪人</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://www.webq.top/2020/11/14/linux/nginx-root-alias/">https://www.webq.top/2020/11/14/linux/nginx-root-alias/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.webq.top" target="_blank">雪人</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/nginx/">nginx</a></div><div class="post_share"><div class="social-share" data-image="/img/default3.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/11/14/linux/nginx-n/"><img class="prev-cover" src="/img/default3.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">前端开发者必备的Nginx知识</div></div></a></div><div class="next-post pull-right"><a href="/2020/11/14/linux/nginx-proxy/"><img class="next-cover" src="/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Nginx 反向代理与负载均衡</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2020/11/14/linux/nginx-n/" title="前端开发者必备的Nginx知识"><img class="cover" src="/img/default3.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-14</div><div class="title">前端开发者必备的Nginx知识</div></div></a></div><div><a href="/2020/11/14/linux/nginx-proxy/" title="Nginx 反向代理与负载均衡"><img class="cover" src="/img/default.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-14</div><div class="title">Nginx 反向代理与负载均衡</div></div></a></div><div><a href="/2020/11/14/linux/nginx-ws/" title="基本的 WebSocket 的 Nginx 配置"><img class="cover" src="/img/default3.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-14</div><div class="title">基本的 WebSocket 的 Nginx 配置</div></div></a></div><div><a href="/2020/11/14/linux/nginx-wss/" title="Nginx代理ssl转发https和wss请求"><img class="cover" src="/img/default.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-14</div><div class="title">Nginx代理ssl转发https和wss请求</div></div></a></div></div></div></article></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By 雪人</div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.spacingElementById('content-inner')
+  else {
+    $.getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js', () => {
+      pangu.spacingElementById('content-inner')
+    })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguFn)</script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div></div></body></html>

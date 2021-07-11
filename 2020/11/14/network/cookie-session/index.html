@@ -1,0 +1,220 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>cookie 和 session | 雪人</title><meta name="keywords" content="network"><meta name="author" content="雪人"><meta name="copyright" content="雪人"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="HTTP 是一个无状态协议，所以客户端每次发出请求时，下一次请求无法得知上一次请求所包含的状态数据  cookie首先产生了 cookie 这门技术来解决这个问题，cookie 是 http 协议的一部分，它的处理分为如下几步：1、服务器向客户端发送 cookie。通常使用 HTTP 协议规定的 set-cookie 头操作。规范规定 cookie 的格式为 name &#x3D; value 格式，且必">
+<meta property="og:type" content="article">
+<meta property="og:title" content="cookie 和 session">
+<meta property="og:url" content="https://www.webq.top/2020/11/14/network/cookie-session/index.html">
+<meta property="og:site_name" content="雪人">
+<meta property="og:description" content="HTTP 是一个无状态协议，所以客户端每次发出请求时，下一次请求无法得知上一次请求所包含的状态数据  cookie首先产生了 cookie 这门技术来解决这个问题，cookie 是 http 协议的一部分，它的处理分为如下几步：1、服务器向客户端发送 cookie。通常使用 HTTP 协议规定的 set-cookie 头操作。规范规定 cookie 的格式为 name &#x3D; value 格式，且必">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.webq.top/img/default.jpg">
+<meta property="article:published_time" content="2020-11-14T08:10:34.254Z">
+<meta property="article:modified_time" content="2020-11-14T08:10:34.255Z">
+<meta property="article:author" content="雪人">
+<meta property="article:tag" content="network">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.webq.top/img/default.jpg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://www.webq.top/2020/11/14/network/cookie-session/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="manifest" href="/pwa/manifest.json"/><link rel="apple-touch-icon" sizes="180x180" href="/pwa/favicon.png"/><link rel="icon" type="image/png" sizes="32x32" href="/pwa/favicon.png"/><link rel="icon" type="image/png" sizes="16x16" href="/pwa/favicon.png"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.4.0',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  ClickShowText: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true,
+  postUpdate: '2020-11-14 16:10:34'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {
+  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }
+})()</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/face.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">153</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">40</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">12</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 工具集</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/follow/"><i class="fa-fw fas fa-star"></i><span> 收藏夹</span></a></li><li><a class="site-page" href="/audio/"><i class="fa-fw fas fa-music"></i><span> audio_context</span></a></li><li><a class="site-page" href="/piano/"><i class="fa-fw fas fa-music"></i><span> 在线Piano</span></a></li><li><a class="site-page" href="/hy/"><i class="fa-fw fas fa-video"></i><span> Canvas绘图</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 文档库</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/2020/11/15/doc/ci/"><i class="fa-fw far fa-circle"></i><span> CI</span></a></li><li><a class="site-page" href="/2020/11/15/doc/h264/"><i class="fa-fw far fa-video"></i><span> h264</span></a></li><li><a class="site-page" href="/2020/11/15/doc/f4v/"><i class="fa-fw far fa-video"></i><span> f4v</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mask/"><i class="fa-fw far fa-mask"></i><span> mask</span></a></li><li><a class="site-page" href="/2020/11/15/doc/dj/"><i class="fa-fw far fa-python"></i><span> Django</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mse/"><i class="fa-fw far fa-buffer"></i><span> MSE</span></a></li></ul></div></div></div></div><div id="body-wrap"><div id="sidebar"><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#cookie"><span class="toc-number">1.</span> <span class="toc-text">cookie</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#express-%E4%B8%AD%E7%9A%84-cookie"><span class="toc-number">2.</span> <span class="toc-text">express 中的 cookie</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#session"><span class="toc-number">3.</span> <span class="toc-text">session</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%84%E7%A7%8D%E5%AD%98%E5%82%A8%E7%9A%84%E5%88%A9%E5%BC%8A"><span class="toc-number">4.</span> <span class="toc-text">各种存储的利弊</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#signedCookie"><span class="toc-number">5.</span> <span class="toc-text">signedCookie</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cookie-session"><span class="toc-number">6.</span> <span class="toc-text">cookie-session</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#session-cookie"><span class="toc-number">7.</span> <span class="toc-text">session cookie</span></a></li></ol></div></div></div><header class="post-bg" id="page-header" style="background-image: url(/img/network.jpg)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">雪人</a></span><span id="menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 工具集</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/follow/"><i class="fa-fw fas fa-star"></i><span> 收藏夹</span></a></li><li><a class="site-page" href="/audio/"><i class="fa-fw fas fa-music"></i><span> audio_context</span></a></li><li><a class="site-page" href="/piano/"><i class="fa-fw fas fa-music"></i><span> 在线Piano</span></a></li><li><a class="site-page" href="/hy/"><i class="fa-fw fas fa-video"></i><span> Canvas绘图</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 文档库</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/2020/11/15/doc/ci/"><i class="fa-fw far fa-circle"></i><span> CI</span></a></li><li><a class="site-page" href="/2020/11/15/doc/h264/"><i class="fa-fw far fa-video"></i><span> h264</span></a></li><li><a class="site-page" href="/2020/11/15/doc/f4v/"><i class="fa-fw far fa-video"></i><span> f4v</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mask/"><i class="fa-fw far fa-mask"></i><span> mask</span></a></li><li><a class="site-page" href="/2020/11/15/doc/dj/"><i class="fa-fw far fa-python"></i><span> Django</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mse/"><i class="fa-fw far fa-buffer"></i><span> MSE</span></a></li></ul></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">cookie 和 session</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-11-14T08:10:34.254Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-11-14T08:10:34.255Z" title="更新于 2020-11-14 16:10:34">2020-11-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/network/">network</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>11分钟</span></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><blockquote>
+<p>HTTP 是一个无状态协议，所以客户端每次发出请求时，下一次请求无法得知上一次请求所包含的状态数据</p>
+</blockquote>
+<h2 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h2><p>首先产生了 cookie 这门技术来解决这个问题，cookie 是 http 协议的一部分，它的处理分为如下几步：<ul><li>1、服务器向客户端发送 cookie。<ul><li>通常使用 HTTP 协议规定的 set-cookie 头操作。</li><li>规范规定 cookie 的格式为 name = value 格式，且必须包含这部分。</li></ul></li><li>2、浏览器将 cookie 保存。</li><li>3、每次请求浏览器都会将 cookie 发向服务器。</li></ul><br>其他可选的 cookie 参数会影响将 cookie 发送给服务器端的过程，主要有以下几种：<ul><li>path：表示 cookie 影响到的路径，匹配该路径才发送这个 cookie。</li><li>expires 和 maxAge：告诉浏览器这个 cookie 什么时候过期，expires 是 UTC 格式时间，maxAge 是 cookie 多久后过期的相对时间(单位：s)。当不设置这两个选项时，会产生 session cookie，session cookie 是 transient 的，当用户关闭浏览器时，就被清除。一般用来保存 session 的 session_id。</li><li>secure：当 secure 值为 true 时，cookie 在 HTTP 中是无效，在 HTTPS 中才有效。</li><li><br>httpOnly：浏览器不允许脚本操作 document.cookie 去更改 cookie。一般情况下都应该设置这个为 true，这样可以避免被 xss 攻击拿到 cookie。</li></ul></p>
+<h2 id="express-中的-cookie"><a href="#express-中的-cookie" class="headerlink" title="express 中的 cookie"></a>express 中的 cookie</h2><p>express4 中操作 cookie 使用 cookie-parser 模块</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">&#x27;express&#x27;</span>);</span><br><span class="line"><span class="comment">// 首先引入 cookie-parser 这个模块</span></span><br><span class="line"><span class="keyword">var</span> cookieParser = <span class="built_in">require</span>(<span class="string">&#x27;cookie-parser&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> app = express();</span><br><span class="line">app.listen(<span class="number">3000</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用cookieParser中间件，cookieParser(secret, options)</span></span><br><span class="line"><span class="comment">// 其中secret用来加密 cookie 字符串（下面会提到 signedCookies）</span></span><br><span class="line"><span class="comment">// options 传入上面介绍的 cookie 可选参数</span></span><br><span class="line">app.use(cookieParser());</span><br><span class="line"></span><br><span class="line">app.get(<span class="string">&#x27;/&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">        <span class="comment">// 如果请求中的 cookie 存在 isVisit, 则输出 cookie</span></span><br><span class="line">        <span class="comment">// 否则，设置 cookie 字段 isVisit, 并设置过期时间为1分钟</span></span><br><span class="line">        <span class="keyword">if</span> (req.cookies.isVisit) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(req.cookies);</span><br><span class="line">        res.send(<span class="string">&quot;再次欢迎访问&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        res.cookie(<span class="string">&#x27;isVisit&#x27;</span>, <span class="number">1</span>, &#123;<span class="attr">maxAge</span>: <span class="number">60</span> * <span class="number">1000</span>&#125;);</span><br><span class="line">    res.send(<span class="string">&quot;欢迎第一次访问&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="session"><a href="#session" class="headerlink" title="session"></a>session</h2><p>cookie 虽然很方便，但是使用 cookie 有一个很大的弊端，cookie 中的所有数据在客户端就可以被修改，数据非常容易被伪造，那么一些重要的数据就不能存放在 cookie 中了，而且如果 cookie 中数据字段太多会影响传输效率。为了解决这些问题，就产生了 session，session 中的数据是保留在服务器端的。</p>
+<p>session 的运作通过一个 session_id 来进行。session_id 通常是存放在客户端的 cookie 中，比如在 express 中，默认是 connect.sid 这个字段，当请求到来时，服务端检查 cookie 中保存的 session_id 并通过这个 session_id 与服务器端的 session data 关联起来，进行数据的保存和修改。</p>
+<p>这意思就是说，当你浏览一个网页时，服务端随机产生一个 1024 比特长的字符串，然后存在你 cookie 中的 connect.sid 字段中。当你下次访问时，cookie 会带有这个字符串，然后浏览器就知道你是上次访问过的某某某，然后从服务器的存储中取出上次记录在你身上的数据。由于字符串是随机产生的，而且位数足够多，所以也不担心有人能够伪造。伪造成功的概率比坐在家里编程时被邻居家的狗突然闯入并咬死的几率还低。</p>
+<p>session 可以存放在 1）内存、2）cookie本身、3）redis 或 memcached 等缓存中，或者4）数据库中。线上来说，缓存的方案比较常见，存数据库的话，查询效率相比前三者都太低，不推荐；cookie session 有安全性问题，下面会提到。</p>
+<p>express 中操作 session 要用到 express-session (&lt;a rel=”nofollow” href=”<a target="_blank" rel="noopener" href="https://github.com/expressjs/session&quot;">https://github.com/expressjs/session&quot;</a> “=””&gt;<a target="_blank" rel="noopener" href="https://github.com/expressjs/session">https://github.com/expressjs/session</a></a> ) 这个模块，主要的方法就是 session(options)，其中 options 中包含可选参数，主要有：<ul><li>name: 设置 cookie 中，保存 session 的字段名称，默认为 connect.sid 。</li><li>store: session 的存储方式，默认存放在内存中，也可以使用 redis，mongodb 等。express 生态中都有相应模块的支持。</li><li>secret: 通过设置的 secret 字符串，来计算 hash 值并放在 cookie 中，使产生的 signedCookie 防篡改。</li><li>cookie: 设置存放 session id 的 cookie 的相关选项，默认为<ul><li>(default: { path: ‘/‘, httpOnly: true, secure: false, maxAge: null })</li></ul></li><li>genid: 产生一个新的 session_id 时，所使用的函数， 默认使用 uid2 这个 npm 包。</li><li>rolling: 每个请求都重新设置一个 cookie，默认为 false。</li><li>resave: 即使 session 没有被修改，也保存 session 值，默认为 true。</li></ul></p>
+<p>1） 在内存中存储 session<br>express-session 默认使用内存来存 session，对于开发调试来说很方便。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">&#x27;express&#x27;</span>);</span><br><span class="line"><span class="comment">// 首先引入 express-session 这个模块</span></span><br><span class="line"><span class="keyword">var</span> session = <span class="built_in">require</span>(<span class="string">&#x27;express-session&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> app = express();</span><br><span class="line">app.listen(<span class="number">5000</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 按照上面的解释，设置 session 的可选参数</span></span><br><span class="line">app.use(session(&#123;</span><br><span class="line">    </span><br><span class="line"><span class="comment">// 建议使用 128 个字符的随机字符串  secret: &#x27;recommand 128 bytes random string&#x27;,</span></span><br><span class="line">    cookie: &#123; <span class="attr">maxAge</span>: <span class="number">60</span> * <span class="number">1000</span> &#125;</span><br><span class="line">&#125;));</span><br><span class="line"></span><br><span class="line">app.get(<span class="string">&#x27;/&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 检查 session 中的 isVisit 字段</span></span><br><span class="line">    <span class="comment">// 如果存在则增加一次，否则为session设置isVisit字段，并初始化为 1。</span></span><br><span class="line">    <span class="function"><span class="title">if</span>(<span class="params">req.session.isVisit</span>)</span> &#123;</span><br><span class="line">        req.session.isVisit++;</span><br><span class="line">        res.send(<span class="string">&#x27;&amp;lt;p&gt;第&#x27;</span>+req.session.isVisit+<span class="string">&#x27;次来此页面&amp;lt;/p&gt;&#x27;</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        req.session.isVisit = <span class="number">1</span>;</span><br><span class="line">        res.send(<span class="string">&quot;欢迎第一次来这里&quot;</span>);</span><br><span class="line">        <span class="built_in">console</span>.log(req.session);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+<p>2） 在 redis 中存储 session</p>
+<p>session 存放在内存中不方便进程间共享，因此可以使用 redis 等缓存来存储 session。</p>
+<p>假设你的机器是 4 核的，你使用了 4 个进程在跑同一个 node web 服务，当用户访问进程1时，他被设置了一些数据当做 session 存在内存中。而下一次访问时，他被负载均衡到了进程2，则此时进程2的内存中没有他的信息，认为他是个新用户。这就会导致用户在我们服务中的状态不一致。</p>
+<p>使用 redis 作为缓存，可以使用 connect-redis 模块(&lt;a rel=”nofollow” href=”<a target="_blank" rel="noopener" href="https://github.com/tj/connect-redis&quot;">https://github.com/tj/connect-redis&quot;</a> “=””&gt;<a target="_blank" rel="noopener" href="https://github.com/tj/connect-redis">https://github.com/tj/connect-redis</a></a> )来得到 redis 连接实例，然后在 session 中设置存储方式为该实例。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">&#x27;express&#x27;</span>);</span><br><span class="line"><span class="keyword">var</span> session = <span class="built_in">require</span>(<span class="string">&#x27;express-session&#x27;</span>);</span><br><span class="line"><span class="keyword">var</span> redisStore = <span class="built_in">require</span>(<span class="string">&#x27;connect-redis&#x27;</span>)(session);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> app = express();</span><br><span class="line">app.listen(<span class="number">5000</span>);</span><br><span class="line"></span><br><span class="line">app.use(session(&#123;</span><br><span class="line">    <span class="comment">// 假如你不想使用 redis 而想要使用 memcached 的话</span></span><br><span class="line">    <span class="comment">// 代码改动也不会超过 5 行。</span></span><br><span class="line">    <span class="comment">// 这些 store 都遵循着统一的接口，</span></span><br><span class="line">    <span class="comment">// 凡是实现了那些接口的库，都可以作为 session 的 store 使用</span></span><br><span class="line">    <span class="comment">// 比如都需要实现.get(keyString)和.set(keyString, value) 方法。</span></span><br><span class="line">    <span class="comment">// 编写自己的 store 也很简单</span></span><br><span class="line">        store: <span class="keyword">new</span> redisStore(),</span><br><span class="line">        secret: <span class="string">&#x27;somesecrettoken&#x27;</span></span><br><span class="line">    &#125;));</span><br><span class="line"></span><br><span class="line">app.get(<span class="string">&#x27;/&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">        <span class="function"><span class="title">if</span>(<span class="params">req.session.isVisit</span>)</span> &#123;</span><br><span class="line">        req.session.isVisit++;</span><br><span class="line">        res.send(<span class="string">&#x27;&amp;lt;p&gt;第&#x27;</span>+req.session.isVisit+<span class="string">&#x27;次来到此页面&amp;lt;/p&gt;&#x27;</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        req.session.isVisit = <span class="number">1</span>;</span><br><span class="line">        res.send(<span class="string">&#x27;欢迎第一次来这里&#x27;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<pre><code>我们可以运行 redis-cli 查看结果，如图可以看到 redis 中缓存结果。</code></pre>
+<p><img src="/img.net0.png"></p>
+<h2 id="各种存储的利弊"><a href="#各种存储的利弊" class="headerlink" title="各种存储的利弊"></a>各种存储的利弊</h2><p>上面我们说到，session 的 store 有四个常用选项：1）内存 2）cookie 3）缓存 4）数据库<br>其中，开发环境存内存就好了。一般的小程序为了省事，如果不涉及状态共享的问题，用内存 session 也没问题。但内存 session 除了省事之外，没有别的好处。</p>
+<p>cookie session 我们下面会提到，现在说说利弊。用 cookie session 的话，是不用担心状态共享问题的，因为 session 的 data 不是由服务器来保存，而是保存在用户浏览器端，每次用户访问时，都会主动带上他自己的信息。当然在这里，安全性之类的，只要遵照最佳实践来，也是有保证的。它的弊端是增大了数据量传输，利端是方便。</p>
+<p>缓存方式是最常用的方式了，即快，又能共享状态。相比 cookie session 来说，当 session data 比较大的时候，可以节省网络传输。推荐使用。</p>
+<p>数据库 session。除非你很熟悉这一块，知道自己要什么，否则还是老老实实用缓存吧。</p>
+<h2 id="signedCookie"><a href="#signedCookie" class="headerlink" title="signedCookie"></a>signedCookie</h2><p>上面都是讲基础，现在讲一些专业点的。<br>上面有提到cookie 虽然很方便，但是使用 cookie 有一个很大的弊端，cookie 中的所有数据在客户端就可以被修改，数据非常容易被伪造其实不是这样的，那只是为了方便理解才那么写。要知道，计算机领域有个名词叫 签名，专业点说，叫 信息摘要算法。</p>
+<p>比如我们现在面临着一个菜鸟开发的网站，他用 cookie 来记录登陆的用户凭证。相应的 cookie 长这样：<br>dotcom_user=alsotang，它说明现在的用户是 alsotang 这个用户。如果我在浏览器中装个插件，把它改成 dotcom_user=ricardo，服务器一读取，就会误认为我是 ricardo。然后我就可以进行 ricardo 才能进行的操作了。之前 web 开发不成熟的时候，用这招甚至可以黑个网站下来，把 cookie 改成 dotcom_user=admin 就行了，唉，那是个玩黑客的黄金年代啊。</p>
+<p>OK，现在我有一些数据，不想存在 session 中，想存在 cookie 中，怎么保证不被篡改呢？答案很简单，签个名。<br>假设我的服务器有个秘密字符串，是 this_is_my_secret_and_fuck_you_all，我为用户 cookie 的 dotcom_user 字段设置了个值 alsotang。cookie 本应是</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&#123;<span class="attr">dotcom_user</span>: <span class="string">&#x27;alsotang&#x27;</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样的。<br>而如果我们签个名，比如把 dotcom_user 的值跟我的 secret_string 做个 sha1<br>sha1(‘secret’ + ‘alsotang’) === ‘4850a42e3…’<br>然后把 cookie 变成这样</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    dotcom_user: <span class="string">&#x27;alsotang&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;dotcom_user.sig&#x27;</span>: <span class="string">&#x27;4850a42e3...&#x27;</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样一来，用户就没法伪造信息了。一旦它更改了 cookie 中的信息，则服务器会发现 hash 校验的不一致。<br>毕竟他不懂我们的 secret_string 是什么，而暴力破解哈希值的成本太高。</p>
+<h2 id="cookie-session"><a href="#cookie-session" class="headerlink" title="cookie-session"></a>cookie-session</h2><p>上面一直提到 session 可以存在 cookie 中，现在来讲讲具体的思路。这里所涉及的专业名词叫做 对称加密。<br>假设我们想在用户的 cookie 中存 session data，使用一个名为 session_data 的字段。<br>存</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> sessionData = &#123;</span><br><span class="line">    username: <span class="string">&#x27;alsotang&#x27;</span>,</span><br><span class="line">    age: <span class="number">22</span>,</span><br><span class="line">    company:<span class="string">&#x27;alibaba&#x27;</span>,</span><br><span class="line">    location: <span class="string">&#x27;hangzhou&#x27;</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这段信息的话，可以将 sessionData 与我们的 secret_string 一起做个对称加密，存到 cookie 的 session_data字段中，只要你的 secret_string 足够长，那么攻击者也是无法获取实际 session 内容的。对称加密之后的内容对于攻击者来说相当于一段乱码。</p>
+<p>而当用户下次访问时，我们就可以用 secret_string 来解密 sessionData，得到我们需要的 session data。<br>signedCookies 跟 cookie-session 还是有区别的：</p>
+<p>1）是前者信息可见不可篡改，后者不可见也不可篡改</p>
+<p>2）是前者一般是长期保存，而后者是 session cookie</p>
+<p>cookie-session 的实现跟 signedCookies 差不多。</p>
+<p>不过 cookie-session 我个人建议不要使用，有受到回放攻击的危险。</p>
+<p>回放攻击指的是，比如一个用户，它现在有 100 积分，积分存在 session 中，session 保存在 cookie 中。他先复制下现在的这段 cookie，然后去发个帖子，扣掉了 20 积分，于是他就只有 80 积分了。而他现在可以将之前复制下的那段 cookie 再粘贴回去浏览器中，于是服务器在一些场景下会认为他又有了 100 积分。</p>
+<p>如果避免这种攻击呢？这就需要引入一个第三方的手段来验证 cookie session，而验证所需的信息，一定不能存在 cookie 中。这么一来，避免了这种攻击后，使用 cookie session 的好处就荡然无存了。如果为了避免攻击而引入了缓存使用的话，那不如把 cookie session 也一起放进缓存中。</p>
+<h2 id="session-cookie"><a href="#session-cookie" class="headerlink" title="session cookie"></a>session cookie</h2><p>初学者容易犯的一个错误是，忘记了 session_id 在 cookie 中的存储方式是 session cookie。即，当用户一关闭浏览器，浏览器 cookie 中的 session_id 字段就会消失。</p>
+<p>常见的场景就是在开发用户登陆状态保持时。</p>
+<p>假如用户在之前登陆了你的网站，你在他对应的 session 中存了信息，当他关闭浏览器再次访问时，你还是不懂他是谁。所以我们要在 cookie 中，也保存一份关于用户身份的信息。</p>
+<p>比如有这样一个用户</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    username: <span class="string">&#x27;alsotang&#x27;</span>, </span><br><span class="line">    age: <span class="number">22</span>, </span><br><span class="line">    company: <span class="string">&#x27;alibaba&#x27;</span>, </span><br><span class="line">    location: <span class="string">&#x27;hangzhou&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们可以考虑把这四个字段的信息都存在 session 中，而在 cookie，我们用 signedCookies 来存个 username。<br>登陆的检验过程伪代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">if</span> (req.session.user) &#123;</span><br><span class="line">        <span class="comment">// 获取 user 并进行下一步</span></span><br><span class="line">        next()</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (req.signedCookies[<span class="string">&#x27;username&#x27;</span>]) &#123;</span><br><span class="line">    <span class="comment">// 如果存在则从数据库中获取这个username 的信息,并保存到 session 中</span></span><br><span class="line">        getuser(<span class="function"><span class="keyword">function</span> (<span class="params">err, user</span>) </span>&#123;</span><br><span class="line">        req.session.user = user;</span><br><span class="line">        next();</span><br><span class="line">        &#125;);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 当做为登陆用户处理</span></span><br><span class="line">        next();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p><a href="http://wiki.jikexueyuan.com/project/node-lessons/cookie-session.html" target="_blank">原文地址</a>“</p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">雪人</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://www.webq.top/2020/11/14/network/cookie-session/">https://www.webq.top/2020/11/14/network/cookie-session/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.webq.top" target="_blank">雪人</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/network/">network</a></div><div class="post_share"><div class="social-share" data-image="/img/default.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/11/14/linux/yum/"><img class="prev-cover" src="/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">linux下安装软件--yum命令</div></div></a></div><div class="next-post pull-right"><a href="/2020/11/14/network/cookie-parser/"><img class="next-cover" src="/img/default2.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">cookie-parser 和 express-session</div></div></a></div></nav></article></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By 雪人</div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.spacingElementById('content-inner')
+  else {
+    $.getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js', () => {
+      pangu.spacingElementById('content-inner')
+    })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguFn)</script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div></div></body></html>

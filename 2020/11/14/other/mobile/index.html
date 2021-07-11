@@ -1,0 +1,242 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>移动端知识的一些总结 | 雪人</title><meta name="keywords" content="mobile"><meta name="author" content="雪人"><meta name="copyright" content="雪人"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="一.css部分1.meta标签 &lt;meta name&#x3D;&quot;viewport&quot; content&#x3D;&quot;width&#x3D;device-width,initial-scale&#x3D;1,user-scalable&#x3D;no&quot;&#x2F;&gt; 移动端加上这个标签才是真正的自适应，不加的话，假如你把一个980px宽度(手机端常规是980)的PC网页 放在手机上显示，倒也能正常显示不出现滚">
+<meta property="og:type" content="article">
+<meta property="og:title" content="移动端知识的一些总结">
+<meta property="og:url" content="https://www.webq.top/2020/11/14/other/mobile/index.html">
+<meta property="og:site_name" content="雪人">
+<meta property="og:description" content="一.css部分1.meta标签 &lt;meta name&#x3D;&quot;viewport&quot; content&#x3D;&quot;width&#x3D;device-width,initial-scale&#x3D;1,user-scalable&#x3D;no&quot;&#x2F;&gt; 移动端加上这个标签才是真正的自适应，不加的话，假如你把一个980px宽度(手机端常规是980)的PC网页 放在手机上显示，倒也能正常显示不出现滚">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.webq.top/img/default2.jpg">
+<meta property="article:published_time" content="2020-11-14T08:10:34.261Z">
+<meta property="article:modified_time" content="2020-11-14T08:10:34.261Z">
+<meta property="article:author" content="雪人">
+<meta property="article:tag" content="mobile">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.webq.top/img/default2.jpg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://www.webq.top/2020/11/14/other/mobile/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="manifest" href="/pwa/manifest.json"/><link rel="apple-touch-icon" sizes="180x180" href="/pwa/favicon.png"/><link rel="icon" type="image/png" sizes="32x32" href="/pwa/favicon.png"/><link rel="icon" type="image/png" sizes="16x16" href="/pwa/favicon.png"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.4.0',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  ClickShowText: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true,
+  postUpdate: '2020-11-14 16:10:34'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {
+  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }
+})()</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/face.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">153</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">40</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">12</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 工具集</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/follow/"><i class="fa-fw fas fa-star"></i><span> 收藏夹</span></a></li><li><a class="site-page" href="/audio/"><i class="fa-fw fas fa-music"></i><span> audio_context</span></a></li><li><a class="site-page" href="/piano/"><i class="fa-fw fas fa-music"></i><span> 在线Piano</span></a></li><li><a class="site-page" href="/hy/"><i class="fa-fw fas fa-video"></i><span> Canvas绘图</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 文档库</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/2020/11/15/doc/ci/"><i class="fa-fw far fa-circle"></i><span> CI</span></a></li><li><a class="site-page" href="/2020/11/15/doc/h264/"><i class="fa-fw far fa-video"></i><span> h264</span></a></li><li><a class="site-page" href="/2020/11/15/doc/f4v/"><i class="fa-fw far fa-video"></i><span> f4v</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mask/"><i class="fa-fw far fa-mask"></i><span> mask</span></a></li><li><a class="site-page" href="/2020/11/15/doc/dj/"><i class="fa-fw far fa-python"></i><span> Django</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mse/"><i class="fa-fw far fa-buffer"></i><span> MSE</span></a></li></ul></div></div></div></div><div id="body-wrap"><div id="sidebar"><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80-css%E9%83%A8%E5%88%86"><span class="toc-number">1.</span> <span class="toc-text">一.css部分</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C-js%E9%83%A8%E5%88%86"><span class="toc-number">2.</span> <span class="toc-text">二.js部分</span></a></li></ol></div></div></div><header class="post-bg" id="page-header" style="background-image: url(/img/git.png)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">雪人</a></span><span id="menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 工具集</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/follow/"><i class="fa-fw fas fa-star"></i><span> 收藏夹</span></a></li><li><a class="site-page" href="/audio/"><i class="fa-fw fas fa-music"></i><span> audio_context</span></a></li><li><a class="site-page" href="/piano/"><i class="fa-fw fas fa-music"></i><span> 在线Piano</span></a></li><li><a class="site-page" href="/hy/"><i class="fa-fw fas fa-video"></i><span> Canvas绘图</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 文档库</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/2020/11/15/doc/ci/"><i class="fa-fw far fa-circle"></i><span> CI</span></a></li><li><a class="site-page" href="/2020/11/15/doc/h264/"><i class="fa-fw far fa-video"></i><span> h264</span></a></li><li><a class="site-page" href="/2020/11/15/doc/f4v/"><i class="fa-fw far fa-video"></i><span> f4v</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mask/"><i class="fa-fw far fa-mask"></i><span> mask</span></a></li><li><a class="site-page" href="/2020/11/15/doc/dj/"><i class="fa-fw far fa-python"></i><span> Django</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mse/"><i class="fa-fw far fa-buffer"></i><span> MSE</span></a></li></ul></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">移动端知识的一些总结</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-11-14T08:10:34.261Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-11-14T08:10:34.261Z" title="更新于 2020-11-14 16:10:34">2020-11-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/other/">other</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>11分钟</span></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><h1 id="一-css部分"><a href="#一-css部分" class="headerlink" title="一.css部分"></a>一.css部分</h1><p>1.meta标签</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span> <span class="attr">content</span>=<span class="string">&quot;width=device-width,initial-scale=1,user-scalable=no&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<p>移动端加上这个标签才是真正的自适应，不加的话，假如你把一个980px宽度(手机端常规是980)的PC网页 放在手机上显示，倒也能正常显示不出现滚动条，不过是移动设备对页面 做了缩小优化，所以字体等都相应缩小了 （980px是相对于手机像素的，我的是超过1000px多一些就出现滚动条了，这个没具体研究）。<br>关于 initial-scale=1 ，这个参照iphone5的尺寸320568，如果你页面按照6401136做的话，scale就设为0.5</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- IOS中safari允许全屏浏览 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">content</span>=<span class="string">&quot;yes&quot;</span> <span class="attr">name</span>=<span class="string">&quot;apple-mobile-web-app-capable&quot;</span>&gt;</span>   </span><br><span class="line"><span class="comment">&lt;!-- IOS中Safari顶端状态条样式 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">content</span>=<span class="string">&quot;black&quot;</span> <span class="attr">name</span>=<span class="string">&quot;apple-mobile-web-app-status-bar-style&quot;</span>&gt;</span>  </span><br><span class="line"><span class="comment">&lt;!-- 忽略将数字变为电话号码 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">content</span>=<span class="string">&quot;telephone=no&quot;</span> <span class="attr">name</span>=<span class="string">&quot;format-detection&quot;</span>&gt;</span>  </span><br><span class="line"><span class="comment">&lt;!-- 忽略识别email --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">content</span>=<span class="string">&quot;email=no&quot;</span> <span class="attr">name</span>=<span class="string">&quot;format-detection&quot;</span>&gt;</span>   </span><br><span class="line">```   </span><br><span class="line">2.图片尺寸 做全屏显示的图片时，一般为了兼容大部分的手机，图片尺寸一般设为 640*960（我是觉得这个尺寸好，也看不少的图片也是这个尺寸，视情况而定）</span><br><span class="line"></span><br><span class="line">3.去除 webkit的滚动条</span><br></pre></td></tr></table></figure>
+<p>element::-webkit-scrollbar{</p>
+<pre><code>display: none;</code></pre>
+<p>}</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">如果要去除全部的，就把 element去掉 同时这个属性可让在 div里的滚动如丝般顺滑： -webkit-overflow-scrolling : touch;</span><br><span class="line"></span><br><span class="line">4.去除 button在 ios上的默认样式</span><br><span class="line">&#96;&#96;&#96;css</span><br><span class="line">-webkit-appearance: none;</span><br><span class="line"></span><br><span class="line">border-radius: 0</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>placeholder元素样式的修改</li>
+</ol>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">input</span><span class="selector-pseudo">::-webkit-input-placeholder</span>&#123;<span class="attribute">color</span>:red;&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">input</span><span class="selector-pseudo">:focus</span><span class="selector-pseudo">::-webkit-input-placeholder</span>&#123;<span class="attribute">color</span>:green;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>6.不想让按钮 touch时有蓝色的边框或半透明灰色遮罩（根据系统而定）</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">-webkit-tap-highlight-color</span><span class="selector-pseudo">:rgba(0</span>,0,0,0);</span><br></pre></td></tr></table></figure>
+
+<p>7.在移动端做动画效果的话，如果通过改变绝对定位的 top，或者 margin的话做出来的效果很差，很不流畅，而使用 css3的 transition、 transform或者 animation的效果将会非常棒（这一方面 IOS比 android又要好不少）。 如果用 **3d（translate3d）来实现动画，会开启 <a href="https://cloud.tencent.com/product/gpu" target="_blank">GPU</a>加速，动画会更加流畅，但硬件配置差的安卓用起来会耗很多性能</p>
+<p>8.使用图片时，会发现图片下总是有大概 4px的空白，（原因据说图片是inline，触发baseline什么的。。。）常用解决方法有</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">img</span>&#123;<span class="attribute">display</span>:block&#125;；</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">img</span>&#123;<span class="attribute">vertical-align</span>:top&#125;</span><br></pre></td></tr></table></figure>
+
+<p>也可取其他几个值，视情况而定<br>9.关于使用弹性盒子 box布局 暂时有三种方案：</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">display:-webkit-box; // 早期的版本</span><br><span class="line"></span><br><span class="line">display:-webkit-box-flex; // 过渡版本</span><br><span class="line"></span><br><span class="line">display:-webkit-flex; // 最新的版本</span><br></pre></td></tr></table></figure>
+
+<p>我暂时使用的是 display:-webkit-box;暂时只有这个的兼容性最好， flex是最好用，还可以如 float一样排多个元素时自动换行，只是兼容性还太差，（即使是第一种，在火狐下兼容性也不是很好） 对于第一种常见用法是：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">li</span>&gt;</span>1<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">li</span>&gt;</span>2<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">li</span>&gt;</span>3<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line"></span><br><span class="line">.box &#123;</span><br><span class="line"></span><br><span class="line">display: -webkit-box;</span><br><span class="line"></span><br><span class="line">　　-webkit-box-align: center; // 设置里面的元素垂直居中</span><br><span class="line"></span><br><span class="line">　　-webkit-box-pack: center; // 设置水平居中</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.box .box_flex1 &#123;</span><br><span class="line"></span><br><span class="line">　　box-flex: 1;</span><br><span class="line"></span><br><span class="line">　　-webkit-box-flex: 1;</span><br><span class="line"></span><br><span class="line">　　-moz-box-flex: 1;</span><br><span class="line"></span><br><span class="line">　　display: block;</span><br><span class="line"></span><br><span class="line">　　width: 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>要想三个 li元素平分 box的宽度， width:0是关键（在这个坑里陷了好久，直到偶然的一次设置了 width：0突然就好了，后来在天猫上也看到了同样的设置 width:0） </p>
+<p>10.使用 a 标签的话，尽量让 a 标签 block ，尽量让用户可点击区域最大化 </p>
+<p>11.对两个 div使用了 transform之后， div下的 z-index有时就会失效，我遇到过，但没去认真探究，只是把 z-index提高就好了 </p>
+<p>12.在 iOS中，当你点击比如 input 准备输入时，虚拟键盘弹出，整个视窗的 高度 就会变为 减去键盘 的高度，加入你在底部有 fixed的元素比如 btn，这个元素就会跑上来，一般都不会太美观。我是当 focus时就把它设为 absolute，视情况而定，也有比如显示一个新的层，将含有 fixed按钮的那一层隐藏的情况等等。 另外一种情况（一般在页面内容很少时 iphone5及以上常发生），当输入框弹出时 fixed元素挤到输入框上，当输入框消失时， fixed元素并没有随着输入框的消失而回到底部，这是因为整个视窗的高度还保持在 减去键盘的 高度，需要手动去触发让视窗高度回到正常，然后试了很多方法都没成功，后来的方案是输入框消失时给页面加隐形的很大的 padding比如 1000px并在 30ms后改为正常</p>
+<p>13.禁止用户选中文字 -webkit-user-select:none</p>
+<p>14.当把 input设为 width:100%时，有时可能会遇到 input的宽度超出了屏幕，这时可对 input加一个属性 box-sizing:border-box</p>
+<p>关于 box-sizing:border-box，此属性是把边框的宽度和 padding包含在盒子的高宽中，假如你设置两个元素 float且各占 50%，又都有 border时，用这个属性就可以完美地让它们能显示在同一行</p>
+<p>15.做一个方向箭头比如 “&gt;” 时，可以用一个正方形的 div，设置 border:1px 1px 0 0；然后 rotate(45deg)，这样就省去了一个图片</p>
+<ol start="16">
+<li>CSS权重： style是 1000， id是 100， class是 10，普通如 li、 div和伪类是 1，通用如 *是 0；</li>
+</ol>
+<p>17.使用 rem时，设某个 div比如的 height:3rem;line-height:1.5rem;overflow:hidden;时，在某些 android手机上可能会出现显示不止两行,第三行会显示点头部。 解决：利用 js获取文字 line-height再去设置 div高度 </p>
+<p>18.使用 background时， background-position里使用了比如 center left后不能再加具体的数值去定位，比如 center 10px left（暂时兼容性差）</p>
+<p>19.使用 rem布局时，由于 webkit支持的最小字体大小是 12px，所以使用 html使用 62.5%实际是 12px，这样很难计算，我的做法是设置成 625%即 100px，然后 1rem就相当于 100px</p>
+<p>20.移动端字体使用 font-family: Helvetica,sans-serif;我看这也是天猫使用的</p>
+<p>21.在 iphone原生键盘上用 keyup统计字符数时，系统不会自动监控你选择文字的事件，比如打了多个拼音，可能选择的实际文字比输入的字符数多或者少，但无法在用户确定自己的输入时监控到 keyup（其他事件也一样）判断字符数。 改成 input事件就可以了</p>
+<p>22.实现毛玻璃效果，透过背景看其他元素模糊，自身元素不模糊。</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">-webkit-backdrop-filter</span>: <span class="selector-tag">saturate</span>(180%) <span class="selector-tag">blur</span>(20<span class="selector-tag">px</span>);</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">background</span>: <span class="selector-tag">rgba</span>(0,0,0,0<span class="selector-class">.5</span>);</span><br></pre></td></tr></table></figure>
+
+<p>这个效果暂时只有 IOS9上的 safari可以。 用 css3的 blur效果的话，是整层元素全部模糊，而透过模糊层看其他的元素不模糊</p>
+<p>23.如果需要展示小于 12px的文字，用 transform:scale(%);它将元素缩小，但本身应该占的空间并不会变小，所以比如要元素居左对齐的话，还需设置 translateX 24.在移动端对 input框使用 disabled属性，会导致元素里面 value值在页面上被隐藏看不见，可以对元素使用 css3效果 pointer-event:none，意思就是此元素对鼠标事件无效</p>
+<h1 id="二-js部分"><a href="#二-js部分" class="headerlink" title="二.js部分"></a>二.js部分</h1><p>1.如果使用 jquery绑定 touch事件的话，获取 touchstart， touchmove的触点坐标用 e.originalEvent.targetTouches[0].pageX，获取 touchend则用 e.originalEvent.changedTouches[0].pageX 2.利用 style获取获取 transform的 rotate值<li>parseInt(/rotateX\((.*?)\)/.exec(getALL.style.webkitTransform)[1])</li><li></li><li>如果页面一开始没有<code>style</code>值，<code>rotate</code>是写在<code>CSS</code>里的，需要用到<code>getComputedStyle</code>，具体请看[这里][5]  </li></p>
+<p>3.有些版本的 iphone4中， audio和 video默认播放事件不会触发，比如使用 window.onload或计时器等都不能触发播放，必须用 JS写事件让用户手动点击触发才会开始播放，比如</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">$(<span class="built_in">document</span>).one(<span class="string">&#x27;touchstart&#x27;</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    audio.play();</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>4.想要在 touchmove:function(e,参数一)加一个参数，结果直接使用 e.preventDefault()就会 e 报错，处理方法为</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">touchmove:<span class="function"><span class="keyword">function</span>(<span class="params">e,参数一</span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">　　<span class="keyword">var</span> e=<span class="built_in">arguments</span>[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">　　e.preventDefault()</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>5.移动端的一些小页面可能没必要用到 zepto.js这些工具库，就可以使用一些新一点的 api，比如选取元素用 querySelector(“.class #id”)和 querySelectorAll(“.class element”),操作 class可以用 classList</p>
+<p>6.点击一个元素时，使用 touchstart会立即触发，而使用 click则用有大概 0.3s的延迟 想模拟一个立即触发的点击事件有两种方法， fastclick.js和 zepto.js里的 tap事件。</p>
+<p>不过 zepto的 tap事件有一个事件穿透的问题。假如你 tap一个弹出层元素（这个元素遮罩了一个 a标签），这个元素立即消失，这样由于上述的 0.3s延迟 tap事件就会传递给 a标签成 click事件造成a标签跳转。 以上面的例子来说，解决方案视情况而定： </p>
+<p>① tap时让遮罩渐隐消失，这个过程超过 400ms就不会穿透到下一层去了 </p>
+<p>② 在 touchend事件回调中加入 preventDefault, 并在下一层中加上 pointer-events:none。（这个没用过） </p>
+<p>③ 有的时候比如弹出一个 iphone上滑动出来的层，点击黑色半透明区域弹出层消失，这种可以在黑色区域绑定 touchend也是和 tap差不多的效果</p>
+<p>7.当弹窗出现时，想禁止屏幕的滑动，给那个遮罩层添加 touchmove事件即可，用 e.preventDefault()会阻止的 scroll， click等事件，消失时再 off掉，</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">$(<span class="string">&quot;.body_cover&quot;</span>).on(<span class="string">&quot;touchmove&quot;</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">　　e.preventDefault();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>8.使用 input file上传文件时，可以指定接受的类型， accept=”image/png,image/jpeg,image/gif” ，同时在 android上默认不能使用相机，可以加 capture=”camera” 同时，由于原生的样式不好看，可以通过设置input的display:none,然后使用id.click()去触发input元素的点击。</p>
+<p>9.给元素加:active伪类时，如果要求高，兼容性好的话，就得用js监控touchstart然后加相应的class</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">$(<span class="built_in">document</span>).on(<span class="string">&quot;touchstart&quot;</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> target = $(e.target);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (target.hasClass(<span class="string">&quot;is_hover&quot;</span>)) &#123;</span><br><span class="line"></span><br><span class="line">        target.addClass(<span class="string">&quot;hover_css&quot;</span>);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>三、微信部分<br>1.判断是否来自微信浏览器</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isFromWeiXin</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> ua = navigator.userAgent.toLowerCase();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (ua.match(<span class="regexp">/MicroMessenger/i</span>) == <span class="string">&quot;micromessenger&quot;</span>) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;    </span><br></pre></td></tr></table></figure>
+
+<p>2.判断手机的类型</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> user=<span class="string">&quot;&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="regexp">/android/i</span>.test(navigator.userAgent))&#123;</span><br><span class="line">    <span class="comment">//  android</span></span><br><span class="line">    user=<span class="string">&quot;1&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (<span class="regexp">/ipad|iphone|mac/i</span>.test(navigator.userAgent))&#123;</span><br><span class="line">    <span class="comment">//  ios</span></span><br><span class="line">    user=<span class="string">&quot;0&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3.如果在网页里嵌套一个 iframe， src为其他的网址等，当在微信浏览器打开时，如果 iframe里的页面过大，则 iframe的 src不能加载（具体多大不知道，只是遇到过）。</p>
+<p>4.微信 jssdk里预览图片接口，图片的 url不能填 base64编码， ios上会很卡，估摸着微信得卡个 5秒左右才打得开，而 android上压跟就卡住或者一直卡在读取图片界面</p>
+<p>5.微信当在输入框里输入消息时，会提示警示框不要输入qq密码等，这个可以在公众平台的功能设置的业务域名设置</p>
+<p>6.微信里假如页面一使用 ajax获取数据，当你进入下一页面再按返回键返回页面一的时候，有些情况不会去请求 ajax数据，会使用缓存，然而 ajax来的数据又并没有存在缓存里。要设置 cache:false（iphone、android的某些手机都可能出现）</p>
+<p>7.在微信 js config的时候，如果 URL的参数有如 ?a={“param”: “1”},会导致签名失败。给参数用 encodeURIComponent编码后再传过去也是失败！研究了好久。（后台代码没做任何修改，只在我前端修改代码）。所以最后还是使用了 ?param=1这样的格式</p>
+<p><a href="https://segmentfault.com/a/1190000003908191" target="_blank">原文地址</a></p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">雪人</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://www.webq.top/2020/11/14/other/mobile/">https://www.webq.top/2020/11/14/other/mobile/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.webq.top" target="_blank">雪人</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/mobile/">mobile</a></div><div class="post_share"><div class="social-share" data-image="/img/default2.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/11/14/project/webpack-loader/"><img class="prev-cover" src="/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">webpack 编写一个loader</div></div></a></div><div class="next-post pull-right"><a href="/2020/11/14/project/babel/"><img class="next-cover" src="/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Babel原理及其使用</div></div></a></div></nav></article></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By 雪人</div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.spacingElementById('content-inner')
+  else {
+    $.getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js', () => {
+      pangu.spacingElementById('content-inner')
+    })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguFn)</script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div></div></body></html>

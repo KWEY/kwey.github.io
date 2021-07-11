@@ -1,0 +1,417 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>雪人 - 笔记</title><meta name="keywords" content="sql  python node  video web html css javascript"><meta name="author" content="雪人"><meta name="copyright" content="雪人"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="雪人的笔记">
+<meta property="og:type" content="website">
+<meta property="og:title" content="雪人">
+<meta property="og:url" content="https://www.webq.top/page/4/index.html">
+<meta property="og:site_name" content="雪人">
+<meta property="og:description" content="雪人的笔记">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.webq.top/img/face.jpg">
+<meta property="article:author" content="雪人">
+<meta property="article:tag" content="sql  python node  video web html css javascript">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.webq.top/img/face.jpg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://www.webq.top/page/4/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="manifest" href="/pwa/manifest.json"/><link rel="apple-touch-icon" sizes="180x180" href="/pwa/favicon.png"/><link rel="icon" type="image/png" sizes="32x32" href="/pwa/favicon.png"/><link rel="icon" type="image/png" sizes="16x16" href="/pwa/favicon.png"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.4.0',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  ClickShowText: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isSidebar: false,
+  postUpdate: '2021-07-11 09:26:42'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {
+  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }
+})()</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/face.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">153</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">40</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">12</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 工具集</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/follow/"><i class="fa-fw fas fa-star"></i><span> 收藏夹</span></a></li><li><a class="site-page" href="/audio/"><i class="fa-fw fas fa-music"></i><span> audio_context</span></a></li><li><a class="site-page" href="/piano/"><i class="fa-fw fas fa-music"></i><span> 在线Piano</span></a></li><li><a class="site-page" href="/hy/"><i class="fa-fw fas fa-video"></i><span> Canvas绘图</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 文档库</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/2020/11/15/doc/ci/"><i class="fa-fw far fa-circle"></i><span> CI</span></a></li><li><a class="site-page" href="/2020/11/15/doc/h264/"><i class="fa-fw far fa-video"></i><span> h264</span></a></li><li><a class="site-page" href="/2020/11/15/doc/f4v/"><i class="fa-fw far fa-video"></i><span> f4v</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mask/"><i class="fa-fw far fa-mask"></i><span> mask</span></a></li><li><a class="site-page" href="/2020/11/15/doc/dj/"><i class="fa-fw far fa-python"></i><span> Django</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mse/"><i class="fa-fw far fa-buffer"></i><span> MSE</span></a></li></ul></div></div></div></div><div id="body-wrap"><header class="full_page" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">雪人</a></span><span id="menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 工具集</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/follow/"><i class="fa-fw fas fa-star"></i><span> 收藏夹</span></a></li><li><a class="site-page" href="/audio/"><i class="fa-fw fas fa-music"></i><span> audio_context</span></a></li><li><a class="site-page" href="/piano/"><i class="fa-fw fas fa-music"></i><span> 在线Piano</span></a></li><li><a class="site-page" href="/hy/"><i class="fa-fw fas fa-video"></i><span> Canvas绘图</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 文档库</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/2020/11/15/doc/ci/"><i class="fa-fw far fa-circle"></i><span> CI</span></a></li><li><a class="site-page" href="/2020/11/15/doc/h264/"><i class="fa-fw far fa-video"></i><span> h264</span></a></li><li><a class="site-page" href="/2020/11/15/doc/f4v/"><i class="fa-fw far fa-video"></i><span> f4v</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mask/"><i class="fa-fw far fa-mask"></i><span> mask</span></a></li><li><a class="site-page" href="/2020/11/15/doc/dj/"><i class="fa-fw far fa-python"></i><span> Django</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mse/"><i class="fa-fw far fa-buffer"></i><span> MSE</span></a></li></ul></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav></header><main class="layout_page" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/11/14/js/function/" title="函数声明、函数表达式、匿名函数">     <img class="post_bg" src="/img/default3.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="函数声明、函数表达式、匿名函数"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/js/function/" title="函数声明、函数表达式、匿名函数">函数声明、函数表达式、匿名函数</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.245Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/web/">web</a></span></div><div class="content">
+一个函数是可以通过外部代码调用的一个“子程序”（或在递归的情况下由内部函数调用）。像程序本身一样，一个函数由称为函数体的一系列语句组成。值可以传递给一个函数，函数将返回一个值。
+
+函数声明：function fnName () {…};使用function关键字声明一个函数，再指定一个函数名，叫函数声明。
+函数表达式 :var fnName = function () {…};使用function关键字声明一个函数，但未给函数命名，最后将匿名函数赋予一个变量，叫函数表达式，这是最常见的函数表达式语法形式。
+匿名函数：function () {}; 使用function关键字声明一个函数，但未给函数命名，所以叫匿名函数，匿名函数属于函数表达式，匿名函数有很多作用，赋予一个变量则创建函数，赋予一个事件则成为事件处理程序或创建闭包等等。
+函数声明和函数表达式不同之处在于一、Javascript引擎在解析javascript代码时会‘函数声明提升’（Function declaration Hoisting）当前执行环境（作用域）上的函数声明，而函数表达式必须等到Javascirtp引擎执行 ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/11/14/js/js-precompile/" title="JavaScript预编译原理分析">     <img class="post_bg" src="/img/default3.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JavaScript预编译原理分析"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/js/js-precompile/" title="JavaScript预编译原理分析">JavaScript预编译原理分析</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.245Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/Javascript/">Javascript</a></span></div><div class="content">JavaScript运行三部曲脚本执行js引擎都做了什么呢？
+1、语法分析2、预编译3、解释执行
+在执行代码前，还有两个步骤语法分析很简单，就是引擎检查你的代码有没有什么低级的语法错误解释执行顾名思义便是执行代码了预编译简单理解就是在内存中开辟一些空间，存放一些变量与函数理解了预编译对大家理解作用域同样有帮助
+JS预编译实例举例前，先来思考一下这几个概念：
+变量声明 var…函数声明 function…
+&lt;script&gt;var a = 1;// 变量声明function b(y)&#123;//函数声明        var x = 1;        console.log(&#x27;so easy&#x27;);    &#125;;var c = function()&#123;        //是变量声明而不是函数声明！！            //...        &#125;        b(100);        &lt;/script&gt;        &lt;script&gt;var d = 0;&lt;/script&gt;
+
+
+让我们 ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/11/14/js/js-proto/" title="JS 原型与原型链">     <img class="post_bg" src="/img/default3.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JS 原型与原型链"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/js/js-proto/" title="JS 原型与原型链">JS 原型与原型链</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.245Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/Javascript/">Javascript</a></span></div><div class="content">上一篇：继承与原型链
+一：每个对象都有 proto 属性，但只有函数对象才有 prototype 属性注：Function.prototype为空函数，没有prototype（箭头函数也没有
+function Person() &#123;&#125;var person1 = new Person();
+
+所有的原型对象都会自动获得一个 constructor（构造函数）属性，这个属性（是一个指针）指向 prototype 属性所在的函数（Person）
+person1.constructor == PersonPerson.prototype.constructor == Person
+
+
+
+结论：原型对象（Person.prototype）是 构造函数（Person）的一个实例。
+function Person()&#123;&#125;;console.log(Person.prototype) //Person&#123;&#125;console.log(typeof Person.prototype) //Object&lt;span style=&quot;color: ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/11/14/js/js-utils/" title="js工具函数">     <img class="post_bg" src="/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="js工具函数"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/js/js-utils/" title="js工具函数">js工具函数</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.245Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/Javascript/">Javascript</a></span></div><div class="content">                // guidfunction guid(count) &#123;    let out = &#x27;&#x27;    for (let i = 0; i &lt; count; i += 1) &#123;        /* eslint-disable*/        out += (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1)        /* eslint-enable */        &#125;    return out&#125;// 下载文件function download(o) &#123;    const obj = &#123;        text: &#x27;&#x27;,        type: &#x27;text/plain;charset=utf-8&#x27;,        fileName: &#x27;text.txt&#x27;,        ...o    &#125;    const blob  ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/11/14/js/fetch/" title="fetch方法">     <img class="post_bg" src="/img/default2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="fetch方法"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/js/fetch/" title="fetch方法">fetch方法</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.244Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/web/">web</a></span></div><div class="content">
+fetch方法返回一个Promise对象, 根据 Promise Api 的特性, fetch可以方便地使用then方法将各个处理逻辑串起来, 使用 Promise.resolve() 或 Promise.reject() 方法将分别返会肯定结果的Promise或否定结果的Promise, 从而调用下一个then 或者 catch. 一但then中的语句出现错误, 也将跳到catch中.
+
+fetch() 必须接受一个参数——资源的路径。无论请求成功与否，它都返回一个 Promise 对象，resolve 对应请求的 Response。你也可以传一个可选的第二个参数init（参见 Request）。
+modefetch可以设置不同的模式使得请求有效. 模式可在fetch方法的第二个参数对象中定义.
+fetch(url, &#123;mode: &#x27;cors&#x27;&#125;);
+
+可定义的模式如下:same-origin: 表示同域下可请求成功; 反之, 浏览器将拒绝发送本次fetch, 同时抛出错误 “TypeError: Failed to fetch(…)”.co ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/11/14/js/fun-currying2/" title="柯里化通用式以及Arrary方法实现">     <img class="post_bg" src="/img/default2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="柯里化通用式以及Arrary方法实现"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/js/fun-currying2/" title="柯里化通用式以及Arrary方法实现">柯里化通用式以及Arrary方法实现</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.244Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/web/">web</a></span></div><div class="content">
+JS属于解释型语言，在执行过程中顺序执行，但是会分块先预编译然后才执行。因此在JS中存在一种变量提升的现象
+
+// 利用闭包把所有参数存起来var currying = function(fn) &#123;    var args = [].slice.call(arguments, 1);    return function() &#123;        // 主要还是收集所有需要的参数到一个数组中，便于统一计算        var _args = args.concat([].slice.call(arguments));        return fn.apply(null, _args);    &#125;&#125;var sum = currying(function() &#123;    var args = [].slice.call(arguments);    return args.reduce(function(a, b) &#123;        return a + b;    &#125;)&#125;, 10)console.log(s ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/11/14/js/fun-currying/" title="JavaScript 柯里化">     <img class="post_bg" src="/img/default2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JavaScript 柯里化"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/js/fun-currying/" title="JavaScript 柯里化">JavaScript 柯里化</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.244Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/web/">web</a></span></div><div class="content">
+柯里化（英语：Currying），又称为部分求值，是把接受多个参数的函数变换成接受一个单一参数（最初函数的第一个参数）的函数，并且返回一个新的函数的技术，新函数接受余下参数并返回运算结果。
+
+实现一个函数，运算结果可以满足如下预期结果：
+add(1)(2) // 3
+add(1, 2, 3)(10) // 16
+add(1)(2)(3)(4)(5) // 15
+function add () &#123;    var args = Array.prototype.slice.call(arguments);        var fn = function () &#123;        var arg_fn = Array.prototype.slice.call(arguments);        return add.apply(null, args.concat(arg_fn));    &#125;fn.valueOf = function () &#123;        return args.reduce(function(a, b) &#123;        ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/11/14/js/fun-set/" title="集合">     <img class="post_bg" src="/img/default2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="集合"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/js/fun-set/" title="集合">集合</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.244Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/Javascript/">Javascript</a></span></div><div class="content">
+集合的基本性质有一条: 集合中元素是不重复的。
+
+集合集合需要有如下方法:
+
+has(value): 检测集合内是否有某个元素
+add(value): 给集合内添加某个元素
+remove(value): 移除集合中某个元素
+clear(value): 清空集合
+size(): 返回集合长度
+values(): 返回集合转换的数组
+union(otherSet): 返回两个集合的并集
+intersection(otherSet): 返回两个集合的交集
+difference(otherSet): 返回两个集合的差集
+subset(otherSet): 判断该集合是否为传入集合的子集
+
+
+/*** 集合的构造函数*/function Set() &#123;    /**    * 集合元素的容器，以对象来表示    * @type &#123;Object&#125;    */    var items = &#123;&#125;;    /**    * 检测集合内是否有某个元素    * @param  &#123;Any&#125;  value    要检测的元素    *  ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/11/14/js/es6-6/" title="es6相关（六）Class、Class 的继承">     <img class="post_bg" src="/img/default2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="es6相关（六）Class、Class 的继承"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/js/es6-6/" title="es6相关（六）Class、Class 的继承">es6相关（六）Class、Class 的继承</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.243Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/Javascript/">Javascript</a></span></div><div class="content">classES6 的class可以看作只是一个语法糖，它的绝大部分功能，ES5 都可以做到，新的class写法只是让对象原型的写法更加清晰、更像面向对象编程的语法而已
+class Point &#123;    constructor(x, y) &#123;        this.x = x;        this.y = y;    &#125;    toString() &#123;        return &#x27;(&#x27; + this.x + &#x27;, &#x27; + this.y + &#x27;)&#x27;;    &#125;    get prop() &#123;        return &#x27;getter&#x27;;    &#125;    set prop(value) &#123;        console.log(&#x27;setter: &#x27;+value);    &#125;&#125;          Object.keys(Point.prototype)// []
+
+1、类的内部所有定义的 ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/11/14/js/es6-7/" title="es6相关（七）Module 的语法、ArrayBuffer">     <img class="post_bg" src="/img/default2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="es6相关（七）Module 的语法、ArrayBuffer"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/js/es6-7/" title="es6相关（七）Module 的语法、ArrayBuffer">es6相关（七）Module 的语法、ArrayBuffer</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.243Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/Javascript/">Javascript</a></span></div><div class="content">严格模式ES6 的模块自动采用严格模式，不管你有没有在模块头部加上
+&quot;use strict&quot;;
+严格模式主要有以下限制。
+
+变量必须声明后再使用
+函数的参数不能有同名属性，否则报错
+不能使用with语句
+不能对只读属性赋值，否则报错
+不能使用前缀 0 表示八进制数，否则报错
+不能删除不可删除的属性，否则报错
+不能删除变量delete prop，会报错，只能删除属性delete global[prop]
+eval不会在它的外层作用域引入变量
+eval和arguments不能被重新赋值
+arguments不会自动反映函数参数的变化
+不能使用arguments.callee
+不能使用arguments.caller
+禁止this指向全局对象
+不能使用fn.caller和fn.arguments获取函数调用的堆栈
+增加了保留字（比如protected、static和interface）
+
+上面这些限制，模块都必须遵守。由于严格模式是 ES5 引入的，不属于 ES6其中，尤其需要注意this的限制。
+ES6 模块之中，顶层的this指向undefined，即不应该在顶层代码使 ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/11/14/js/es6-module/" title="深入理解 ES6 模块机制">     <img class="post_bg" src="/img/default3.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="深入理解 ES6 模块机制"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/js/es6-module/" title="深入理解 ES6 模块机制">深入理解 ES6 模块机制</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.243Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/Javascript/">Javascript</a></span></div><div class="content">
+在 ES6 中，我们知道 import、export 取代了 require、module.exports 用来引入和导出模块，但是如果不了解 ES6 模块特性的话，代码可能就会运行出一些匪夷所思的结果
+
+原文地址
+ES6 模块特性基础的 ES6 模块用法我就不介绍了，如果你还没使用过 ES6 模块的话，推荐看：ECMAScript 6 入门 - Module 的语法说起 ES6 模块特性，那么就先说说 ES6 模块跟 CommonJS 模块的不同之处。ES6 模块跟 CommonJS 模块的不同，主要有以下两个方面：ES6 模块输出的是值的引用，输出接口动态绑定，而 CommonJS 输出的是值的拷贝ES6 模块编译时执行，而 CommonJS 模块总是在运行时加载这个怎么理解呢？我们一步步来看：
+CommonJS 输出值的拷贝（浅拷贝）首先第一点，在 CommonJS 模块中，如果你 require 了一个模块，那就相当于你执行了该文件的代码并最终获取到模块输出的 module.exports 对象的一份拷贝。
+// a.jsvar b = require(&#x27;./b&# ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/11/14/js/es6-next/" title="ES6、ES7、ES8、ES9、ES10新特性一览">     <img class="post_bg" src="/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="ES6、ES7、ES8、ES9、ES10新特性一览"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/js/es6-next/" title="ES6、ES7、ES8、ES9、ES10新特性一览">ES6、ES7、ES8、ES9、ES10新特性一览</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.243Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/Javascript/">Javascript</a></span></div><div class="content">ECMA规范最终由TC39敲定。TC39由包括浏览器厂商在内的各方组成，他们开会推动JavaScript提案沿着一条严格的发展道路前进。 从提案到入选ECMA规范主要有以下几个阶段：
+原文
+
+Stage 0: strawman——最初想法的提交。
+Stage 1: proposal（提案）——由TC39至少一名成员倡导的正式提案文件，该文件包括API事例。
+Stage 2: draft（草案）——功能规范的初始版本，该版本包含功能规范的两个实验实现。
+Stage 3: candidate（候选）——提案规范通过审查并从厂商那里收集反馈
+Stage 4: finished（完成）——提案准备加入ECMAScript，但是到浏览器或者Nodejs中可能需要更长的时间。
+
+ES6新特性（2015）ES6的特性比较多，在 ES5 发布近 6 年（2009-11 至 2015-6）之后才将其标准化。两个发布版本之间时间跨度很大，所以ES6中的特性比较多。在这里列举几个常用的：
+
+类
+模块化
+箭头函数
+函数参数默认值
+模板字符串
+解构赋值
+延展操作符
+对象属性简写
+Promise
+Let与Cons ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/11/14/js/es6-2/" title="es6相关（二）Symbol">     <img class="post_bg" src="/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="es6相关（二）Symbol"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/js/es6-2/" title="es6相关（二）Symbol">es6相关（二）Symbol</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.242Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/Javascript/">Javascript</a></span></div><div class="content">ES6 引入了一种新的原始数据类型 Symbol，表示独一无二的值。它是 JavaScript 语言的第七种数据类型，
+
+前六种是： undefined、 null、布尔值（Boolean）、字符串（String）、数值（Number）、对象（Object）。
+
+Symbol 值通过 Symbol函数生成。这就是说，对象的属性名现在可以有两种类型，一种是原来就有的字符串，另一种就是新增的 Symbol 类型。凡是属性名属于 Symbol 类型，就都是独一无二的，可以保证不会与其他属性名产生冲突。
+
+注意， Symbol函数前不能使用 new命令，否则会报错。这是因为生成的 Symbol 是一个原始类型的值，不是对象。也就是说，由于 Symbol 值不是对象，所以不能添加属性。基本上，它是一种类似于字符串的数据类型。
+
+ Symbol函数可以接受一个字符串作为参数，表示对 Symbol 实例的描述，主要是为了在控制台显示，或者转为字符串时，比较容易区分。如果 Symbol 的参数是一个对象，就会调用该对象的 toString方法，将其转为字符串，然后才生成一个 Symbol 值。 let ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/11/14/js/es6-5/" title="es6相关（五）Promise、async、Generator">     <img class="post_bg" src="/img/default3.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="es6相关（五）Promise、async、Generator"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/js/es6-5/" title="es6相关（五）Promise、async、Generator">es6相关（五）Promise、async、Generator</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.242Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/Javascript/">Javascript</a></span></div><div class="content">Promise含义
+对象有以下两个特点。
+
+（1）对象的状态不受外界影响。Promise对象代表一个异步操作，有三种状态：pending（进行中）、fulfilled（已成功）和rejected（已失败）。只有异步操作的结果，可以决定当前是哪一种状态，任何其他操作都无法改变这个状态。
+（2）一旦状态改变，就不会再变，任何时候都可以得到这个结果。Promise对象的状态改变，只有两种可能：从pending变为fulfilled和从pending变为rejected。只要这两种情况发生，状态就凝固了，不会再变了，会一直保持这个结果，这时就称为 resolved（已定型）。如果改变已经发生了，你再对Promise对象添加回调函数，也会立即得到这个结果。这与事件（Event）完全不同，事件的特点是，如果你错过了它，再去监听，是得不到结果的。
+
+1、ES6 规定，Promise对象是一个构造函数，用来生成Promise实例。const promise = new Promise(function(resolve, reject) &#123;     // ... some code  if ( ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/11/14/js/es6-4/" title="es6相关（四）Proxy、Reflect">     <img class="post_bg" src="/img/default3.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="es6相关（四）Proxy、Reflect"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/js/es6-4/" title="es6相关（四）Proxy、Reflect">es6相关（四）Proxy、Reflect</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.242Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/Javascript/">Javascript</a></span></div><div class="content">1、ProxyProxy 可以理解成，在目标对象之前架设一层“拦截”，外界对该对象的访问，都必须先通过这层拦截，因此提供了一种机制，可以对外界的访问进行过滤和改写。Proxy 这个词的原意是代理，用在这里表示由它来“代理”某些操作，可以译为“代理器”。
+作为构造函数，Proxy接受两个参数。
+
+第一个参数是所要代理的 目标对象（上例是一个空对象），即如果没有Proxy的介入，操作原来要访问的就是这个对象；
+第二个参数是一个配置对象，对于每一个被代理的操作，需要提供一个对应的处理函数，该函数将拦截对应的操作
+
+Proxy 支持的拦截操作一览，一共 13 种。（忽略enumerate）
+
+get(target, propKey, receiver)：拦截对象属性的读取，比如proxy.foo和proxy[‘foo’]。
+set(target, propKey, value, receiver)：拦截对象属性的设置，比如proxy.foo = v或proxy[‘foo’] = v，返回一个布尔值。
+has(target, propKey)：拦截propKey in proxy的操作，返回一个 ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/11/14/js/es6-3/" title="es6相关（三）Set、WeakSet、Map、WeakMap">     <img class="post_bg" src="/img/default2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="es6相关（三）Set、WeakSet、Map、WeakMap"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/js/es6-3/" title="es6相关（三）Set、WeakSet、Map、WeakMap">es6相关（三）Set、WeakSet、Map、WeakMap</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.242Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/Javascript/">Javascript</a></span></div><div class="content">1、Set基本用法
+ES6 提供了新的数据结构 Set。它类似于数组，但是成员的值都是唯一的，没有重复的值。Set 本身是一个构造函数，用来生成 Set 数据结构。 const s = new Set();const set = new Set([1, 2, 3, 4, 4]); [2, 3, 5, 4, 5, 2, 2].forEach(x =&gt; s.add(x));for (let i of s) &#123;      console.log(i);&#125;// 2 3 5 4  [...new Set(&#x27;ababbc&#x27;)].join(&#x27;&#x27;)// \&quot;abc\&quot; 
+
+
+
+Set 实例的属性和方法
+Set 结构的实例有以下属性。 
+
+
+Set.prototype.constructor ：构造函数，默认就是 Set 函数。
+Set.prototype.size ：返回 Set 实例的成员总数。Set 实例的方法分为两大类：操作方法（用于操作数据）和遍历方法（用于遍历成员）。下面先介绍四个操作方法。 
+add(va ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/11/14/js/es6-1/" title="es6相关（一）">     <img class="post_bg" src="/img/default2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="es6相关（一）"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/js/es6-1/" title="es6相关（一）">es6相关（一）</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.242Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/Javascript/">Javascript</a></span></div><div class="content">正则、数值、函数、数组、数值、对象
+(一)正则的扩展
+1、添加了 u 修饰符，含义为“Unicode 模式”，用来正确处理大于 \uFFFF 的 Unicode 字符。也就是说，会正确处理四个字节的 UTF-16 编码。
+
+2、新增 unicode 属性，表示是否设置了 u 修饰符。
+
+3、加了 y 修饰符，叫做“粘连”（sticky）修饰符
+
+4、与 y 修饰符相匹配，ES6 的正则实例对象多了 sticky 属性，表示是否设置了 y 修饰符
+
+5、新增了 flags 属性，会返回正则表达式的修饰符。
+
+6、ES2018 引入 s 修饰符，使得 . 可以匹配任意单个字符
+
+
+四个字符属于“行终止符”。
+U+000A 换行符（ \ ）U+000D 回车符（ \\r ）U+2028 行分隔符（line separator）U+2029 段分隔符（paragraph separator）/foo.bar/.test(&#x27;foo\bar&#x27;)// false
+( 二 )数值的扩展
+1、二进制和八进制数值的新的写法，分别用前缀 0b （或 0B ）和 0o （或 0O ）表示。 ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/11/14/js/color-hex-rgb/" title="JS HEX十六进制与RGB, HSL颜色的相互转换">     <img class="post_bg" src="/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JS HEX十六进制与RGB, HSL颜色的相互转换"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/js/color-hex-rgb/" title="JS HEX十六进制与RGB, HSL颜色的相互转换">JS HEX十六进制与RGB, HSL颜色的相互转换</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.241Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/web/">web</a></span></div><div class="content">
+JavaScript颜色转换的核心就是进制间的转换。RGB格式其实就是十进制表示法，所以，十六进制颜色与RGB颜色的转换就是十六进制与十进制之间的转换。
+
+十六进制转换为十进制相对容易些，核心代码如下示例：parseInt(“0xFF”)，其结果就是255，”0x”就表明当前是16进制，由于parseInt后面无参数，默认就是转换为10进制了。
+一：十进制—–&gt;十六进制颜色getHexColor(colorValue: number): string &#123;    return &#x27;#&#x27; + (&#x27;000000&#x27; + colorValue.toString(16)).slice(-6);&#125;,
+二：十六进制—–&gt;rgb颜色    var hexToRgb = function(hex) &#123;        var rgb = [];        hex = hex.substr(1);//去除前缀 # 号        if (hex.length === 3) &#123; // 处理 &quot;#abc&q ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/11/14/js/dom/" title="HTML DOM (文档对象模型)">     <img class="post_bg" src="/img/default3.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="HTML DOM (文档对象模型)"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/js/dom/" title="HTML DOM (文档对象模型)">HTML DOM (文档对象模型)</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.241Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/web/">web</a></span></div><div class="content">
+文档对象模型 (DOM) 是HTML和XML文档的编程接口。它提供了对文档的结构化的表述，并定义了一种方式可以使从程序中对该结构进行访问，从而改变文档的结构，样式和内容
+
+DOM 将文档解析为一个由节点和对象（包含属性和方法的对象）组成的结构集合。简言之，它会将web页面和脚本或程序语言连接起来。说白了DOM就是浏览器为JavaScript提供的一系列接口（通过window.documnet提供的），通过这些接口我们可以操作web页面。 但DOM并不是编程语言，它是文档对象的模型，该模型是独立于编程语言的。
+DOM 创建DOM节点（Node）通常对应于一个标签，一个文本，或者一个HTML属性。DOM节点有一个nodeType属性用来表示当前元素的类型，它是一个整数：Element，元素 ——1Attribute，属性 ——–2Text，文本 ——3comment 节点 ——8Document 节点 ——9DocumentFrament节点 ——11其他的参见这
+
+DOM节点创建最常用的便是document.createElement和document.createTextNode方法 ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/11/14/js/data-format/" title="Date对象 format">     <img class="post_bg" src="/img/default2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Date对象 format"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/js/data-format/" title="Date对象 format">Date对象 format</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.241Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/web/">web</a></span></div><div class="content">Date对象的内置方法以及自定义格式化
+var d = new Date();console.log(d); // 输出：Mon Nov 04 2013 21:50:33 GMT+0800 (中国标准时间)console.log(d.toDateString()); // 日期字符串，输出：Mon Nov 04 2013console.log(d.toGMTString()); // 格林威治时间，输出：Mon, 04 Nov 2013 14:03:05 GMTconsole.log(d.toISOString()); // 国际标准组织（ISO）格式，输出：2013-11-04T14:03:05.420Zconsole.log(d.toJSON()); // 输出：2013-11-04T14:03:05.420Zconsole.log(d.toLocaleDateString()); // 转换为本地日期格式，视环境而定，输出：2013年11月4日console.log(d.toLocaleString()); // 转换为本地日期和时间格式，视环境而定，输出：2013年11月4日  ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/11/14/js/es2020/" title="种草 ES2020 新特性">     <img class="post_bg" src="/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="种草 ES2020 新特性"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/js/es2020/" title="种草 ES2020 新特性">种草 ES2020 新特性</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.241Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/Javascript/">Javascript</a></span></div><div class="content">查看标准
+一：Promise.allSettled并发任务中，无论一个任务正常或者异常，都会返回对应的的状态（fulfilled 或者 rejected）与结果（业务value 或者 拒因 reason），在 then 里面通过 filter 来过滤出想要的业务逻辑结果，这就能最大限度的保障业务当前状态的可访问性，而 Promise.allSettled 就是解决这问题的。
+Promise.allSettled([    Promise.reject(&#123;code: 500, msg: &#x27;服务异常&#x27;&#125;),    Promise.resolve(&#123; code: 200, list: []&#125;),    Promise.resolve(&#123;code: 200, list: []&#125;)]).then((ret) =&gt; &#123;    /*        0: &#123;status: &quot;rejected&quot;, reason: &#123;…&#125;&#125;        1: &#1 ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/11/14/js/addEventListener/" title="addEventListener 详解以及应用">     <img class="post_bg" src="/img/default3.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="addEventListener 详解以及应用"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/js/addEventListener/" title="addEventListener 详解以及应用">addEventListener 详解以及应用</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.240Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/web/">web</a></span></div><div class="content">
+将指定的监听器注册到 EventTarget 上，当该对象触发指定的事件时，指定的回调函数就会被执行。 事件目标可以是一个文档上的元素 Element,Document和Window或者任何其他支持事件的对象 (比如 XMLHttpRequest)
+
+MDNtarget.addEventListener(type, listener[, options]);target.addEventListener(type, listener[, useCapture]);
+
+//Gecko/Mozilla onlytarget.addEventListener(type, listener[, useCapture, wantsUntrusted]);
+
+
+type表示监听事件类型的字符串。listener当所监听的事件类型触发时，会接收到一个事件通知（实现了 Event 接口的对象）对象。listener 必须是一个实现了 EventListener 接口的对象，（该对象中有handleEvent方法），或者是一个函数
+
+options 可选一个指定有关 listener 属性的可选参数对 ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/11/14/js/binary-tree/" title="二叉树">     <img class="post_bg" src="/img/default2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="二叉树"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/js/binary-tree/" title="二叉树">二叉树</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.240Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/Javascript/">Javascript</a></span></div><div class="content">二叉搜索树需要有如下的方法:insert(key): 向树中插入一个新的键inOrderTraverse(): 通过中序遍历方式，遍历所有节点preOrderTranverse(): 通过先序遍历方式，遍历所有节点postOrderTranverse(): 通过后序遍历方式，遍历所有节点min(): 返回树中最小的值max(): 返回树中最大的值search(key): 搜索某个值，在树中则返回trueremove(key): 从树中移除某个键
+var items = &#123;&#125;;/*** 二叉搜索树的构造函数*/function BinarySearchTree() &#123;        /**    * 二叉搜索树键的构造函数    * @param &#123;Number&#125; key 要生成的键值    */    var Node = function(key) &#123;        // 键值        this.key = key;        // 左子节点        this.left = null;        // 右 ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/11/14/js/bind-polyfill/" title="bind 的polyfill补充">     <img class="post_bg" src="/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="bind 的polyfill补充"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/js/bind-polyfill/" title="bind 的polyfill补充">bind 的polyfill补充</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.240Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/web/">web</a></span></div><div class="content">原文地址
+bind 函数的三个特点：
+1.返回一个函数2.可以传入参数3.一个绑定函数也能使用new操作符创建对象：这种行为就像把原函数当成构造器。提供的 this 值被忽略，同时调用时的参数被提供给模拟函数。
+
+// Yes, it does work with `new funcA.bind(thisArg, args)`if (!Function.prototype.bind) (function()&#123;        var ArrayPrototypeSlice = Array.prototype.slice;        Function.prototype.bind = function(otherThis) &#123;        if (typeof this !== &#x27;function&#x27;) &#123;            // closest thing possible to the ECMAScript 5            // internal IsCallable function            throw ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/11/14/js/bind/" title="Function.prototype.bind()">     <img class="post_bg" src="/img/default3.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Function.prototype.bind()"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/js/bind/" title="Function.prototype.bind()">Function.prototype.bind()</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.240Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/web/">web</a></span></div><div class="content">
+bind()方法创建一个新的函数，在调用时设置this关键字为提供的值。并在调用新函数时，将给定参数列表作为原函数的参数序列的前若干项。
+
+原文地址
+语法：function.bind(thisArg[, arg1[, arg2[, ...]]])
+thisArg：调用绑定函数时作为this参数传递给目标函数的值。 如果使用new运算符构造绑定函数，则忽略该值。当使用bind在setTimeout中创建一个函数（作为回调提供）时，作为thisArg传递的任何原始值都将转换为object。如果bind函数的参数列表为空，执行作用域的this将被视为新函数的thisArg。
+arg1, arg2, …当目标函数被调用时，预先添加到绑定函数的参数列表中的参数。
+### 返回值：
+    返回一个原函数的拷贝，并拥有指定的this值和初始参数。
+示例：创建绑定函数
+bind() 最简单的用法是创建一个函数，不论怎么调用，这个函数都有同样的 this 值。JavaScript新手经常犯的一个错误是将一个方法从对象中拿出来，然后再调用，期望方法中的 this 是原来的对象（比如在回调中传入这个方法 ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/11/14/html/video-play/" title="视频播放">     <img class="post_bg" src="/img/default2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="视频播放"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/html/video-play/" title="视频播放">视频播放</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.239Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/web/">web</a></span></div><div class="content">随着流量时代的到来和硬件技术的提升，越来越多的网站希望能在PC端或移动端播放自己的视频，而 video的兼容性的逐渐完善，使得开发者更愿意使用它来实现视频播放场景。
+视频播放–踩坑小计
+
+场景一：自动播放
+autoPlay : boolean
+
+指定后，视频会马上自动开始播放，不会停下来等着数据载入结束。
+视频自动播放可以在页面打开且资源加载足够的情况下让视频自动播放，减少一次用户点击的交互，同时可以应用在动效背景、H5仿视频通话的功能。不过由于各种原因，自动播放无论在PC端还是移动端都有不同程度的限制。看下一篇
+
+移动端 IOS
+
+早期必须要有用户手势（user gesture）video标签才可以播放；从版本10开始修改了video的规则，苹果放宽了inline和autoplay，策略如下（仅适用于Safari浏览器）：
+video  
+
+elements will be allowed to autoplay  without a user gesture if their source media contains no audio tracks.(无音频源的 video 元素 ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/11/14/html/video/" title="HTML 音频/视频 DOM 参考手册">     <img class="post_bg" src="/img/default2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="HTML 音频/视频 DOM 参考手册"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/html/video/" title="HTML 音频/视频 DOM 参考手册">HTML 音频/视频 DOM 参考手册</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.239Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/web/">web</a></span></div><div class="content">
+HTML5 DOM 为 &lt;audio&gt; 和 &lt;video&gt; 元素提供了方法、属性和事件。
+
+W3CHTML 音频/视频 方法方法描述addTextTrack()向音频/视频添加新的文本轨道。canPlayType()检测浏览器是否能播放指定的音频/视频类型。手册load()重新加载音频/视频元素。更改来源或其他设置后对音频/视频（audio/video）元素进行更新play()开始播放音频/视频。pause()暂停当前播放的音频/视频。
+
+HTML 音频/视频属性属性描述audioTracks返回表示可用音频轨道的 AudioTrackList 对象。autoplay设置或返回是否在加载完成后随即播放音频/视频。默认：falsebuffered返回表示音频/视频已缓冲部分的 TimeRanges 对象。length - 获得音频/视频中已缓冲范围的数量start(index) - 获得某个已缓冲范围的开始位置end(index) - 获得某个已缓冲范围的结束位置注释：第一个缓冲范围的下标是 0。controller返回表示音频/视频当前媒体控制器的 Media ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/11/14/js/MessageChannel/" title="MessageChannel">     <img class="post_bg" src="/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MessageChannel"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/js/MessageChannel/" title="MessageChannel">MessageChannel</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.239Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/web/">web</a></span></div><div class="content">
+在浏览器环境中，常见的 macro task 有 setTimeout、MessageChannel、postMessage、setImmediate。而常见的 micro task 有 MutationObsever 和 Promise.then。
+
+原文地址Worker.postMessage()
+MessageChannel
+使用：var channel = new MessageChannel();
+这样就创建了一个管道。
+实例属性：channel.port1channel.port2
+
+
+获取实例的两个端口，注意的是，两个端口都是只读的。
+简单来说，MessageChannel创建了一个通信的管道，这个管道有两个端口，每个端口都可以通过postMessage发送数据，而一个端口只要绑定了onmessage回调方法，就可以接收从另一个端口传过来的数据。
+一个简单的例子：
+var channel = new MessageChannel();var port1 = channel.port1;var port2 = channel.port2;port1.onmessage = ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/11/14/js/MutationObserver/" title="MutationObserver">     <img class="post_bg" src="/img/default3.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MutationObserver"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/js/MutationObserver/" title="MutationObserver">MutationObserver</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.239Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/web/">web</a></span></div><div class="content">
+MutationObserver接口提供了监视对DOM树所做更改的能力。它被设计为旧的Mutation Events功能的替代品，该功能是DOM3 Events规范的一部分。
+
+Mutation Observer API 用来监视 DOM 变动。DOM 的任何变动，比如节点的增减、属性的变动、文本内容的变动，这个 API 都可以得到通知。
+概念上，它很接近事件，可以理解为 DOM 发生变动就会触发 Mutation Observer 事件。
+但是，它与事件有一个本质不同：
+
+事件是同步触发，也就是说，DOM 的变动立刻会触发相应的事件；
+Mutation Observer 则是异步触发，DOM 的变动并不会马上触发，而是要等到当前所有 DOM 操作都结束才触发。
+
+这样设计是为了应付 DOM 变动频繁的特点。举例来说，如果文档中连续插入1000个 p 元素，就会连续触发1000个插入事件，执行每个事件的回调函数，这很可能造成浏览器的卡顿；而 Mutation Observer 完全不同，只在1000个段落都插入结束后才会触发，而且只触发一次。Mutation Observer 有以下 ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/11/14/html/link/" title="HTML 中&lt;link&gt;元素">     <img class="post_bg" src="/img/default2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="HTML 中&lt;link&gt;元素"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/14/html/link/" title="HTML 中&lt;link&gt;元素">HTML 中&lt;link&gt;元素</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-11-14T08:10:34.238Z" title="发表于 2020-11-14 16:10:34">2020-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/web/">web</a></span></div><div class="content">
+HTML 中link元素规定了外部资源与当前文档的关系。 这个元素可用来为导航定义一个关系框架。这个元素最常于链接样式表。
+
+内容类型元数据。如果使用了 itemprop 属性, 则为 flow content 和 phrasing content.允许的元素内容无，这是一个空元素。标签省略鉴于这是一个空元素，开始标签必须存在，结束标签必须不存在。允许的父元素任何可以接受元数据的元素.。如果使用了 itemprop属性,，则其父元素可以是任何可接受 phrasing content 的元素。DOM接口HTMLLinkElement
+
+属性这个元素可以使用 全局属性
+as该属性仅在 link 元素设置了 rel=”preload” 时才能使用。
+它规定了 link 元素加载的内容的类型，对于内容的优先级、请求匹配、正确的内容安全策略的选择以及正确的 Accept 请求头的设置，这个属性是必需的。
+crossorigin此枚举属性指定在加载相关图片时是否必须使用 CORS. 启用 CORS 的图片 可以在 canvas 元素中使用, 并避免其被污染. 
+可取的值如下:
+&quot;ano ...</div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/page/3/"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/5/"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside_content" id="aside_content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><img class="avatar-img" src="/img/face.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">雪人</div><div class="author-info__description">雪人的笔记</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length_num">153</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length_num">40</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length_num">12</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/kwey"><i class="fab fa-github"></i><span>Follow Me</span></a></div></div><div class="sticky_layout"><div class="card-widget card-announcement"><div class="card-content"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div></div><div class="card-widget card-recent-post"><div class="card-content"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/08/brower/fps/" title="WebRender如何摆脱jank"><img src="/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="WebRender如何摆脱jank"/></a><div class="content"><a class="title" href="/2021/05/08/brower/fps/" title="WebRender如何摆脱jank">WebRender如何摆脱jank</a><time datetime="2021-05-08T02:58:41.114Z" title="发表于 2021-05-08 10:58:41">2021-05-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/05/07/brower/gpu-acc/" title="GPU硬件加速"><img src="/img/default3.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="GPU硬件加速"/></a><div class="content"><a class="title" href="/2021/05/07/brower/gpu-acc/" title="GPU硬件加速">GPU硬件加速</a><time datetime="2021-05-07T07:06:14.068Z" title="发表于 2021-05-07 15:06:14">2021-05-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/dm-render/render/" title="浏览器渲染原理"><img src="/img/default2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="浏览器渲染原理"/></a><div class="content"><a class="title" href="/2021/04/30/dm-render/render/" title="浏览器渲染原理">浏览器渲染原理</a><time datetime="2021-04-30T01:58:27.810Z" title="发表于 2021-04-30 09:58:27">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/02/01/brower/lifecycle/" title="浏览器周期"><img src="/img/default3.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="浏览器周期"/></a><div class="content"><a class="title" href="/2021/02/01/brower/lifecycle/" title="浏览器周期">浏览器周期</a><time datetime="2021-02-01T06:04:52.359Z" title="发表于 2021-02-01 14:04:52">2021-02-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/11/19/doc/mask/" title="CSS Masking Module Level 1"><img src="/img/hy.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CSS Masking Module Level 1"/></a><div class="content"><a class="title" href="/2020/11/19/doc/mask/" title="CSS Masking Module Level 1">CSS Masking Module Level 1</a><time datetime="2020-11-19T06:06:47.980Z" title="发表于 2020-11-19 14:06:47">2020-11-19</time></div></div></div></div></div><div class="card-widget" id="card-newest-comments"><div class="card-content"><div class="item-headline"><i class="fas fa-bolt"></i><span>最新评论</span></div><div class="aside-list"><span>正在加载中...</span></div></div></div><div class="card-widget card-categories"><div class="card-content"><div class="item-headline"><i class="fas fa-folder-open"></i><span>分类</span></div><ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Databse/"><span class="card-category-list-name">Databse</span><span class="card-category-list-count">7</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Javascript/"><span class="card-category-list-name">Javascript</span><span class="card-category-list-count">20</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Linux/"><span class="card-category-list-name">Linux</span><span class="card-category-list-count">19</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Node/"><span class="card-category-list-name">Node</span><span class="card-category-list-count">8</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/brower/"><span class="card-category-list-name">brower</span><span class="card-category-list-count">23</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/frame/"><span class="card-category-list-name">frame</span><span class="card-category-list-count">7</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/gpu/"><span class="card-category-list-name">gpu</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/network/"><span class="card-category-list-name">network</span><span class="card-category-list-count">1</span></a></li>
+            <li class="card-category-list-item more is-center"><a class="card-category-list-link-more" href="/categories/">
+                <span>查看更多</span><i class="fas fa-angle-right"></i></a></li>
+            </ul></div></div><div class="card-widget card-tags"><div class="card-content"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/CMD/" style="font-size: 1.1em; color: #999">CMD</a> <a href="/tags/CSS/" style="font-size: 1.1em; color: #999">CSS</a> <a href="/tags/Javascript/" style="font-size: 1.5em; color: #99a9bf">Javascript</a> <a href="/tags/Mongodb/" style="font-size: 1.19em; color: #999da1">Mongodb</a> <a href="/tags/brower/" style="font-size: 1.41em; color: #99a5b7">brower</a> <a href="/tags/centos/" style="font-size: 1.28em; color: #99a0aa">centos</a> <a href="/tags/cmd/" style="font-size: 1.32em; color: #99a2ae">cmd</a> <a href="/tags/cors/" style="font-size: 1.1em; color: #999">cors</a> <a href="/tags/css/" style="font-size: 1.28em; color: #99a0aa">css</a> <a href="/tags/django/" style="font-size: 1.19em; color: #999da1">django</a> <a href="/tags/err/" style="font-size: 1.1em; color: #999">err</a> <a href="/tags/es6/" style="font-size: 1.46em; color: #99a7bb">es6</a> <a href="/tags/git/" style="font-size: 1.1em; color: #999">git</a> <a href="/tags/github/" style="font-size: 1.14em; color: #999b9d">github</a> <a href="/tags/html/" style="font-size: 1.37em; color: #99a4b2">html</a> <a href="/tags/http/" style="font-size: 1.37em; color: #99a4b2">http</a> <a href="/tags/hy/" style="font-size: 1.1em; color: #999">hy</a> <a href="/tags/java/" style="font-size: 1.14em; color: #999b9d">java</a> <a href="/tags/javascript/" style="font-size: 1.1em; color: #999">javascript</a> <a href="/tags/jdk/" style="font-size: 1.1em; color: #999">jdk</a> <a href="/tags/jwt/" style="font-size: 1.1em; color: #999">jwt</a> <a href="/tags/lifecycle/" style="font-size: 1.1em; color: #999">lifecycle</a> <a href="/tags/mobile/" style="font-size: 1.1em; color: #999">mobile</a> <a href="/tags/model/" style="font-size: 1.23em; color: #999ea6">model</a> <a href="/tags/mse/" style="font-size: 1.1em; color: #999">mse</a> <a href="/tags/mysql/" style="font-size: 1.23em; color: #999ea6">mysql</a> <a href="/tags/network/" style="font-size: 1.1em; color: #999">network</a> <a href="/tags/nginx/" style="font-size: 1.28em; color: #99a0aa">nginx</a> <a href="/tags/node/" style="font-size: 1.1em; color: #999">node</a> <a href="/tags/npm/" style="font-size: 1.14em; color: #999b9d">npm</a> <a href="/tags/nuxt/" style="font-size: 1.1em; color: #999">nuxt</a> <a href="/tags/proxy/" style="font-size: 1.1em; color: #999">proxy</a> <a href="/tags/schedule/" style="font-size: 1.1em; color: #999">schedule</a> <a href="/tags/tcp/" style="font-size: 1.1em; color: #999">tcp</a> <a href="/tags/typescript/" style="font-size: 1.14em; color: #999b9d">typescript</a> <a href="/tags/video/" style="font-size: 1.19em; color: #999da1">video</a> <a href="/tags/vue/" style="font-size: 1.14em; color: #999b9d">vue</a> <a href="/tags/webpack/" style="font-size: 1.28em; color: #99a0aa">webpack</a> <a href="/tags/ws/" style="font-size: 1.14em; color: #999b9d">ws</a> <a href="/tags/xhr/" style="font-size: 1.1em; color: #999">xhr</a></div></div></div><div class="card-widget card-archives"><div class="card-content"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2021/05/"><span class="card-archive-list-date">五月 2021</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2021/04/"><span class="card-archive-list-date">四月 2021</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2021/02/"><span class="card-archive-list-date">二月 2021</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/11/"><span class="card-archive-list-date">十一月 2020</span><span class="card-archive-list-count">149</span></a></li></ul></div></div><div class="card-widget card-webinfo"><div class="card-content"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">153</div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">345.2k</div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2021-07-11T01:26:41.300Z"></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By 雪人</div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.spacingElementById('content-inner')
+  else {
+    $.getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js', () => {
+      pangu.spacingElementById('content-inner')
+    })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguFn)</script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div></div></body></html>

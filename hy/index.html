@@ -1,0 +1,147 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Canvas绘图</title>
+        <style>
+            body,
+            html {
+                width: 100%;
+                height: 100%;
+            }
+            body,
+            html,
+            div {
+                margin: 0;
+                padding: 0;
+            }
+            .kwe-hy {
+                position: relative;
+                flex: auto;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                color: #ff6700;
+                text-align: center;
+            }
+            .kwe-hy-canvas {
+                flex: 1;
+                height: 100%;
+                background: url('./piano.jpg') no-repeat;
+                background-size: cover;
+            }
+            .kwe-hy-btn {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                margin-bottom: 20px;
+                text-align: center;
+            }
+            .kwe-hy-btn button {
+                display: inline-block;
+                padding: 14px 38px;
+                margin: 4px 10px;
+                color: #ff6700;
+                cursor: pointer;
+            }
+            .kwe-hy-btn button:hover {
+                background: rgba(255, 255, 255, 0.5);
+            }
+            .kwe-hy-fps span:hover {
+                background: rgba(255, 255, 255, 0.5);
+            }
+            .kwe-hy-fps span {
+                display: inline-block;
+                width: 100px;
+                height: 60px;
+                margin: 4px 20px;
+                line-height: 60px;
+                text-align: center;
+                cursor: pointer;
+                background: #fff;
+                user-select: none;
+                border: 1px solid rgba(255, 255, 255, 0.9);
+            }
+        </style>
+    </head>
+    <body>
+        <div class="kwe-hy-canvas"></div>
+        <div class="kwe-hy-btn">
+            <button class="start">start</button>
+            <button class="stop">stop</button>
+            <button class="reload">reload</button>
+            <div class="kwe-hy-fps">
+                <span class="fps1"><<</span>
+                <span class="fps">5</span>
+                <span class="fps-add">>></span>
+            </div>
+        </div>
+        <script src="yyj.js"></script>
+        <script>
+            var os = function() {
+                var ua = navigator.userAgent
+                var is_ws_phone = /(?:Windows Phone)/.test(ua)
+                var is_symbian = /(?:SymbianOS)/.test(ua) || is_ws_phone
+                var is_android = /(?:Android)/.test(ua)
+                var is_ff = /(?:Firefox)/.test(ua)
+                var is_chrome = /(?:Chrome|CriOS)/.test(ua)
+                var is_tablet = /(?:iPad|PlayBook)/.test(ua) || (is_android && !/(?:Mobile)/.test(ua)) || (is_ff && /(?:Tablet)/.test(ua))
+                var is_phone = /(?:iPhone)/.test(ua) && !is_tablet
+                var is_pc = !is_phone && !is_android && !is_symbian
+                return {
+                    is_tablet,
+                    is_phone,
+                    is_android,
+                    is_pc
+                }
+            }
+            if (os().is_pc) {
+                var yyj = new YYJ({
+                    container: '.kwe-hy-canvas'
+                })
+                var fpsNum = 5;
+                var start = document.querySelector('.start')
+                var stop = document.querySelector('.stop')
+                var reload = document.querySelector('.reload')
+                var fps = document.querySelector('.fps')
+                var fps1 = document.querySelector('.fps1')
+                var fpsAdd = document.querySelector('.fps-add')
+
+                start.addEventListener('click', function() {
+                    yyj.start()
+                })
+                stop.addEventListener('click', function() {
+                    yyj.stop()
+                })
+                reload.addEventListener('click', function() {
+                    yyj.reload()
+                })
+                fps1.addEventListener('click', function(e) {
+                    fpsNum--
+                    if (fpsNum < 1) {
+                        fpsNum = 1
+                    }
+                    yyj.setFps(fpsNum)
+                    fps.textContent = fpsNum
+                })
+                fpsAdd.addEventListener('click', function(e) {
+                    fpsNum++
+                    if (fpsNum > 20) {
+                        fpsNum = 20
+                    }
+                    yyj.setFps(fpsNum)
+                    fps.textContent = fpsNum
+                })
+                yyj.start()
+            } else {
+                document.querySelector('.kwe-hy-canvas').textContent = '移动端暂时不支持此功能'
+            }
+            
+        </script>
+    </body>
+</html>

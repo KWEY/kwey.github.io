@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>demo</title>
+        <style>
+            body,
+            html {
+                margin: 0;
+                padding: 0;
+                width: 100%;
+                height: 100%;
+            }
+            .bofqi {
+                width: 100%;
+                height: 100%;
+                margin: 0 auto;
+                max-width: 600px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="bofqi"></div>
+        <script src="player.js"></script>
+        <script>
+            const yyj = new Player({
+                container: document.querySelector('.bofqi'),
+                list: [
+                    {
+                        index: 0,
+                        url: 'https://www.webq.top/static/1.mp4',
+                    },
+                    {
+                        index: 1,
+                        url: 'https://www.webq.top/static/2.mp4'
+                    },
+                    {
+                        index: 2,
+                        url: 'https://www.webq.top/static/3.mp4'
+                    },
+                    {
+                        index: 3,
+                        url: 'https://www.webq.top/static/4.mp4'
+                    },
+                    // {
+                    //     aid: '797818009',
+                    //     attribute: '0',
+                    //     bvid: 'BV1jy4y167ZC',
+                    //     cid: '256877624',
+                    //     dashSymbol: true,
+                    //     p: 1,
+                    // },
+                    // {
+                    //     aid: '94616344',
+                    //     attribute: '0',
+                    //     bvid: 'BV1fE411g7P6',
+                    //     cid: '161784997',
+                    //     dashSymbol: true,
+                    //     p: '2',
+                    // },
+                ],
+            })
+        </script>
+    </body>
+</html>

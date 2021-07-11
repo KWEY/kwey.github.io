@@ -1,0 +1,432 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>浏览器周期 | 雪人</title><meta name="keywords" content="lifecycle"><meta name="author" content="雪人"><meta name="copyright" content="雪人"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="背景应用程序生命周期是现代操作系统管理资源的关键方式。在Android、iOS和最新的Windows版本上，操作系统可以随时启动和停止应用程序。这使得这些平台能够将资源优化并重新分配到最有利于用户的地方。 在web端，历史上没有这样的生命周期，应用程序可以一直保持激活。随着大量网页的运行，内存、CPU、电池和网络等关键系统资源可能会被过度订阅，从而导致终端用户体验差。 虽然web平台早就有了与生命">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浏览器周期">
+<meta property="og:url" content="https://www.webq.top/2021/02/01/brower/lifecycle/index.html">
+<meta property="og:site_name" content="雪人">
+<meta property="og:description" content="背景应用程序生命周期是现代操作系统管理资源的关键方式。在Android、iOS和最新的Windows版本上，操作系统可以随时启动和停止应用程序。这使得这些平台能够将资源优化并重新分配到最有利于用户的地方。 在web端，历史上没有这样的生命周期，应用程序可以一直保持激活。随着大量网页的运行，内存、CPU、电池和网络等关键系统资源可能会被过度订阅，从而导致终端用户体验差。 虽然web平台早就有了与生命">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.webq.top/img/default3.jpg">
+<meta property="article:published_time" content="2021-02-01T06:04:52.359Z">
+<meta property="article:modified_time" content="2021-02-01T10:59:19.151Z">
+<meta property="article:author" content="雪人">
+<meta property="article:tag" content="lifecycle">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.webq.top/img/default3.jpg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://www.webq.top/2021/02/01/brower/lifecycle/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="manifest" href="/pwa/manifest.json"/><link rel="apple-touch-icon" sizes="180x180" href="/pwa/favicon.png"/><link rel="icon" type="image/png" sizes="32x32" href="/pwa/favicon.png"/><link rel="icon" type="image/png" sizes="16x16" href="/pwa/favicon.png"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.4.0',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  ClickShowText: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true,
+  postUpdate: '2021-02-01 18:59:19'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {
+  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }
+})()</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/face.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">153</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">40</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">12</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 工具集</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/follow/"><i class="fa-fw fas fa-star"></i><span> 收藏夹</span></a></li><li><a class="site-page" href="/audio/"><i class="fa-fw fas fa-music"></i><span> audio_context</span></a></li><li><a class="site-page" href="/piano/"><i class="fa-fw fas fa-music"></i><span> 在线Piano</span></a></li><li><a class="site-page" href="/hy/"><i class="fa-fw fas fa-video"></i><span> Canvas绘图</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 文档库</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/2020/11/15/doc/ci/"><i class="fa-fw far fa-circle"></i><span> CI</span></a></li><li><a class="site-page" href="/2020/11/15/doc/h264/"><i class="fa-fw far fa-video"></i><span> h264</span></a></li><li><a class="site-page" href="/2020/11/15/doc/f4v/"><i class="fa-fw far fa-video"></i><span> f4v</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mask/"><i class="fa-fw far fa-mask"></i><span> mask</span></a></li><li><a class="site-page" href="/2020/11/15/doc/dj/"><i class="fa-fw far fa-python"></i><span> Django</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mse/"><i class="fa-fw far fa-buffer"></i><span> MSE</span></a></li></ul></div></div></div></div><div id="body-wrap"><div id="sidebar"><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B5%E9%9D%A2%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%8A%B6%E6%80%81%E5%92%8C%E4%BA%8B%E4%BB%B6%E6%A6%82%E8%BF%B0"><span class="toc-number">2.</span> <span class="toc-text">页面生命周期状态和事件概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#State"><span class="toc-number">2.1.</span> <span class="toc-text">State</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Events"><span class="toc-number">2.2.</span> <span class="toc-text">Events</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#New-features-added-in-Chrome-68"><span class="toc-number">3.</span> <span class="toc-text">New features added in Chrome 68</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%91%E6%B5%8B%E9%A1%B5%E9%9D%A2%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%8A%B6%E6%80%81%E5%8F%98%E5%8C%96"><span class="toc-number">4.</span> <span class="toc-text">监测页面生命周期状态变化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%82%E5%AF%9F%E7%8A%B6%E6%80%81%E5%8F%98%E5%8C%96"><span class="toc-number">4.1.</span> <span class="toc-text">观察状态变化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%A1%E7%90%86%E8%B7%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E5%B7%AE%E5%BC%82"><span class="toc-number">5.</span> <span class="toc-text">管理跨浏览器差异</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E5%8F%91%E5%BB%BA%E8%AE%AE"><span class="toc-number">6.</span> <span class="toc-text">开发建议</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A6%81%E9%81%BF%E5%85%8D%E7%9A%84%E9%81%97%E7%95%99%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9FAPI"><span class="toc-number">7.</span> <span class="toc-text">要避免的遗留生命周期API</span></a></li></ol></div></div></div><header class="post-bg" id="page-header" style="background-image: url(/img/brower.jpeg)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">雪人</a></span><span id="menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 工具集</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/follow/"><i class="fa-fw fas fa-star"></i><span> 收藏夹</span></a></li><li><a class="site-page" href="/audio/"><i class="fa-fw fas fa-music"></i><span> audio_context</span></a></li><li><a class="site-page" href="/piano/"><i class="fa-fw fas fa-music"></i><span> 在线Piano</span></a></li><li><a class="site-page" href="/hy/"><i class="fa-fw fas fa-video"></i><span> Canvas绘图</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 文档库</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/2020/11/15/doc/ci/"><i class="fa-fw far fa-circle"></i><span> CI</span></a></li><li><a class="site-page" href="/2020/11/15/doc/h264/"><i class="fa-fw far fa-video"></i><span> h264</span></a></li><li><a class="site-page" href="/2020/11/15/doc/f4v/"><i class="fa-fw far fa-video"></i><span> f4v</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mask/"><i class="fa-fw far fa-mask"></i><span> mask</span></a></li><li><a class="site-page" href="/2020/11/15/doc/dj/"><i class="fa-fw far fa-python"></i><span> Django</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mse/"><i class="fa-fw far fa-buffer"></i><span> MSE</span></a></li></ul></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">浏览器周期</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-02-01T06:04:52.359Z" title="发表于 2021-02-01 14:04:52">2021-02-01</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-02-01T10:59:19.151Z" title="更新于 2021-02-01 18:59:19">2021-02-01</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/brower/">brower</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">5.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>17分钟</span></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>应用程序生命周期是现代操作系统管理资源的关键方式。在Android、iOS和最新的Windows版本上，操作系统可以随时启动和停止应用程序。这使得这些平台能够将资源优化并重新分配到最有利于用户的地方。</p>
+<p>在web端，历史上没有这样的生命周期，应用程序可以一直保持激活。随着大量网页的运行，内存、CPU、电池和网络等关键系统资源可能会被过度订阅，从而导致终端用户体验差。</p>
+<p>虽然web平台早就有了与生命周期状态相关的事件，比如 load, unload, and visibilitychange，但这些事件只允许开发人员响应用户行为的生命周期状态更改。为了让web在低功耗设备上可靠地工作（并且在所有平台上都能展示更多资源），浏览器需要一种主动回收和重新分配系统资源的方法。</p>
+<p>事实上，如今的浏览器已经采取了积极的措施来节省后台选项卡中页面的资源，许多浏览器（尤其是Chrome浏览器）都想做更多的工作，以减少它们的总体资源占用。</p>
+<p>问题是，目前开发者还没法干预这些系统启动，即使知道它们正在启动，这就意味着，浏览器需要采用保守的策略或者冒着页面出错的风险。</p>
+<p>页面生命周期API试图通过以下方式解决此问题：</p>
+<ul>
+<li><p>在web上引入并标准化生命周期状态的概念。</p>
+</li>
+<li><p>定义新的系统启动状态，允许浏览器限制隐藏或非活动选项卡可以使用的资源。</p>
+</li>
+<li><p>创建新的api和事件，允许web开发人员响应这些新的系统启动状态的转换。</p>
+</li>
+</ul>
+<p>此解决方案给web开发人员构建可适应系统干预的应用程序提供了可能，并允许浏览器更积极地优化系统资源，最终使所有web用户受益。</p>
+<p>本文的其余部分将介绍Chrome68中提供的新页面生命周期特性，并探讨它们与所有现有web平台状态和事件的关系。它还将为每个州的开发人员应该（不应该）做的工作类型提供建议和最佳实践。</p>
+<h2 id="页面生命周期状态和事件概述"><a href="#页面生命周期状态和事件概述" class="headerlink" title="页面生命周期状态和事件概述"></a>页面生命周期状态和事件概述</h2><p>所有页面生命周期状态都是离散的，并且相互排斥，这意味着一个页面一次只能处于一种状态。对页面生命周期状态的大多数更改通常可以通过DOM事件观察到（请参阅开发人员对每个状态的建议以了解异常）。</p>
+<p>一图胜千言<br> <img src="/img/lifecycle.png"></p>
+<h3 id="State"><a href="#State" class="headerlink" title="State"></a>State</h3><p>下表详细说明了每个状态。它还列出了可能出现在前后的状态，以及开发人员可以用来观察更改的事件。</p>
+<ul>
+<li> Active</li>
+</ul>
+<p>A page is in the active state if it is visible and has input focus.</p>
+<p>Possible previous states:</p>
+<p>passive (via the focus event)</p>
+<p>Possible next states:</p>
+<p>passive (via the blur event) |</p>
+<ul>
+<li> Passive</li>
+</ul>
+<p>A page is in the passive state if it is visible and does not have input focus.</p>
+<p>Possible previous states:</p>
+<p>active (via the blur event)</p>
+<p>hidden (via the visibilitychange event)</p>
+<p>Possible next states:</p>
+<p>active (via the focus event)</p>
+<p>hidden (via the visibilitychange event)</p>
+<ul>
+<li> Hidden</li>
+</ul>
+<p>A page is in the hidden state if it is not visible and has not been frozen.</p>
+<p>Possible previous states:</p>
+<p>passive (via the visibilitychange event)</p>
+<p>Possible next states:</p>
+<p>passive (via the visibilitychange event)</p>
+<p>frozen (via the freeze event)</p>
+<p>terminated (via the pagehide event)</p>
+<ul>
+<li> Frozen</li>
+</ul>
+<p>在冻结状态下，浏览器将暂停执行页面任务队列中的可冻结任务，直到页面解冻。这意味着JavaScript计时器和fetch回调之类的东西不会运行。已经在运行的任务可以完成（最重要的是冻结回调），但是它们可能会受限于它们可以做什么以及可以运行多长时间。</p>
+<p>浏览器冻结页面作为一种保存CPU/电池/数据使用的方法；它们也这样做作为一种实现更快的向后/向前导航的方法—避免了重新加载整个页面。</p>
+<p>Possible previous states:</p>
+<p>hidden (via the freeze event)</p>
+<p>Possible next states:</p>
+<p>active (via the resume event, then the pageshow event)</p>
+<p>passive (via the resume event, then the pageshow event)</p>
+<p>hidden (via the resume event)</p>
+<ul>
+<li> Terminated</li>
+</ul>
+<p>一旦页面开始被浏览器从内存中卸载和清除，它就处于终止状态。在此状态下不能启动任何新任务，正在进行的任务如果运行太长可能会被终止。</p>
+<p>Possible previous states:</p>
+<p>hidden (via the pagehide event)</p>
+<p>Possible next states:</p>
+<p>NONE</p>
+<ul>
+<li> Discarded</li>
+</ul>
+<p>当浏览器为了节省资源而卸载页面时，页面处于丢弃状态。任何任务、事件回调或任何类型的JavaScript都不能在此状态下运行，因为丢弃通常发生在资源受限的情况下，在资源受限的情况下启动新进程是不可能的。</p>
+<p>在丢弃状态下，标签本身（包括标签标题和favicon）通常对用户可见，即使页面已经消失。</p>
+<p>Possible previous states:</p>
+<p>frozen (no events fired)</p>
+<p>Possible next states:</p>
+<p>NONE</p>
+<h3 id="Events"><a href="#Events" class="headerlink" title="Events"></a>Events</h3><p>浏览器发送很多事件，但只有一小部分事件表示页面生命周期状态可能发生变化。下表概述了与生命周期相关的所有事件，并列出了它们可能转换到的状态。</p>
+<ul>
+<li> focus</li>
+</ul>
+<p>DOM元素获取焦点。</p>
+<blockquote>
+<p> 注意：焦点事件不一定表示状态更改。它只在页面以前没有输入焦点时发出状态更改的信号。</p>
+</blockquote>
+<p>Possible previous states:</p>
+<p>passive</p>
+<p>Possible current states:</p>
+<p>active</p>
+<ul>
+<li> blur<br>DOM元素失去焦点。</li>
+</ul>
+<blockquote>
+<p>注意：blur事件不一定表示状态更改。如果页面不再具有输入焦点（即页面不只是将焦点从一个元素切换到另一个元素），则只会发出状态更改的信号。</p>
+</blockquote>
+<p>Possible previous states:</p>
+<p>active</p>
+<p>Possible current states:</p>
+<p>passive</p>
+<ul>
+<li> visibilitychange</li>
+</ul>
+<p>文档的visibilityState值已更改。当用户导航到新页面、切换选项卡、关闭选项卡、最小化或关闭浏览器或切换移动操作系统上的应用程序时，就会发生这种情况。</p>
+<p>Possible previous states:</p>
+<p>passive</p>
+<p>hidden</p>
+<p>Possible current states:</p>
+<p>passive</p>
+<p>hidden</p>
+<ul>
+<li> freeze *</li>
+</ul>
+<p>页面刚刚被冻结。页面任务队列中的任何可释放任务都不会启动。</p>
+<p>Possible previous states:</p>
+<p>hidden</p>
+<p>Possible current states:</p>
+<p>frozen</p>
+<ul>
+<li> resume *<br>浏览器已恢复冻结页。</li>
+</ul>
+<p>Possible previous states:</p>
+<p>frozen</p>
+<p>Possible current states:</p>
+<p>active (if followed by the pageshow event)</p>
+<p>passive (if followed by the pageshow event)</p>
+<p>hidden</p>
+<ul>
+<li> pageshow<br>正在遍历会话历史记录条目。</li>
+</ul>
+<p>这可以是全新的页面加载，也可以是从前向缓存中获取的页面。如果页是从前向缓存中获取的，则事件的持久化属性为true，否则为false。</p>
+<p>Possible previous states:</p>
+<p>frozen (a resume event would have also fired)</p>
+<p>Possible current states:</p>
+<p>active</p>
+<p>passive</p>
+<p>hidden</p>
+<ul>
+<li> pagehide</li>
+</ul>
+<p>正在从中遍历会话历史记录条目。</p>
+<p>如果用户正在导航到另一个页面，并且浏览器能够将当前页面添加到后向缓存中以便稍后重用，则事件的persistend属性为true。如果为true，则页将进入冻结状态，否则将进入终止状态。</p>
+<p>Possible previous states:</p>
+<p>hidden</p>
+<p>Possible current states:</p>
+<p>frozen (event.persisted is true, freeze event follows)</p>
+<p>terminated (event.persisted is false, unload event follows)</p>
+<ul>
+<li> beforeunload</li>
+</ul>
+<p>窗口、文档及其资源即将卸载。文档仍然可见，此时事件仍然可以取消。</p>
+<blockquote>
+<p>警告：beforeunload事件只能用于警告用户未保存的更改。保存这些更改后，应删除该事件。决不能无条件地将其添加到页面中，因为这样做在某些情况下会损害性能。有关详细信息，请参阅下面legacy api部分。</p>
+</blockquote>
+<ul>
+<li> unload</li>
+</ul>
+<p>正在卸载该页。</p>
+<blockquote>
+<p>警告：不建议使用unload事件，因为它不可靠，并且在某些情况下会影响性能。有关更多详细信息，请参阅legacy api部分。</p>
+</blockquote>
+<p>Possible previous states:</p>
+<p>hidden</p>
+<p>Possible current states:</p>
+<p>terminated</p>
+<h2 id="New-features-added-in-Chrome-68"><a href="#New-features-added-in-Chrome-68" class="headerlink" title="New features added in Chrome 68"></a>New features added in Chrome 68</h2><p>上面的图表显示了系统启动而不是用户启动的两种状态：冻结和丢弃。如上所述，现在的浏览器已经偶尔冻结和丢弃隐藏的标签（由他们自己决定），但是开发人员无法知道何时会发生这种情况。</p>
+<p>在chrome68中，开发人员现在可以通过监听文档上的冻结和恢复事件来观察隐藏选项卡何时被冻结和解冻。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="built_in">document</span>.addEventListener(<span class="string">&#x27;freeze&#x27;</span>, <span class="function">(<span class="params">event</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// The page is now frozen.</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="built_in">document</span>.addEventListener(<span class="string">&#x27;resume&#x27;</span>, <span class="function">(<span class="params">event</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// The page has been unfrozen.</span></span><br><span class="line">&#125;);</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
+<p>在chrome68中，document对象现在还包括一个wasdoccarded属性。要确定页是否在隐藏选项卡中被丢弃，可以在页加载时检查此属性的值（注意：丢弃的页必须重新加载才能再次使用）。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="built_in">document</span>.wasDiscarded) &#123;</span><br><span class="line">  <span class="comment">// Page was previously discarded by the browser while in a hidden tab.</span></span><br><span class="line">&#125;</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
+<p>有关冻结和恢复事件中的重要操作，以及如何处理和准备丢弃的页面的建议，请参阅下面每个状态建议。</p>
+<p>接下来的几节将概述这些新特性如何适应现有的web平台状态和事件。</p>
+<h2 id="监测页面生命周期状态变化"><a href="#监测页面生命周期状态变化" class="headerlink" title="监测页面生命周期状态变化"></a>监测页面生命周期状态变化</h2><p>在active, passive, and hidden 状态下，可以运行JavaScript代码，从现有web平台api确定当前页面生命周期状态。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> getState = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="built_in">document</span>.visibilityState === <span class="string">&#x27;hidden&#x27;</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;hidden&#x27;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (<span class="built_in">document</span>.hasFocus()) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;active&#x27;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">&#x27;passive&#x27;</span>;</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
+<p>另一方面，冻结和终止状态只能在其各自的事件侦听器（冻结和页面隐藏）中检测到，因为状态正在更改。</p>
+<h3 id="观察状态变化"><a href="#观察状态变化" class="headerlink" title="观察状态变化"></a>观察状态变化</h3><p>在上面定义的getState（）函数的基础上，您可以使用以下代码观察所有页生命周期状态的更改。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Stores the initial state using the `getState()` function (defined above).</span></span><br><span class="line"><span class="keyword">let</span> state = getState();</span><br><span class="line"></span><br><span class="line"><span class="comment">// Accepts a next state and, if there&#x27;s been a state change, logs the</span></span><br><span class="line"><span class="comment">// change to the console. It also updates the `state` value defined above.</span></span><br><span class="line"><span class="keyword">const</span> logStateChange = <span class="function">(<span class="params">nextState</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> prevState = state;</span><br><span class="line">  <span class="keyword">if</span> (nextState !== prevState) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`State change: <span class="subst">$&#123;prevState&#125;</span> &gt;&gt;&gt; <span class="subst">$&#123;nextState&#125;</span>`</span>);</span><br><span class="line">    state = nextState;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// These lifecycle events can all use the same listener to observe state</span></span><br><span class="line"><span class="comment">// changes (they call the `getState()` function to determine the next state).</span></span><br><span class="line">[<span class="string">&#x27;pageshow&#x27;</span>, <span class="string">&#x27;focus&#x27;</span>, <span class="string">&#x27;blur&#x27;</span>, <span class="string">&#x27;visibilitychange&#x27;</span>, <span class="string">&#x27;resume&#x27;</span>].forEach(<span class="function">(<span class="params">type</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">window</span>.addEventListener(type, <span class="function">() =&gt;</span> logStateChange(getState()), &#123;<span class="attr">capture</span>: <span class="literal">true</span>&#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// The next two listeners, on the other hand, can determine the next</span></span><br><span class="line"><span class="comment">// state from the event itself.</span></span><br><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">&#x27;freeze&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// In the freeze event, the next state is always frozen.</span></span><br><span class="line">  logStateChange(<span class="string">&#x27;frozen&#x27;</span>);</span><br><span class="line">&#125;, &#123;<span class="attr">capture</span>: <span class="literal">true</span>&#125;);</span><br><span class="line"></span><br><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">&#x27;pagehide&#x27;</span>, <span class="function">(<span class="params">event</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (event.persisted) &#123;</span><br><span class="line">    <span class="comment">// If the event&#x27;s persisted property is `true` the page is about</span></span><br><span class="line">    <span class="comment">// to enter the Back-Forward Cache, which is also in the frozen state.</span></span><br><span class="line">    logStateChange(<span class="string">&#x27;frozen&#x27;</span>);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// If the event&#x27;s persisted property is not `true` the page is</span></span><br><span class="line">    <span class="comment">// about to be unloaded.</span></span><br><span class="line">    logStateChange(<span class="string">&#x27;terminated&#x27;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;, &#123;<span class="attr">capture</span>: <span class="literal">true</span>&#125;);</span><br><span class="line"></span><br><span class="line">上面的代码做了三件事：</span><br><span class="line"></span><br><span class="line"> </span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>使用getState（）函数设置初始状态。</p>
+</li>
+<li><p>定义一个接受下一个状态的函数，如果有更改，则将状态更改记录到控制台。</p>
+</li>
+<li><p>为所有必要的生命周期事件添加捕获事件侦听器，这些事件反过来调用logStateChange（），传递下一个状态。</p>
+</li>
+</ul>
+<blockquote>
+<p>警告！这段代码在不同的浏览器中产生不同的结果，因为事件的顺序和可靠性没有得到一致的实现。要了解如何最好地处理这些不一致，请参阅管理跨浏览器差异。</p>
+</blockquote>
+<p>以上代码需要注意的一点是，所有事件侦听器都被添加到window中，并且它们都传递{capture:true}。有几个原因：</p>
+<ul>
+<li><p>并非所有页面生命周期事件都具有相同的目标。pagehide和pageshow在window上启动；visibilitychange、freeze和resume在document上启动，focus和blur在各自的DOM元素上启动。</p>
+</li>
+<li><p>这些事件中的大多数都没有冒泡，这意味着不可能将非捕获的事件侦听器添加到一个公共祖先元素并观察所有这些事件。</p>
+</li>
+<li><p>捕获阶段在目标或冒泡阶段之前执行，因此在那里添加侦听器有助于确保它们在其他代码取消它们之前运行。</p>
+</li>
+</ul>
+<h2 id="管理跨浏览器差异"><a href="#管理跨浏览器差异" class="headerlink" title="管理跨浏览器差异"></a>管理跨浏览器差异</h2><p>本文开头的图表根据页面生命周期API概述了状态和事件流。但是由于这个API刚刚被引入，新的事件和 DOM API 并没有在所有浏览器中实现。</p>
+<p>此外，目前在所有浏览器中实现的事件并不是一致地实现的。例如：</p>
+<ul>
+<li><p>某些浏览器在切换选项卡时不会触发模糊事件。这意味着（与上面的图表和表格相反）页面可以从活动状态转到隐藏状态，而无需先经历被动状态。</p>
+</li>
+<li><p>一些浏览器实现了一个前向缓存，页面生命周期API将缓存的页面分类为处于冻结状态。由于这个API是全新的，这些浏览器还没有实现冻结和恢复事件，尽管这个状态仍然可以通过pagehide和pageshow事件观察到。</p>
+</li>
+<li><p>旧版本的Internet Explorer（10及以下）不实现visibilitychange事件。</p>
+</li>
+<li><p>pagehide和visibilitychange事件的调度顺序已更改。以前的浏览器会在pagehide之后调度visibilitychange，如果页面的可见性状态在卸载页面时是可见的。新的Chrome版本将在pagehide之前发送visibilitychange，而不管文档在卸载时的可见性状态如何。</p>
+</li>
+<li><p>Safari在关闭选项卡时不会可靠地触发pagehide或visibilitychange事件（webkit Bug:151610和151234），因此在Safari中，您可能还需要侦听beforeunload事件以检测隐藏状态的更改。但由于beforeunload事件可以取消，因此需要等到事件传播完成后，才能知道状态是否已更改为hidden。重要提示：只有在Safari中才能使用beforeunload事件，因为在其他浏览器中使用此事件可能会影响性能。有关详细信息，请参阅legacy api部分。</p>
+</li>
+</ul>
+<p>为了让开发人员更容易处理这些跨浏览器的不一致性，并且只关注于遵循生命周期状态的建议和最佳实践 , 有PageLifecycle.js，一个用于观察页面生命周期API状态更改的JavaScript库。</p>
+<p>PageLifecycle.js规范化事件触发顺序中的跨浏览器差异，以便状态更改始终完全按照本文中图表和表格中的概述进行（并且在所有浏览器中都是一致的）。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/GoogleChromeLabs/page-lifecycle">PageLifecycle.js</a></p>
+<h2 id="开发建议"><a href="#开发建议" class="headerlink" title="开发建议"></a>开发建议</h2><p>作为开发人员，了解页面生命周期状态并知道如何在代码中观察它们是很重要的，因为应该（和不应该）执行的工作类型在很大程度上取决于页面所处的状态。</p>
+<p>例如，如果页面处于隐藏状态，则向用户显示临时通知显然没有意义。虽然这个例子很明显，但还有其他一些不太明显的建议值得列举。</p>
+<ul>
+<li>Active<br>激活状态是用户最关键的时间，因此也是页面响应用户输入的最重要时间。</li>
+</ul>
+<p>任何可能阻塞主线程的非UI任务都应该置为闲置，或交给web worker</p>
+<ul>
+<li>Passive<br>页面失焦，但是能看到</li>
+</ul>
+<p>用户不与页面交互，但仍然可以看到页面。这意味着UI更新和动画应该仍然是平滑的，但是这些更新发生的时间并不那么关键。</p>
+<p>当页面从Active更改为Passive时，正是保存未保存的应用程序状态的好时机。</p>
+<ul>
+<li>Hidden<br>当页面从Passive变为Hidden时，在重新加载之前，用户可能不会再次与之交互。</li>
+</ul>
+<p>向hidden的转换通常也是开发人员可以可靠观察到的最后一个状态更改（在移动设备上尤其如此，因为用户可以关闭选项卡或浏览器应用程序本身，在这些情况下不会触发beforeunload、pagehide和unload事件）。</p>
+<p>这意味着您应该将隐藏状态视为用户会话的可能结束。换句话说，保存任何未保存的应用程序状态并发送任何未发送的分析数据。</p>
+<p>您还应该停止进行UI更新（因为用户看不到它们），并且应该停止用户不希望在后台运行的任何任务。</p>
+<ul>
+<li>Frozen<br>在冻结状态下，任务队列中可冻结的任务将被挂起，直到页面解除冻结-这可能永远不会发生（例如，如果页面被丢弃）。</li>
+</ul>
+<p>这意味着当页面从隐藏变为冻结时，必须停止任何计时器或断开任何连接，如果这些连接冻结，可能会影响同一来源中其他打开的选项卡，或影响浏览器将页面放入前向缓存的能力。</p>
+<p>尤其重要的是：</p>
+<p>关闭所有打开的IndexedDB连接。</p>
+<p>关闭开放频道连接。</p>
+<p>关闭活动的WebRTC连接。</p>
+<p>停止任何网络轮询或关闭任何打开的Web套接字连接。</p>
+<p>释放所有持有的Web锁。</p>
+<p>您还应该将任何动态视图状态（例如，无限列表视图中的滚动位置）持久化到sessionStorage（或IndexedDB via commit（）），以便在以后丢弃并重新加载页面时恢复这些状态。</p>
+<p>如果页面从冻结变回隐藏，则可以重新打开所有关闭的连接，或重新启动页面最初冻结时停止的任何轮询。</p>
+<ul>
+<li>Terminated</li>
+</ul>
+<p>当页转换到终止状态时，通常不需要执行任何操作。</p>
+<p>由用户操作而卸载的页面在进入终止状态之前总是经过隐藏状态，隐藏状态是应该执行会话结束逻辑（例如，持久化应用程序状态和向分析报告）的位置。</p>
+<p>另外（正如在关于隐藏状态的建议中提到的），开发人员必须认识到，在许多情况下（尤其是在移动设备上）无法可靠地检测到向终止状态的转换，因此依赖终止事件（例如beforeunload、pagehide和unload）的开发人员可能会丢失数据。</p>
+<ul>
+<li>Discarded</li>
+</ul>
+<p>在丢弃页面时，开发人员无法观察到丢弃的状态。这是因为页面通常在资源限制下被丢弃，在大多数情况下，仅仅为了允许脚本响应丢弃事件而解冻页面是不可能的。</p>
+<p>因此，您应该在从hidden更改为freezed时准备放弃的可能性，然后可以通过检查文档已丢弃.</p>
+<h2 id="要避免的遗留生命周期API"><a href="#要避免的遗留生命周期API" class="headerlink" title="要避免的遗留生命周期API"></a>要避免的遗留生命周期API</h2><ul>
+<li>The unload event</li>
+</ul>
+<p>许多开发人员将unload事件视为有保证的回调，并将其用作会话结束信号来保存状态和发送分析数据，但这样做极不可靠，尤其是在移动设备上！卸载事件在许多典型的卸载情况下都不会触发，包括从移动设备上的选项卡切换器关闭选项卡或从应用切换器关闭浏览器应用程序。</p>
+<p>因此，最好依靠visibilitychange事件来确定会话何时结束，并将隐藏状态视为保存应用程序和用户数据的最后可靠时间。</p>
+<p>此外，仅仅存在一个注册的卸载事件处理程序（通过onunload或addEventListener（））就可以阻止浏览器将页面放在前向缓存中以实现更快的前向和后向加载。</p>
+<p>在所有现代浏览器（包括IE11）中，建议始终使用pagehide事件来检测可能的页面卸载（即终止状态），而不是unload事件。如果您需要支持InternetExplorer版本10及更低版本，您应该检测pagehide事件，并且只有在浏览器不支持pagehide的情况下才使用unload</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> terminationEvent = <span class="string">&#x27;onpagehide&#x27;</span> <span class="keyword">in</span> self ? <span class="string">&#x27;pagehide&#x27;</span> : <span class="string">&#x27;unload&#x27;</span>;</span><br><span class="line"></span><br><span class="line">addEventListener(terminationEvent, <span class="function">(<span class="params">event</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// Note: if the browser is able to cache the page, `event.persisted`</span></span><br><span class="line">  <span class="comment">// is `true`, and the state is frozen rather than terminated.</span></span><br><span class="line">&#125;, &#123;<span class="attr">capture</span>: <span class="literal">true</span>&#125;);</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
+
+
+<ul>
+<li>The beforeunload event</li>
+</ul>
+<p>beforeunload事件与unload事件有一个类似的问题，即当存在该事件时，它会阻止浏览器在其前向缓存中缓存页面。</p>
+<p>beforeunload和unload的区别在于beforeunload有合法的用法。例如，当您想警告用户他们有未保存的更改时，如果他们继续卸载页面，这些更改将丢失。</p>
+<p>由于使用beforeunload有正当理由，但使用它会阻止将页添加到前向缓存，因此建议您仅在用户有未保存的更改时添加beforeunload侦听器，然后在保存未保存的更改后立即将其删除。</p>
+<p>换句话说，不要这样做（因为它会无条件地添加beforeunload侦听器）：</p>
+<p>参考文档：<br><a target="_blank" rel="noopener" href="https://developers.google.com/web/updates/2018/07/page-lifecycle-api"> Overview of page lifecycle states</a><br><a target="_blank" rel="noopener" href="https://wicg.github.io/page-lifecycle/"> W3c  Page Lifecycle</a> </p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">雪人</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://www.webq.top/2021/02/01/brower/lifecycle/">https://www.webq.top/2021/02/01/brower/lifecycle/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.webq.top" target="_blank">雪人</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/lifecycle/">lifecycle</a></div><div class="post_share"><div class="social-share" data-image="/img/default3.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/04/30/dm-render/render/"><img class="prev-cover" src="/img/default2.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">浏览器渲染原理</div></div></a></div><div class="next-post pull-right"><a href="/2020/11/19/doc/mask/"><img class="next-cover" src="/img/hy.jpeg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">CSS Masking Module Level 1</div></div></a></div></nav></article></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By 雪人</div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.spacingElementById('content-inner')
+  else {
+    $.getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js', () => {
+      pangu.spacingElementById('content-inner')
+    })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguFn)</script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div></div></body></html>
