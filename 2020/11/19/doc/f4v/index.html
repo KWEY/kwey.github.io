@@ -13,7 +13,7 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://www.webq.top/img/hy.jpeg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://www.webq.top/2020/11/19/doc/f4v/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="manifest" href="/pwa/manifest.json"/><link rel="apple-touch-icon" sizes="180x180" href="/pwa/favicon.png"/><link rel="icon" type="image/png" sizes="32x32" href="/pwa/favicon.png"/><link rel="icon" type="image/png" sizes="16x16" href="/pwa/favicon.png"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var GLOBAL_CONFIG = { 
   root: '/',
-  hexoversion: '5.4.0',
+  hexoversion: '5.2.0',
   algolia: undefined,
   localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
   translate: undefined,
@@ -142,7 +142,7 @@ var saveToLocal = {
     if (t === 'dark') activateDarkMode()
     else if (t === 'light') activateLightMode()
   }
-})()</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/face.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">153</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">40</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">12</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 工具集</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/follow/"><i class="fa-fw fas fa-star"></i><span> 收藏夹</span></a></li><li><a class="site-page" href="/audio/"><i class="fa-fw fas fa-music"></i><span> audio_context</span></a></li><li><a class="site-page" href="/piano/"><i class="fa-fw fas fa-music"></i><span> 在线Piano</span></a></li><li><a class="site-page" href="/hy/"><i class="fa-fw fas fa-video"></i><span> Canvas绘图</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 文档库</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/2020/11/15/doc/ci/"><i class="fa-fw far fa-circle"></i><span> CI</span></a></li><li><a class="site-page" href="/2020/11/15/doc/h264/"><i class="fa-fw far fa-video"></i><span> h264</span></a></li><li><a class="site-page" href="/2020/11/15/doc/f4v/"><i class="fa-fw far fa-video"></i><span> f4v</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mask/"><i class="fa-fw far fa-mask"></i><span> mask</span></a></li><li><a class="site-page" href="/2020/11/15/doc/dj/"><i class="fa-fw far fa-python"></i><span> Django</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mse/"><i class="fa-fw far fa-buffer"></i><span> MSE</span></a></li></ul></div></div></div></div><div id="body-wrap"><div id="sidebar"><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Adobe-Flash-Video-File-Format-Specification"><span class="toc-number">1.</span> <span class="toc-text">Adobe Flash Video File Format Specification</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#a1"><span class="toc-number">2.</span> <span class="toc-text">1. F4V文件格式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#a1-1"><span class="toc-number">2.1.</span> <span class="toc-text">1.1. Overview</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#a1-2"><span class="toc-number">2.2.</span> <span class="toc-text">1.2. 简单数据类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#a1-3"><span class="toc-number">2.3.</span> <span class="toc-text">1.3. F4V box format</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#a1-4"><span class="toc-number">2.4.</span> <span class="toc-text">1.4. f4v框层次</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#a1-5"><span class="toc-number">2.5.</span> <span class="toc-text">1.5. 示例描述框层次结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#a1-6"><span class="toc-number">2.6.</span> <span class="toc-text">1.6. 处理不支持的boxes</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#a1-7"><span class="toc-number">2.7.</span> <span class="toc-text">1.7. 排序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#a1-8"><span class="toc-number">2.8.</span> <span class="toc-text">1.8. Supported Media Types</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#a1-8-1"><span class="toc-number">2.8.1.</span> <span class="toc-text">1.8.1. Supported audio types</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#a1-8-2"><span class="toc-number">2.8.2.</span> <span class="toc-text">1.8.2. Supported video types</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#a1-8-3"><span class="toc-number">2.8.3.</span> <span class="toc-text">1.8.3. Supported data types&lt;&#x2F;&gt;
+})()</script><meta name="generator" content="Hexo 5.2.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/face.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">153</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">40</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">12</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 工具集</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/follow/"><i class="fa-fw fas fa-star"></i><span> 收藏夹</span></a></li><li><a class="site-page" href="/audio/"><i class="fa-fw fas fa-music"></i><span> audio_context</span></a></li><li><a class="site-page" href="/piano/"><i class="fa-fw fas fa-music"></i><span> 在线Piano</span></a></li><li><a class="site-page" href="/hy/"><i class="fa-fw fas fa-video"></i><span> Canvas绘图</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 文档库</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/2020/11/15/doc/ci/"><i class="fa-fw far fa-circle"></i><span> CI</span></a></li><li><a class="site-page" href="/2020/11/15/doc/h264/"><i class="fa-fw far fa-video"></i><span> h264</span></a></li><li><a class="site-page" href="/2020/11/15/doc/f4v/"><i class="fa-fw far fa-video"></i><span> f4v</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mask/"><i class="fa-fw far fa-mask"></i><span> mask</span></a></li><li><a class="site-page" href="/2020/11/15/doc/dj/"><i class="fa-fw far fa-python"></i><span> Django</span></a></li><li><a class="site-page" href="/2020/11/15/doc/mse/"><i class="fa-fw far fa-buffer"></i><span> MSE</span></a></li></ul></div></div></div></div><div id="body-wrap"><div id="sidebar"><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Adobe-Flash-Video-File-Format-Specification"><span class="toc-number">1.</span> <span class="toc-text">Adobe Flash Video File Format Specification</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#a1"><span class="toc-number">2.</span> <span class="toc-text">1. F4V文件格式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#a1-1"><span class="toc-number">2.1.</span> <span class="toc-text">1.1. Overview</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#a1-2"><span class="toc-number">2.2.</span> <span class="toc-text">1.2. 简单数据类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#a1-3"><span class="toc-number">2.3.</span> <span class="toc-text">1.3. F4V box format</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#a1-4"><span class="toc-number">2.4.</span> <span class="toc-text">1.4. f4v框层次</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#a1-5"><span class="toc-number">2.5.</span> <span class="toc-text">1.5. 示例描述框层次结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#a1-6"><span class="toc-number">2.6.</span> <span class="toc-text">1.6. 处理不支持的boxes</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#a1-7"><span class="toc-number">2.7.</span> <span class="toc-text">1.7. 排序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#a1-8"><span class="toc-number">2.8.</span> <span class="toc-text">1.8. Supported Media Types</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#a1-8-1"><span class="toc-number">2.8.1.</span> <span class="toc-text">1.8.1. Supported audio types</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#a1-8-2"><span class="toc-number">2.8.2.</span> <span class="toc-text">1.8.2. Supported video types</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#a1-8-3"><span class="toc-number">2.8.3.</span> <span class="toc-text">1.8.3. Supported data types&lt;&#x2F;&gt;
 
 Media type       	Comments
 Text              文本（0x74657874）或tx3g（0x74783367）
@@ -166,8 +166,8 @@ FTYP箱应尽早放置，并应位于任何可变长度箱之前。
 flash player对ftyp框没有任何限制。如果文件包含Flash播放器可以解码的数据，Flash播放器会尝试播放。
 ftyp box
 Field	                Type           Comments
-Header              	BOXHEADER	     BoxType &#x3D; &#39;ftyp&#39; (0x66747970)
-MajorBrand            UI32          主要品牌标识符。对于f4v文件，majorbrand是&#39;f4v&#39;（0x66347620）。
+Header              	BOXHEADER	     BoxType &#x3D; &amp;#x27;ftyp&amp;#x27; (0x66747970)
+MajorBrand            UI32          主要品牌标识符。对于f4v文件，majorbrand是&amp;#x27;f4v&amp;#x27;（0x66347620）。
 
 MinorVersion          UI32          Minorversion仅提供信息。不得用于确定文件是否符合标准。
                                     它可能允许更精确地识别主要品牌，以便进行检查、调试或改进解码。
@@ -186,7 +186,7 @@ Quantity: One
 pdin框应尽可能早地放置在文件中，位于文件类型（ftyp）框之后，以获得最大的实用性。
 pdin box
 Field	          Type	        Comment
-Header          BOXHEADER	    BoxType &#x3D; &#39;pdin&#39; (0x7064696E)
+Header          BOXHEADER	    BoxType &#x3D; &amp;#x27;pdin&amp;#x27; (0x7064696E)
 Version         UI8	          Expected to be 0
 Flags           UI24	        Reserved. Set to 0
 RateDelay       RATEDELAY[]	  任意数量的RATEDLAY记录，直到方框结束
@@ -205,7 +205,7 @@ Quantity: One
 Movie（moov）框实际上是一个f4v文件的“头”。MOOV框本身包含一个或多个其他框，而其他框又包含定义F4V数据结构的其他框。
 moov box
 Field	      Type        	Comment
-Header	    BOXHEADER	    BoxType &#x3D; &#39;moov&#39; (0x6D6F6F76)
+Header	    BOXHEADER	    BoxType &#x3D; &amp;#x27;moov&amp;#x27; (0x6D6F6F76)
 Boxes	      BOX [ ]	      定义文件结构的任意框数
 
 
@@ -220,7 +220,7 @@ Quantity: One
 Movie标题（MVHD）框定义应用于整个F4V文件的播放信息。MVHD箱应首先放置在其容器中。
 mvhd box
 Field     	    Type	              Comment
-Header	        BOXHEADER	          BoxType &#x3D; &#39;mvhd&#39; (0x6D766864)
+Header	        BOXHEADER	          BoxType &#x3D; &amp;#x27;mvhd&amp;#x27; (0x6D766864)
 Version	        UI8	                Either 0 or 1
 Flags           UI24	              Reserved. Set to 0
 CreationTime    IF Version &#x3D;&#x3D; 0     f4v文件的创建时间，
@@ -245,9 +245,9 @@ Volume          SI8.8               文件的主卷，表示为定点8.8号
 Reserved        UI16	              Reserved. Set to 0
 Reserved        UI32 [2]	          Reserved. Set to 0
 Matrix          SI32 [9]            f4v文件的转换矩阵应为:
-                                    {0x00010000, 0, 0,
+                                    &amp;#123;0x00010000, 0, 0,
                                     0, 0x00010000, 0,
-                                    0, 0, 0x40000000}
+                                    0, 0, 0x40000000&amp;#125;
 Reserved        UI32 [6]	          Reserved. Set to 0
 NextTrackID     UI32                要添加到演示文稿的下一个track的ID。
                                     该值不应为0，但可以全部为1，以表示未定义状态。
@@ -264,7 +264,7 @@ Quantity: One or more
 每个trak框对应于f4v文件中的单个媒体曲目，并包含进一步定义媒体曲目属性的框。
 trak box
 Field	          Type               Comment
-Header	        BOXHEADER	         BoxType &#x3D; &#39;trak&#39; (0x7472616B)
+Header	        BOXHEADER	         BoxType &#x3D; &amp;#x27;trak&amp;#x27; (0x7472616B)
 Boxes	          BOX [ ]	           定义媒体轨的任意框数
 
 
@@ -279,7 +279,7 @@ Quantity: One
 The Track Header （TKHD）框描述磁道的主要属性。TKHD箱应首先放在其容器中。
 tkhd box
 Field	            Type	            Comment
-Header	          BOXHEADER	        BoxType &#x3D; &#39;tkhd&#39; (0x746B6864)
+Header	          BOXHEADER	        BoxType &#x3D; &amp;#x27;tkhd&amp;#x27; (0x746B6864)
 
 Version	          UI8	              Either 0 or 1
 Flags             UI24              Bit 0 &#x3D; 开启
@@ -306,9 +306,9 @@ AlternateGroup	  SI16	            0
 Volume            SI8.8             音频轨为0x0100（定点8.8，数字代表1.0），否则为0
 Reserved          UI16	            Reserved. Set to 0
 TransformMatrix	  SI32[9]           定义透视变换的固定点值矩阵，应
-                                    {0x00010000, 0, 0
+                                    &amp;#123;0x00010000, 0, 0
                                     0, 0x00010000, 0
-                                    0, 0, 0x40000000}
+                                    0, 0, 0x40000000&amp;#125;
 Width             UI16.16	          以固定点表示的宽度16.16数字
 Height	          UI16.16	          以固定点表示的高度16.16数字
 
@@ -325,7 +325,7 @@ Quantity: One
 如果文件不包含EDTS框，则会隐式地对这些时间线进行一对一映射。EDTS框应位于媒体（MDIA）框之前。
 edit box
 Field	            Type	          Comment
-Header            BOXHEADER	      BoxType &#x3D; &#39;edts&#39; (0x65647473)
+Header            BOXHEADER	      BoxType &#x3D; &amp;#x27;edts&amp;#x27; (0x65647473)
 Edit list box	    BOX	            An explicit time-line map
 
 
@@ -347,7 +347,7 @@ tkhd box
 媒体应该在间隙后立即有一个关键帧。另外，flash播放器可以使用同步采样框中的数据在间隙后查找关键帧。
 elst box
 Field	              Type	            Comment
-Header              BOXHEADER         BoxType &#x3D; &#39;elst&#39; (0x656C7374)
+Header              BOXHEADER         BoxType &#x3D; &amp;#x27;elst&amp;#x27; (0x656C7374)
 Version	            UI8               Either 0 or 1
 Flags	              UI24	            Reserved. Set to 0
 EntryCount  	      UI32	            Number of entries in the edit list entry table
@@ -377,7 +377,7 @@ tkhd box
 媒体（MDIA）框包含定义媒体曲目属性的框
 mdia box
 Field	            Type	          Comment
-Header            BOXHEADER	      BoxType &#x3D; &#39;mdia&#39; (0x6D646961)
+Header            BOXHEADER	      BoxType &#x3D; &amp;#x27;mdia&amp;#x27; (0x6D646961)
 Edit list box	    BOX[]	          定义媒体跟踪属性的任意数量的框
 
 
@@ -392,7 +392,7 @@ Quantity: One
 媒体标题（MDHD）框描述媒体曲目的属性。MDHD箱应首先放在其容器中。
 mdhd box
 Field	            Type	          Comment
-Header	          BOXHEADER	      BoxType &#x3D; &#39;mdhd&#39; (0x6D646864)
+Header	          BOXHEADER	      BoxType &#x3D; &amp;#x27;mdhd&amp;#x27; (0x6D646864)
 Version     	    UI8	            Either 0 or 1
 Flags	            UI24          	Reserved. Set to 0
 CreationTime      IF Version &#x3D;&#x3D; 0
@@ -425,12 +425,12 @@ Quantity: One
 处理程序引用（HDLR）框声明跟踪中媒体数据的性质。hdlr框应位于媒体信息（minf）框之前。
 hdlr box
 Field	          Type	          Comment
-Header          BOXHEADER	      BoxType &#x3D; &#39;hdlr&#39; (0x68646C72)
+Header          BOXHEADER	      BoxType &#x3D; &amp;#x27;hdlr&amp;#x27; (0x68646C72)
 Version         UI8             Expected to be 0
 Flags           UI24            Reserved. Set to 0.
 Predefined      UI32            Set to 0.
 HandlerType     UI32            包含以下4cc值的整数：“vide”&#x3D;视频轨
-                                &#39;soun&#39;&#x3D;音频轨&#39;data&#39;&#x3D;数据轨&#39;hint&#39;&#x3D;提示轨
+                                &amp;#x27;soun&amp;#x27;&#x3D;音频轨&amp;#x27;data&amp;#x27;&#x3D;数据轨&amp;#x27;hint&amp;#x27;&#x3D;提示轨
                                 其他轨道类型将被忽略。
 Reserved        UI32 [3]        Set to 0.
 Name            String          以空结尾的命名跟踪类型的utf-8字符串，用于调试。
@@ -448,7 +448,7 @@ Quantity: One
 minf框包含一个媒体头框，其类型与曲目的handlerType相对应。
 minf box
 Field	        Type	          Comment
-Header        BOXHEADER       BoxType &#x3D; &#39;minf&#39; (0x6D696E66)
+Header        BOXHEADER       BoxType &#x3D; &amp;#x27;minf&amp;#x27; (0x6D696E66)
 Boxes         BOX [ ]         定义track媒体信息的任意框数
 
 
@@ -463,7 +463,7 @@ Quantity: One for a video track, otherwise zero.
 视频媒体标题（vmhd）框包含视频媒体的一般信息，与所使用的编码无关。vmhd箱应首先放在其容器中。
 vmhd box
 Field	        Type	          Comment
-Header        BOXHEADER       BoxType &#x3D; &#39;vmhd&#39; (0x766D6864)
+Header        BOXHEADER       BoxType &#x3D; &amp;#x27;vmhd&amp;#x27; (0x766D6864)
 Version       UI8             Expected to be 0
 Flags         UI24            Set to 1.
 GraphicsMode  UI16            视频轨的合成模式。默认值为0，这意味着复制现有图像。
@@ -481,7 +481,7 @@ Quantity: One for an audio track, otherwise zero.
 声音媒体标题框包含音频媒体的一般信息，与所使用的编码无关。SMHD盒应首先放在其容器中。
 smhd box
 Field	        Type	          Comment
-Header        BOXHEADER       BoxType &#x3D; &#39;smhd&#39; (0x736D6864)
+Header        BOXHEADER       BoxType &#x3D; &amp;#x27;smhd&amp;#x27; (0x736D6864)
 Version       UI8             Expected to be 0.
 Flags         UI24            Set to 0.
 Balance       SI8.8           固定点8.8号。将单声道音频曲目映射到立体声空间，如下所示：
@@ -502,7 +502,7 @@ Quantity: One for a hint track, otherwise zero.
 提示媒体头（hmhd）框包含提示跟踪的一般信息，与所使用的协议无关。HMHD箱应首先放在其容器中。
 hmhd box
 Field	        Type	          Comment
-Header        BOXHEADER       BoxType &#x3D; &#39;hmhd&#39; (0x686D6864)
+Header        BOXHEADER       BoxType &#x3D; &amp;#x27;hmhd&amp;#x27; (0x686D6864)
 Version       UI8             Expected to be 0.
 Flags         UI24            Set to 0.
 MaxPDUSize    UI16            Size (in bytes) of the largest PDU in hint stream.
@@ -523,7 +523,7 @@ Quantity: Zero for video, audio, and hint tracks, otherwise, one.
 空媒体标题（NMHD）框包含视频和音频以外的曲目的常规信息。NMHD箱应首先放置在其容器中。
 nmhd box
 Field	        Type	          Comment
-Header        BOXHEADER       BoxType &#x3D; &#39;nmhd&#39; (0x6E6D6864)
+Header        BOXHEADER       BoxType &#x3D; &amp;#x27;nmhd&amp;#x27; (0x6E6D6864)
 Version       UI8             Expected to be 0.
 Flags         UI24            Reserved. Set to 0
 
@@ -539,7 +539,7 @@ Quantity: One
 数据信息（DINF）框包含一个数据引用（DREF）框，用于声明媒体数据在某个磁道中的位置。DINF框应位于示例表（STBL）框之前。
 dinf box
 Field	        Type	          Comment
-Header        BOXHEADER       BoxType &#x3D; &#39;dinf&#39; (0x64696E66)
+Header        BOXHEADER       BoxType &#x3D; &amp;#x27;dinf&amp;#x27; (0x64696E66)
 Data          Reference box   BOX	Table of data references, used to locate media data.
 
 
@@ -556,7 +556,7 @@ STBL框中的框应按以下顺序排列：样本描述（STSD）、解码时间
 样本描述（STSD）框及其包含的框在第2.8节样本描述框结构中进行了规定。
 stbl box
 Field	        Type	          Comment
-Header        BOXHEADER       BoxType &#x3D; &#39;stbl&#39; (0x7374626C)
+Header        BOXHEADER       BoxType &#x3D; &amp;#x27;stbl&amp;#x27; (0x7374626C)
 Boxes         BOX [ ]        定义轨道组成样本属性的任意数量的框。
 
 
@@ -571,7 +571,7 @@ Quantity: One
 解码采样时间（STTS）框定义采样表的采样映射时间
 stts box
 Field	        Type	          Comment
-Header        BOXHEADER       BoxType &#x3D; &#39;stts&#39; (0x73747473)
+Header        BOXHEADER       BoxType &#x3D; &amp;#x27;stts&amp;#x27; (0x73747473)
 Version       UI8             Expected to be 0
 Flags         UI24            Reserved. Set to 0
 Count         UI32            The number of STTSRECORD entries
@@ -595,7 +595,7 @@ Quantity: One
 合成时间到样本（CTTS）框定义了样本表的合成时间到样本映射
 ctts box
 Field	        Type	          Comment
-Header        BOXHEADER       BoxType &#x3D; &#39;ctts&#39; (0x63747473)
+Header        BOXHEADER       BoxType &#x3D; &amp;#x27;ctts&amp;#x27; (0x63747473)
 Version       UI8             Expected to be 0
 Flags         UI24            Reserved. Set to 0
 Count         UI32            The number of CTTSRECORD entries
@@ -620,7 +620,7 @@ Quantity: One
 “采样到块（STSC）”框定义媒体轨采样表中的采样到块映射。
 stsc box
 Field	        Type	          Comment
-Header        BOXHEADER       BoxType &#x3D; &#39;stsc&#39; (0x73747363)
+Header        BOXHEADER       BoxType &#x3D; &amp;#x27;stsc&amp;#x27; (0x73747363)
 Version       UI8             Expected to be 0
 Flags         UI24            Reserved. Set to 0
 Count         UI32            The number of STSCRECORD entries
@@ -645,7 +645,7 @@ Quantity: One
 “样本大小”（STSZ）框指定样本表中每个样本的大小。
 tkhd box
 Field	        Type	          Comment
-Header        BOXHEADER       BoxType &#x3D; &#39;stsz&#39; (0x7374737A)
+Header        BOXHEADER       BoxType &#x3D; &amp;#x27;stsz&amp;#x27; (0x7374737A)
 Version       UI8             Expected to be 0
 Flags         UI24            Reserved. Set to 0
 ConstantSize  UI32            如果所有样本的大小相同，则此字段将使用该常量大小设置，否则为0。
@@ -665,13 +665,13 @@ Quantity: One
 每个样本表框应包含一个STCO或CO64类型的区块偏移框。STCO和CO64框为示例表中的每个块定义块偏移量。
 stco and co64 boxes
 Field	        Type	          Comment
-Header        BOXHEADER       BoxType &#x3D; &#39;stco&#39; (0x7374636F) or &#39;co64&#39; (0x636F3634)
+Header        BOXHEADER       BoxType &#x3D; &amp;#x27;stco&amp;#x27; (0x7374636F) or &amp;#x27;co64&amp;#x27; (0x636F3634)
 Version       UI8             Expected to be 0
 Flags         UI24            Reserved. Set to 0
 OffsetCount   UI32            The number of offsets in the Offsets table
-Offsets       IF BoxType &#x3D;&#x3D; &#39;stco’
+Offsets       IF BoxType &#x3D;&#x3D; &amp;#x27;stco’
               UI32 [OffsetCount]    文件中的绝对块偏移量表
-              ELSE IF BoxType &#x3D;&#x3D; &#39;co64’
+              ELSE IF BoxType &#x3D;&#x3D; &amp;#x27;co64’
               UI64 [OffsetCount]
 
 
@@ -687,7 +687,7 @@ Quantity: One
 如果样本表（STBL）框不包含STSS框，则轨道中的所有样本均应视为同步样本。
 stss box
 Field	        Type	          Comment
-Header        BOXHEADER       BoxType &#x3D; &#39;stss&#39; (0x73747373)
+Header        BOXHEADER       BoxType &#x3D; &amp;#x27;stss&amp;#x27; (0x73747373)
 Version       UI8             Expected to be 0
 Flags         UI24            Reserved. Set to 0
 SyncCount     UI32            The number of entries in SyncTable
@@ -706,7 +706,7 @@ Quantity: One in each of the stbl and traf boxes
 一个STBL或TRAF盒可分别包含一个独立的一次性样品盒（SDTP）。SDTP盒有助于实现诸如快进和随机访问等功能。sdtp框说明样本是否为i-picture，并提供有关样本中存在的帧依赖性和冗余编码的信息。表中的条目数与“样本大小”框中的sampleCount值相同。
 stss box
 Field	              Type	                  Comment
-Header              BOXHEADER               BoxType &#x3D; &#39;sdtp&#39; (0x73647470)
+Header              BOXHEADER               BoxType &#x3D; &amp;#x27;sdtp&amp;#x27; (0x73647470)
 Version             UI8                     Expected to be 0
 Flags               UI24                    Reserved. Set to 0
 SampleDependency    SAMPLEDEPENDENCY []     每个示例的依赖关系信息，到框的末尾
@@ -745,7 +745,7 @@ Quantity: One
 表2显示了示例描述框中的层次结构。有关更多信息，请参见ISO&#x2F;IEC 14496-12第8.5.2节。
 stsd box
 Field	               Type	                   Comment
-Header              BOXHEADER               BoxType &#x3D; &#39;stsd&#39; (0x73747364)
+Header              BOXHEADER               BoxType &#x3D; &amp;#x27;stsd&amp;#x27; (0x73747364)
 Version             UI8                     Expected to be 0
 Flags               UI24                    Reserved. Set to 0
 Count               UI32
@@ -877,7 +877,7 @@ Quantity: One for the hint track for HTTP streaming support with F4V fragments
 Adobemux提示示例条目（rtmp）框描述了使用f4v片段的HTTP流中使用的提示轨。见附录C.HTTP流：文件结构。提示轨包含ADobemuxhintsamples。
 rtmp box
 Field	                  Type	                Comment
-Header                  BOXHEADER             BoxType &#x3D; &#39;rtmp&#39; (0x72746D70)
+Header                  BOXHEADER             BoxType &#x3D; &amp;#x27;rtmp&amp;#x27; (0x72746D70)
 Reserved                UI8 [6]               Set to 0
 DataReferenceIndex      UI16                  用于检索与使用此示例说明的示例关联的数据引用的索引。数据引用存储在数据引用（DREF）框中。
 HintTrackVersion        UI16                  正在使用的提示跟踪定义的版本。设置为1。
@@ -895,7 +895,7 @@ Quantity: One
 Adobe mux提示进程（amhp）框包含此曲目中使用的提示模式的描述
 amhp box
 Field	        Type	          Comment
-Header        BOXHEADER       BoxType &#x3D; &#39;amhp&#39; (0x616D6870))
+Header        BOXHEADER       BoxType &#x3D; &amp;#x27;amhp&amp;#x27; (0x616D6870))
 Version       UI8             Expected to be 0
 Flags         UI24            Reserved. Set to 0
 ModeCount     UI8             此框中支持的模式配置数。此值也是相应提示轨中支持的模式数。
@@ -925,7 +925,7 @@ Quantity: One
 Adobe mux time offset（amto）框存储此文件中第一个提示示例的时间戳
 amto box
 Field	        Type	          Comment
-Header        BOXHEADER       BoxType &#x3D; &#39;amto&#39; (0x616D746F)
+Header        BOXHEADER       BoxType &#x3D; &amp;#x27;amto&amp;#x27; (0x616D746F)
 TimeOffset    UI32            文件中第一个提示示例的时间戳。
                               这个时间戳是从累计的样本持续时间中导出的每个样本的表示时间中添加的偏移量。
 
@@ -962,7 +962,7 @@ Quantity: One
 保护方案信息（sinf）框是一个容器框，其中包含了解所应用的加密转换及其参数以及查找密钥管理系统类型和位置等其他信息所需的所有信息。它还记录了媒体的原始（未加密）格式。它应附加到具有四个字符代码（“encv”、“enca”或“encr”）的任何示例条目中，以指示受保护的流。
 sinf box
 Field	                  Type	                 Comment
-Header                  BOXHEADER             BoxType &#x3D; &#39;sinf&#39;
+Header                  BOXHEADER             BoxType &#x3D; &amp;#x27;sinf&amp;#x27;
 OriginalFormatBox       OriginalFormatBox     The format of the original sample
 SchemeTypeBox           SchemeTypeBox         The DRM type. Required. (This is optional in ISO 14496-12)
 SchemeInformationBox    SchemeInformationBox  DRM details. Required. (This is optional in ISO 14496-12)
@@ -979,7 +979,7 @@ Quantity: One
 “原始格式”（FRMA）框指定原始样本的格式，例如，如果流包含受保护的MPEG-4视觉材料，“MP4V”。
 frma box
 Field	                        Type	                  Comment
-Header                        BOXHEADER               BoxType &#x3D; &#39;frma&#39;
+Header                        BOXHEADER               BoxType &#x3D; &amp;#x27;frma&amp;#x27;
 UnencryptedDataFormat         UI32                    原始未转换样本条目的四字符代码
 
 
@@ -994,7 +994,7 @@ Quantity: One
 方案类型（schm）框指定用于管理密钥和内容解密的DRM系统。由于媒体文件格式可能支持除Adobe的DRM以外的其他密钥管理系统，因此使用中的密钥管理系统应在schemetype字段中以四字符代码（4cc）表示。
 schm box
 Field	        Type	            Comment
-Header        BOXHEADER         BoxType &#x3D; &#39;schm&#39;
+Header        BOXHEADER         BoxType &#x3D; &amp;#x27;schm&amp;#x27;
 Version       UI8               Shall be 1
 Flags         UI24              Shall be 0 or 1
 SchemeType    UI32              方案类型。应为“adkm”，表示内容使用Adobe的DRM系统进行保护。
@@ -1016,7 +1016,7 @@ Quantity: One
 方案信息（Schi）框是一个包含DRM密钥&#x2F;权限管理系统特定信息的容器框。对于Adobe的DRM，此框应包括一个Adobe DRM密钥管理系统框。可能还有其他盒子。为了与其他DRM的互操作性，Adobe DRM密钥管理系统框可以位于方案信息框中的任何位置。
 schi box
 Field	                      Type	          Comment
-Header                      BOXHEADER       BoxType &#x3D; &#39;schi&#39;
+Header                      BOXHEADER       BoxType &#x3D; &amp;#x27;schi&amp;#x27;
 OtherDRMSpecificData        BOX [ ]         （可选）包含其他DRM特定密钥管理信息的框
 SchemeSpecificData          AdobeDRMKMSBox    Adobe DRM密钥管理系统框，指定密钥管理信息
 OtherDRMSpecificData        BOX [ ]         （可选）包含其他DRM特定密钥管理信息的框
@@ -1036,7 +1036,7 @@ Quantity: One
 AdobeDRM密钥管理系统（ADKM）框指定加密和示例格式。
 tkhd box
 Field	         Type	             Comment
-Header         BOXHEADER         BoxType &#x3D; &#39;adkm&#39;
+Header         BOXHEADER         BoxType &#x3D; &amp;#x27;adkm&amp;#x27;
 
 Version        UI8               Shall be 1
 
@@ -1056,7 +1056,7 @@ Quantity: One
 AdobeDRM头（ahdr）框指定加密格式和方法的版本。
 ahdr box
 Field	             Type	                      Comment
-Header             BOXHEADER                   BoxType &#x3D; &#39;ahdr&#39;
+Header             BOXHEADER                   BoxType &#x3D; &amp;#x27;ahdr&amp;#x27;
 Version            UI8                         Shall be 1 or 2, indicating the version of the encryption format.
                                               1 &#x3D; FMRMS v1.x products.
                                               2 &#x3D; Flash Access 2.0 products.
@@ -1076,7 +1076,7 @@ Quantity: One
 标准加密参数（APRM）框包含加密方法“标准”的参数。
 tkhd box
 Field	                          Type	                  Comment
-Header                          BOXHEADER               BoxType &#x3D; &#39;aprm&#39;
+Header                          BOXHEADER               BoxType &#x3D; &amp;#x27;aprm&amp;#x27;
 Version                         UI8                     Shall be 1
 Flags                           UI24                    Shall be 0
 EncInfoBox                      EncryptionInfoBox       加密信息框，指定用于加密样本的加密算法
@@ -1092,7 +1092,7 @@ Quantity: One
 加密信息（AEIB）框指定用于加密样本的加密算法。
 aeib box
 Field	                        Type	                  Comment
-Header                          BOXHEADER               BoxType &#x3D; &#39;aeib&#39;
+Header                          BOXHEADER               BoxType &#x3D; &amp;#x27;aeib&amp;#x27;
 Version                         UI8                     Shall be 1
 Flags                           UI24                    Shall be 0
 EncryptionAlgorithm             STRING                  加密算法。应为“aes-cbc”，说明所使用的加密为“aes-cbc”，并根据RFC 2630进行填充。
@@ -1109,7 +1109,7 @@ Quantity: One
 这些框中包含的条目的详细信息以及DRM客户机用于检索密钥的机制超出了本规范的范围。
 akey box
 Field	              Type	                         Comment
-Header                BOXHEADER                      BoxType &#x3D; &#39;akey&#39;
+Header                BOXHEADER                      BoxType &#x3D; &amp;#x27;akey&amp;#x27;
 Version               UI8                            Shall be 1
 Flags                 UI24                           Shall be 0
 Params      IF AdobeDRMHeaderBox.Version &#x3D;&#x3D; 1  
@@ -1127,7 +1127,7 @@ Quantity: One, if AdobeDRMHeaderBox.Version &#x3D;&#x3D; 2, else Zero
 flash access params（flxs）框包含用于检索用于解密样本的密钥的信息。
 flxs box
 Field	              Type	         Comment
-Header                BOXHEADER      BoxType &#x3D; &#39;flxs&#39;
+Header                BOXHEADER      BoxType &#x3D; &amp;#x27;flxs&amp;#x27;
 FmrmsV2Metadata       STRING        DRM客户端用于检索解密密钥的base64编码元数据
 
 
@@ -1140,7 +1140,7 @@ Quantity: One
 访问单元格式（ADAF）框指定放置在样本上的头的格式。
 tkhd box
 Field	              Type	        Comment
-Header                BOXHEADER     BoxType &#x3D; &#39;tkhd&#39;
+Header                BOXHEADER     BoxType &#x3D; &amp;#x27;tkhd&amp;#x27;
 Version               UI8           Shall be 1
 Flags                 UI24          Shall be 0
 SelectiveEncryption   UI1           指示使用选择性加密。应为1。
@@ -1160,7 +1160,7 @@ Quantity: One
 如果f4v文件包含片段，则电影（moov）框包含一个电影扩展（mvex）框，否则没有mvex框。对于碎片，一个F4V文件应包含一个且仅一个MVEX盒。mvex框告诉读者此文件可能包含电影片段（moof）框。
 mvex box
 Field	        Type	          Comment
-Header          BOXHEADER         BoxType &#x3D; &#39;mvex&#39; (0x6D766578)
+Header          BOXHEADER         BoxType &#x3D; &amp;#x27;mvex&amp;#x27; (0x6D766578)
 Boxes           BOX [ ]           定义片段的轨迹默认值的框
 
 
@@ -1175,7 +1175,7 @@ Quantity: One
 Movie扩展头（mehd）框提供碎片Movie的持续时间。如果Movie扩展（mvex）框不包含mehd框，则通过检查所有片段来计算总持续时间。
 mehd box
 Field	                 Type	          Comment
-Header                   BOXHEADER         BoxType &#x3D; &#39;mehd&#39; (0x6D766578)
+Header                   BOXHEADER         BoxType &#x3D; &amp;#x27;mehd&amp;#x27; (0x6D766578)
 Version                  UI8               Either 0 or 1
 Flags                    UI24              Reserved. Set to 0
 FragmentDuration        If Version&#x3D;&#x3D;0
@@ -1195,7 +1195,7 @@ Quantity: One for each track in the Movie box
 轨迹延伸”（Trex）框定义电影片段的默认值。
 trex box
 Field	                            Type	            Comment
-Header                              BOXHEADER           BoxType &#x3D; &#39;trex&#39; (0x74726578)
+Header                              BOXHEADER           BoxType &#x3D; &amp;#x27;trex&amp;#x27; (0x74726578)
 Version                             UI8                 Expected to be 0
 Flags                               UI24                Reserved. Set to 0
 TrackID                             UI32                Identity of the associated track
@@ -1238,7 +1238,7 @@ Quantity: One at each movie level or track level
 UDTA框声明有关包含框及其数据（表示或跟踪）的自由格式用户信息。Flash播放器忽略UDTA框的内容。
 udta box
 Field	        Type	            Comment
-Header          BOXHEADER           BoxType &#x3D; &#39;udta&#39; (0x75647461)
+Header          BOXHEADER           BoxType &#x3D; &amp;#x27;udta&amp;#x27; (0x75647461)
 UserData        BOX [ ]             具有自由格式用户数据的任意数量的框
 
 
@@ -1265,7 +1265,7 @@ AFRA框包含条目数组。每个条目包含随机访问样本的位置和表�
 
 afra box
 Field	                 Type	            Comment
-Header                   BOXHEADER           BoxType &#x3D; &#39;afra&#39; (0x61667261)
+Header                   BOXHEADER           BoxType &#x3D; &amp;#x27;afra&amp;#x27; (0x61667261)
 Version                  UI8                 Either 0 or 1
 Flags                    UI24                Reserved. Set to 0
 LongIDs                  UI1                 控制全局框架项的段和片段字段的大小。
@@ -1321,7 +1321,7 @@ Quantity: One or more for HTTP streaming support with F4V fragments, otherwise z
 在HTTP流段中，abt框是可选的，位于电影（moov）框之前。在HTTP流片段中，ABT框是必需的。有关HTTP流所需的框和结构的描述，请参阅附录C.HTTP流：文件结构。
 abst box
 Field	                Type	            Comment
-Header                  BOXHEADER           BoxType &#x3D; &#39;abst&#39; (0x61627374)
+Header                  BOXHEADER           BoxType &#x3D; &amp;#x27;abst&amp;#x27; (0x61627374)
 Version                 UI8                 Either 0 or 1
 Flags                   UI24                Reserved. Set to 0
 BootstrapinfoVersion    UI32                引导信息的版本号。设置更新字段后，bootstrapinfoversion指示正在更新的版本号。
@@ -1394,7 +1394,7 @@ ASRT框使用压缩编码：
 -段运行表是紧凑编码的。每个条目给出一段运行的第一个段号
 同样数量的碎片。具有相同片段计数的片段的计数可以通过从下一个条目中的第一个片段号减去此条目中的第一个片段号来计算。
 Field                                Type	                    Comment
-Header                               BOXHEADER                  BoxType &#x3D; &#39;asrt&#39; (0x61737274)
+Header                               BOXHEADER                  BoxType &#x3D; &amp;#x27;asrt&amp;#x27; (0x61737274)
 Version                              UI8                        Either 0 or 1
 Flags                                UI24                       定义了以下值：
                                                                 0&#x3D;整张桌子。
@@ -1433,7 +1433,7 @@ AFRT盒使用压缩编码：
 一个引导信息框中可能有几个片段运行表框，每个框用于不同的质量级别。
 asrt box
 Field	                            Type	                    Comment
-Header                              BOXHEADER                   BoxType &#x3D;&#39;afrt&#39; (0x61667274)
+Header                              BOXHEADER                   BoxType &#x3D;&amp;#x27;afrt&amp;#x27; (0x61667274)
 Version                             UI8                         Either 0 or 1
 Flags                               UI24                        定义了以下值：
                                                                 0&#x3D;A full table
@@ -1480,7 +1480,7 @@ Quantity: One per fragment for HTTP streaming support with F4V fragments, otherw
 Movie片段（MOOF）框提供特定于片段的信息，否则这些信息将出现在媒体（MOOV）框中。MOOF箱应按顺序排列。
 moof box
 Field	        Type	            Comment
-Header          BOXHEADER           BoxType &#x3D; &#39;moof&#39; (0x6D6F6F66)
+Header          BOXHEADER           BoxType &#x3D; &amp;#x27;moof&amp;#x27; (0x6D6F6F66)
 Boxes           BOX [ ]             定义示例结构的多个框
 
 
@@ -1495,7 +1495,7 @@ Quantity: One
 Movie片段头（mfhd）框包含序列号，用于验证文件的完整性。
 mfhd box
 Field	        Type	            Comment
-Header          BOXHEADER           BoxType &#x3D; &#39;mfhd&#39; (0x6D666864)
+Header          BOXHEADER           BoxType &#x3D; &amp;#x27;mfhd&amp;#x27; (0x6D666864)
 Version         UI8                 Expected to be 0
 Flags           UI24                Reserved. Set to 0
 SequenceNumber  UI32                从1开始，并按文件中每个电影片段的出现顺序递增。
@@ -1512,7 +1512,7 @@ Quantity: Zero or more
 轨迹片段（traf）框对应于f4v文件中的轨迹。每个交通箱包含零个或多个轨道运行，其中包括该轨道的连续运行。
 traf box
 Field	        Type	            Comment
-Header          BOXHEADER           BoxType &#x3D; &#39;traf&#39; (0x74726166)
+Header          BOXHEADER           BoxType &#x3D; &amp;#x27;traf&amp;#x27; (0x74726166)
 Boxes           BOX [ ]             定义片段中轨道运行的任意数量的框
 
 
@@ -1527,7 +1527,7 @@ Quantity: One
 “轨迹片段头”（tfhd）框设置用于影片片段中样本运行的信息和默认值。每个电影片段可以向每个曲目添加零个或多个片段，而一个曲目片段可以添加零个或多个连续运行的示例。
 tfhd box
 Field	                     Type	            Comment
-Header                       BOXHEADER           BoxType &#x3D; &#39;tfhd&#39; (0x74666864)
+Header                       BOXHEADER           BoxType &#x3D; &amp;#x27;tfhd&amp;#x27; (0x74666864)
 Version                      UI8                 Expected to be 0
 Flags                        UI24                以下标志可用于任何组合：
                                                  0x000001&#x3D;基础数据偏移量存在
@@ -1572,7 +1572,7 @@ Quantity: Zero or more
 跟踪片段运行（trun）框定义跟踪的连续样本集。如果在“轨迹碎片框”（traf）框中设置了“持续时间为空”标志，则没有“躯干框”。
 trun box
 Field	                    Type	            Comment
-Header                      BOXHEADER           BoxType &#x3D; &#39;trun&#39; (0x7472756E)
+Header                      BOXHEADER           BoxType &#x3D; &amp;#x27;trun&amp;#x27; (0x7472756E)
 Version                     UI8                 Expected to be 0
 Flags                       UI24                下列标志可用于任何组合，但0x000004和0x000400除外：
                                                 0x000001&#x3D;存在数据偏移量
@@ -1622,7 +1622,7 @@ mdat框与media（moov）框一起出现在f4v文件的顶层。
 无法单独理解mdat框，这也是文件中必须存在moov框的原因。
 mdat box
 Field	        Type	            Comment
-Header          BOXHEADER           BoxType &#x3D; &#39;mdat&#39; (0x6D646174)
+Header          BOXHEADER           BoxType &#x3D; &amp;#x27;mdat&amp;#x27; (0x6D646174)
 Payload         UI8 [ ]             媒体数据字节，其结构在文件的MOOV框中定义。
 
 
@@ -1735,7 +1735,7 @@ Quantity: Zero or one at each file level, movie level, or track level
 元（meta）框的容器是一个f4v文件、一个电影（moov）框或一个轨道（trak）框。meta-box可以包含其他各种包含元数据的框。
 meta box
 Field	        Type	            Comment
-Header          BOXHEADER           BoxType &#x3D; &#39;meta&#39; (0x6D657461)
+Header          BOXHEADER           BoxType &#x3D; &amp;#x27;meta&amp;#x27; (0x6D657461)
 Version         UI8                 Reserved, set to 0
 Flags           UI24                Reserved, set to 0
 Boxes           BOX [ ]             定义文件元数据的任意框数
@@ -1753,7 +1753,7 @@ Quantity: Any
 mfra框应该是文件中的最后一个。mfra框中的最后一个框提供了mfra框中长度字段的副本。
 free space box
 Field	        Type	            Comment
-Header          BOXHEADER           BoxType &#x3D; &#39;free&#39; (0x66726565) or &#39;skip&#39; (0x736b6970)
+Header          BOXHEADER           BoxType &#x3D; &amp;#x27;free&amp;#x27; (0x66726565) or &amp;#x27;skip&amp;#x27; (0x736b6970)
 Void            UI8 [ ]             Arbitrary number of bytes to end of box
 
 
@@ -1768,7 +1768,7 @@ Quantity: One
 电影片段随机访问（mfra）框通过为轨迹（不一定是所有轨迹）提供轨迹片段随机访问（tfra）框，帮助在碎片化的f4v文件中查找随机访问点。此框中的信息不确定，只提供随机接入点的提示。
 mfra box
 Field	        Type	            Comment
-Header          BOXHEADER           BoxType &#x3D; &#39;mfra&#39; (0x6D667261)
+Header          BOXHEADER           BoxType &#x3D; &amp;#x27;mfra&amp;#x27; (0x6D667261)
 Boxes           BOX [ ]             定义随机接入点的任意数量的框
 
 
@@ -1783,7 +1783,7 @@ Quantity:  Zero or more
 每个跟踪片段随机访问（TFRA）框条目提供随机可访问样本的位置和表示时间。tfra框不需要包含跟踪中每个随机可访问样本的条目。此框的缺失并不意味着所有样本都是同步样本。
 tfra box
 Field	                    Type	            Comment
-Header                      BOXHEADER           BoxType &#x3D; &#39;tfra&#39; (0x74667261)
+Header                      BOXHEADER           BoxType &#x3D; &amp;#x27;tfra&amp;#x27; (0x74667261)
 Version                     UI8                 Either 0 or 1
 Flags                       UI24                Reserved, set to 0
 TrackID                     UI32                Identifies the track
@@ -1803,12 +1803,12 @@ MoofOffset                  IF Version &#x3D;&#x3D; 0
                                 UI32
                             IF Version &#x3D;&#x3D; 1
                                 UI64            对应电影片段框的字节偏移量，从文件开始
-TrafNumber                  { UI8, UI16, UI24, UI32 } 
+TrafNumber                  &amp;#123; UI8, UI16, UI24, UI32 &amp;#125; 
                             [LengthSizeTrafNumMinus1]   包含随机可访问样本的traf编号。每个MOOF中的第一个traf编号为1。
                                                         类型是按长度大小索引的ui8、ui16、ui24、ui32中的一个1
-TrunNumber                  { UI8, UI16, UI24, UI32 } 
+TrunNumber                  &amp;#123; UI8, UI16, UI24, UI32 &amp;#125; 
                             [LengthSizeTrunNumMinus1]   包含随机可访问样本的Trun编号。每个交通中的第一个通道编号为1。
-SampleNumber                { UI8, UI16, UI24, UI32 }
+SampleNumber                &amp;#123; UI8, UI16, UI24, UI32 &amp;#125;
                             [LengthSizeSampleNumMinus1]     包含随机可访问样本的样本号。每个耳轴的第一个样本编号为1。
 
 
@@ -1823,7 +1823,7 @@ Quantity: One
 Movie片段随机访问偏移量（mfro）框提供Movie片段随机访问（mfra）框的长度字段的副本，并帮助查找mfra框。mfro箱应最后放置在mfra箱中。
 mfro box
 Field	        Type	            Comment
-Header          BOXHEADER           BoxType &#x3D; &#39;mfro&#39; (0x6d66726f)
+Header          BOXHEADER           BoxType &#x3D; &amp;#x27;mfro&amp;#x27; (0x6d66726f)
 Version         UI8                 Either 0 or 1
 Flags           UI24                Reserved, set to 0
 Size            UI32                封闭movie片段随机访问框的大小（字节）
@@ -1881,7 +1881,7 @@ Quantity: One
 ILST框出现在元（meta）框中，包含任意数量的元数据标记。f4v文件最多可包含256个标记（包括此框和“auth”、“titl”、“dscp”和“cprt”框中的标记）
 ilst box
 Field	        Type	            Comment
-Header          BOXHEADER           BoxType &#x3D; &#39;ilst&#39; (0x696C7374)
+Header          BOXHEADER           BoxType &#x3D; &amp;#x27;ilst&amp;#x27; (0x696C7374)
 TagCount        UI32                在ILST框中枚举的标记数
 Tags            TAGRECORD 
                 [TagCount]          多个标记记录条目 
@@ -1889,12 +1889,12 @@ Tags            TAGRECORD
 TagLength       UI32                标记记录的总长度，包括此长度字段
 TagName         UI8 [4]             4个字节，指示标记的名称。这些字节通常来自人类可读的ASCII集，但不总是
 DataLength      UI32                标记记录的数据部分的总长度
-DataTag         UI8 [4]             4个字节&#39;d&#39;、&#39;a&#39;、&#39;t&#39;和&#39;a&#39;表示标记记录的数据部分
+DataTag         UI8 [4]             4个字节&amp;#x27;d&amp;#x27;、&amp;#x27;a&amp;#x27;、&amp;#x27;t&amp;#x27;和&amp;#x27;a&amp;#x27;表示标记记录的数据部分
 DataType        UI32                指定标记记录的数据负载中的数据类型
 Reserved        UI32                Reserved, set to 0
 Payload         UI8 [ ]             占用标记记录其余部分的任意字节数。精确的有效负载格式取决于数据类型
                                     数据类型支持的值为：
-                                    -0:自定义数据。在&#39;trkn&#39;和&#39;disk&#39;标记类型的情况下，数据有效负载被解释为单个ui32
+                                    -0:自定义数据。在&amp;#x27;trkn&amp;#x27;和&amp;#x27;disk&amp;#x27;标记类型的情况下，数据有效负载被解释为单个ui32
                                     - 1：文本数据
                                     -13，14：二进制数据
                                     -21：通用数据
@@ -1913,7 +1913,7 @@ Quantity: Any
 样式（Styl）框包含文本样式规范。此信息通过st yl e属性公开给actionscript。
 styl box
 Field	        Type	            Comment
-Header          BOXHEADER           BoxType &#x3D; &#39;styl&#39; (0x7374796C)
+Header          BOXHEADER           BoxType &#x3D; &amp;#x27;styl&amp;#x27; (0x7374796C)
 Count           UI16                样式数组中的条目数
 Styles          STYLERECORD
                 [Count]             一组样式记录结构，每个结构都作为ActionScript对象
@@ -1931,7 +1931,7 @@ TextColor       UI32                文本的rgba颜色，通过属性textcolor�
 突出显示（HLIT）框指定要突出显示的文本范围。此信息通过highlight属性公开给actionscript。
 hlit box
 Field	        Type	             Comment
-Header          BOXHEADER           BoxType &#x3D; &#39;hlit&#39; (0x686C6974)
+Header          BOXHEADER           BoxType &#x3D; &amp;#x27;hlit&amp;#x27; (0x686C6974)
 StartChar       UI16                要突出显示的第一个字符，通过名为startchar的双属性向actionscript公开
 EndChar         UI16                要突出显示的最后一个字符，通过名为endchar的双属性向actionscript公开。
 
@@ -1941,7 +1941,7 @@ EndChar         UI16                要突出显示的最后一个字符，通�
 突出显示颜色（HCLR）框指定文本的突出显示颜色。此信息通过hi ghl i ght col或属性公开给actionscript。
 hclr box
 Field	        Type	            Comment
-Header          BOXHEADER           BoxType &#x3D; &#39;hclr&#39; (0x68636C72)
+Header          BOXHEADER           BoxType &#x3D; &amp;#x27;hclr&amp;#x27; (0x68636C72)
 HighlightColor  UI16 [3]            通过名为hi-ghlightcolor的双属性向actionscript公开的三元素数组，它按顺序保存红色、绿色和蓝色组件的值。
 
 
@@ -1950,7 +1950,7 @@ HighlightColor  UI16 [3]            通过名为hi-ghlightcolor的双属性向ac
 Karaoke（krok）框指定Karaoke元数据。此信息通过karaoke属性公开给actionscript。时间以轨道定义的时间刻度单位表示。
 krok box
 Field	        Type	            Comment
-Header          BOXHEADER           BoxType &#x3D; &#39;krok&#39; (0x6B726F6B)
+Header          BOXHEADER           BoxType &#x3D; &amp;#x27;krok&amp;#x27; (0x6B726F6B)
 StartTime       UI32                通过名为StartTime的双属性向ActionScript公开
 Count           UI16                KaraokeRecords数组中的条目数
 KaraokeRecords  KARAOKEREC [Count]  karaokerec结构的数组，每个结构都作为对象暴露在actionscript中
@@ -1966,7 +1966,7 @@ EndChar         UI16                通过名为endchar的双属性向ActionScri
 滚动延迟（dlay）框指定滚动延迟。此信息通过scr ol l del ay属性向actionscript公开，该属性以与跟踪相关的时间刻度单位表示。
 dlay box
 Field	        Type	             Comment
-Header          BOXHEADER           BoxType &#x3D; &#39;dlay&#39; (0x646C6179)
+Header          BOXHEADER           BoxType &#x3D; &amp;#x27;dlay&amp;#x27; (0x646C6179)
 ScrollDelay     UI32                通过名为ScrollDelay的双属性向ActionScript公开
 
 
@@ -1975,7 +1975,7 @@ ScrollDelay     UI32                通过名为ScrollDelay的双属性向Action
 放置阴影（DRPO）框指定文本的放置阴影偏移坐标。
 drpo box
 Field	                Type	            Comment
-Header                  BOXHEADER           BoxType &#x3D; &#39;drpo&#39; (0x6472706F)
+Header                  BOXHEADER           BoxType &#x3D; &amp;#x27;drpo&amp;#x27; (0x6472706F)
 DropShadowOffsetX       UI16                通过名为DropshadowOffsetx的双属性向ActionScript公开
 DropShadowOffsetY       UI16                通过名为DropshadowOffsty的双属性向ActionScript公开
 
@@ -1985,7 +1985,7 @@ DropShadowOffsetY       UI16                通过名为DropshadowOffsty的双�
 放置阴影alpha（drpt）框指定放置阴影alpha值。
 drpt box
 Field	        Type	            Comment
-Header          BOXHEADER           BoxType &#x3D; &#39;drpt&#39; (0x64727074)
+Header          BOXHEADER           BoxType &#x3D; &amp;#x27;drpt&amp;#x27; (0x64727074)
 DropShadowAlpha UI16                一个16位alpha值，通过名为dr opshadowal pha的双属性公开给actionscript。
 
 
@@ -1996,7 +1996,7 @@ For more information, see section 8.aaaaaaaaaaaaaaaaaaaaaaaaaaa of ISO&#x2F;IEC 
 超文本框（href）指定在文本范围内具有alt文本的超文本链接。此信息通过hyper t ext属性公开给actionscript。
 href box
 Field	        Type	            Comment
-Header          BOXHEADER           BoxType &#x3D; &#39;href&#39; (0x68726566)
+Header          BOXHEADER           BoxType &#x3D; &amp;#x27;href&amp;#x27; (0x68726566)
 StartChar       UI16                文本范围的开始字符，通过名为startchar的双属性向actionscript公开。
 EndChar         UI16                文本范围的最后一个字符，通过名为endchar的双属性向actionscript公开
 URLSize         UI8                 The length of the URL string
@@ -2010,7 +2010,7 @@ ALT             UI8 [ALTSize]       当用户鼠标悬停在链接上时显示�
 文本框（tbox）框定义文本框的坐标。此信息通过t ex t box属性公开给actionscript。
 tbox box
 Field	        Type	            Comment
-Header          BOXHEADER           BoxType &#x3D; &#39;tbox&#39; (0x74626F78)
+Header          BOXHEADER           BoxType &#x3D; &amp;#x27;tbox&amp;#x27; (0x74626F78)
 Top             UI16                顶部像素坐标，通过名为top的双属性向actionscript公开
 Left            UI16                左像素坐标，通过名为Left的双属性向ActionScript公开
 Bottom          UI16    
@@ -2022,7 +2022,7 @@ Right           UI16
 Blinking（BLNK）框指定要设置闪烁的文本范围。此信息通过blink属性公开给actionscript。
 blnk box
 Field	        Type	            Comment
-Header          BOXHEADER           BoxType &#x3D; &#39;blnk&#39; (0x626C6E6B)
+Header          BOXHEADER           BoxType &#x3D; &amp;#x27;blnk&amp;#x27; (0x626C6E6B)
 StartChar       UI16                闪烁范围中的第一个字符，通过名为startchar的双属性向actionscript公开
 EndChar         UI16                闪烁范围中的结束字符，通过名为endchar的双属性向actionscript公开
 
@@ -2033,7 +2033,7 @@ EndChar         UI16                闪烁范围中的结束字符，通过名�
 文本换行（twrp）框为文本设置换行标志。
 twrp box
 Field	        Type	            Comment
-Header          BOXHEADER           BoxType &#x3D; &#39;twrp&#39; (0x74777270)
+Header          BOXHEADER           BoxType &#x3D; &amp;#x27;twrp&amp;#x27; (0x74777270)
 WrapFlag        UI8                 如果文本应该换行，则为非零的布尔值，通过名为wrapflag的双属性向actionscript公开。
 
 
@@ -2236,9 +2236,9 @@ E.2.FLV报头
 
 FLV文件应以FLV头开始：
 FLV header
-Signature           UI8	Signature byte always &#39;F&#39; (0x46)
-Signature           UI8	Signature byte always &#39;L&#39; (0x4C)
-Signature           UI8	Signature byte always &#39;V&#39; (0x56)
+Signature           UI8	Signature byte always &amp;#x27;F&amp;#x27; (0x46)
+Signature           UI8	Signature byte always &amp;#x27;L&amp;#x27; (0x4C)
+Signature           UI8	Signature byte always &amp;#x27;V&amp;#x27; (0x56)
 Version             UI8	File version (for example, 0x01 for FLV version 1)
 TypeFlagsReserved   UB [5]	Shall be 0
 TypeFlagsAudio      UB [1]	1 &#x3D; Audio tags are present
@@ -2721,9 +2721,9 @@ F.2.5关键信息对象
 Key Information object
 Property Name            Type        Comment
 SubType                 String          如果encryptionheader.version&#x3D;&#x3D;1
-                                        aps&#39;&#x3D;（Adobe Policy Server）联机密钥协议协商协议
+                                        aps&amp;#x27;&#x3D;（Adobe Policy Server）联机密钥协议协商协议
                                         否则
-                                        FlashAccessv2&#39;&#x3D;联机密钥检索协议
+                                        FlashAccessv2&amp;#x27;&#x3D;联机密钥检索协议
 Data                IF SubType &#x3D;&#x3D; ‘APS’
                     Adobe Policy Server object
                     IF SubType &#x3D;&#x3D; ’FlashAccessv2’
@@ -2756,7 +2756,7 @@ Field               Type            Comments
 NumFilters          UI8             Number of filters applied to the packet. Shall be 1.
 FilterName          String          筛选器的名称。
                                     如果encryptionheader.version&#x3D;&#x3D;1
-                                    &#39;加密&#39;
+                                    &amp;#x27;加密&amp;#x27;
                                     否则
                                     “SE”
                                     SE代表选择性加密。
