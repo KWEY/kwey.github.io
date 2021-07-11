@@ -7422,8 +7422,8 @@ print: 以字符串显示栈中所有内容</li></ul>
       </tags>
   </entry>
   <entry>
-    <title>浏览器渲染原理</title>
-    <url>/2021/04/30/dm-render/render/</url>
+    <title>弹幕优化历程</title>
+    <url>/2021/07/11/dm-render/render/</url>
     <content><![CDATA[<p>一：</p>
 <!-- ## [性能指标制定](http://bi.bilibili.co/page/overview)
 
