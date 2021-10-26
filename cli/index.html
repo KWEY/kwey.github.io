@@ -1,0 +1,54 @@
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+		<title>雪人的收藏夹</title>
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify/lib/themes/vue.css">
+		<style>
+			.kwe-follow {
+				width: 100%;
+				padding-top: 10px;
+			}
+			.kwe-index {
+				position: absolute;
+				left: 40px;
+				padding-top: 10px;
+				cursor: pointer;
+				font-size: 20px;
+				color: #ff6700;
+			}
+			.kwe-index:hover {
+				text-shadow: 0.1rem 0.1rem 0.2rem rgba(0, 0, 0, 0.15);
+			}
+		</style>
+		<!-- <script src="knav.js"></script> -->
+	</head>
+	<body>
+		<nav>
+			<a href="/">首页</a>
+		</nav>
+		<div id="app"></div>
+		<script>
+			window.$docsify = {
+				name: "Kwe Cli",
+				homepage: "home.mds",
+				repo: "https://github.com/kwey/kwe-cli",
+				coverpage: false,
+				loadSidebar: "sidebar.mds",
+				ext: ".mds",
+				auto2top: true,
+				executeScript: true,
+				maxLevel: 4,
+				subMaxLevel: 2,
+                themeColor: '#4badf9',
+
+				search: false,
+			};
+		</script>
+		<script src="//cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script>
+		<!-- <script src="./docsify.min.js"></script> -->
+	</body>
+</html>

@@ -1,0 +1,187 @@
+![logo](./w.jpg)
+
+# 介绍
+
+> kwe-cli 是一个基于Typescript进行插件化开发的脚手架
+
+> + 支持webpack/rollup进行代码打包 
+> + 支持单元测试以及e2e测试
+
+---------------------------------
+# 安装
+
+> 可以使用下列任一命令安装：
+
+```bash
+npm install -g kwe-cli
+# OR
+yarn global add kwe-cli
+```
+
+> 安装之后，你就可以在命令行中访问 kwe-cli -v 命令, 查看当前安装的版本：
+
+```bash
+kwe-cli -v
+# 1.5.4
+```
+---------------------------------
+# 升级
+> 如需升级全局的 Vue CLI 包，请运行：
+```bash
+npm update -g kwe-cli
+# 或者
+yarn global upgrade --latest kwe-cli
+
+```
+---------------------------------
+# 创建一个项目
+> 运行以下命令来创建一个新项目：
+```bash
+kwe-cli
+```
+![cli](./cli.png)
+
+如上图所示：
+
+依次传入：
+> 项目名称
+```bash
+默认：KweZero
+```
+> 项目版本号
+```bash
+默认：0.0.0
+```
+> 项目描述
+```bash
+默认：''
+```
+> 项目作者
+```bash
+默认：kwe
+```
+> 项目构建方式
+```bash
+选项：
+
+-r，rollup         采用rollup进行项目构建（推荐使用
+-w, webpack         采用webpack进行项目构建（支持动态加载
+
+```
+> 是否支持单元测试
+```bash
+默认：y(支持)
+```
+> 是否支持e2e测试
+```bash
+默认：y(支持)
+```
+最后确认，上面输入的信息是否符合要求
+
+---------------------------------
+
+# 目录介绍
+![cli](./zero.png)
+
+> __tests__: 单元测试目录
+
+可以使用以下命令来执行
+```bash
+npm run jest
+# OR
+yarn run jest
+```
+
+这里采用jest 进行单元测试。[jest使用文档](https://www.jestjs.cn/docs/getting-started)
+```javascript (js文件)
+export const sum = (a, b) => {
+  return a + b;
+}
+```
+```javascript  (测试文件)
+import { expect } from 'chai'
+import {sum} from '../src/common/utils'
+
+test('adds 1 + 2 to equal 3', () => {
+  expect(sum(1, 2)).toBe(3);
+});
+```
+
+> cypress: e2e 测试文件目录
+
+可以使用以下命令来执行
+```bash
+先开启服务
+npm run dev
+# OR
+yarn run dev
+
+在新窗口运行e2e
+npm run e2e
+# OR
+yarn run e2e
+
+```
+
+这里采用cypress 进行e2e测试。[Writing Your First Test](https://docs.cypress.io/guides/getting-started/writing-your-first-test)
+
+
+> demo: 本地调试的时候的demo数据
+
+> src: 开发文件的主要目录
+> + common: 工具方法目录
+> + static: 静态文件目录（例如 img、svg ...
+> + ts: 编写代码的主体文件夹
+> + index.ts: 入口文件 
+> + metadata.ts: 版本相关信息 
+
+> types: 自定义类型文件
+
+> commitlint.config.js: git提交的时候 commit的书写规范文件
+```
+常用的type类别:
+    upd：更新某功能（不是 feat, 不是 fix）
+    feat：新功能（feature）
+    fix：修补bug
+    docs：文档（documentation）
+    style： 格式（不影响代码运行的变动）
+    refactor：重构（即不是新增功能，也不是修改bug的代码变动）
+    test：增加测试
+    chore：构建过程或辅助工具的变动
+
+例子：
+    git commit -m 'feat: 增加 xxx 功能'
+    git commit -m 'fix: 修复 xxx 功能'
+
+```
+
+---------------------------------
+
+# 开发
+
+> 本地开发（一）
+
+默认开启 8072 端口
+```bash
+npm run dev
+# OR
+yarn run dev
+```
+
+> 本地开发（二）
+
+不开启本地服务，只是在dist目录中生成 编译过后的代码
+
+```bash
+npm run start
+# OR
+yarn run start
+```
+
+> 打包上线
+
+```bash
+npm run build
+# OR
+yarn run build
+```

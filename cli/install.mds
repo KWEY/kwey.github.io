@@ -1,0 +1,10 @@
+
+# 安装
+
+> 可以使用下列任一命令安装这个新的包：
+
+```bash
+npm install -g kwe-cli
+# OR
+yarn global add kwe-cli
+```
