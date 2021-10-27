@@ -2383,7 +2383,7 @@ blockquote footer cite:before {
   -ms-flex-align: center;
   -webkit-align-items: center;
   align-items: center;
-  height: 20em;
+  height: 14em;
   border-radius: 12px 8px 8px 12px;
   background: var(--card-bg);
   -webkit-box-shadow: 0 4px 8px 6px rgba(7,17,27,0.06);
@@ -2423,6 +2423,7 @@ blockquote footer cite:before {
   border-radius: 0 8px 8px 0;
 }
 #recent-posts > .recent-post-item .post_cover {
+  display: none;
   overflow: hidden;
   width: 45%;
   height: 100%;
@@ -2449,7 +2450,6 @@ blockquote footer cite:before {
   display: inline-block;
   overflow: hidden;
   padding: 0 40px;
-  width: 55%;
 }
 #recent-posts > .recent-post-item >.recent-post-info.no-cover {
   width: 100%;
@@ -3297,9 +3297,6 @@ _:future,
 }
 #nav a {
   color: #ff6700;
-}
-#nav a:hover {
-  color: var(--white);
 }
 #nav.fixed {
   position: fixed;
